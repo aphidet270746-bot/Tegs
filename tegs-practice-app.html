@@ -1052,13 +1052,16 @@ loadSet(0);
 
 /* ---------------- SPEECH ---------------- */
 
-var DEBUG = { voicesCount:0 };
+var DEBUG = { voicesCount:0, allVoicesCount:0, allVoicesSample:[] };
 
 var voices = [];
 function loadVoices(){
-  voices = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(function(v){ return /^en/i.test(v.lang); });
+  var all = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voices = all.filter(function(v){ return /^en/i.test(v.lang); });
   voices.sort(function(a,b){ return (b.localService?1:0) - (a.localService?1:0); });
   DEBUG.voicesCount = voices.length;
+  DEBUG.allVoicesCount = all.length;
+  DEBUG.allVoicesSample = all.slice(0,6).map(function(v){ return v.name + " (" + v.lang + ")"; });
 }
 if("speechSynthesis" in window){
   loadVoices();
@@ -1205,7 +1208,10 @@ function renderListening(){
   if(noTTS){
     html += '<div class="notice">เบราว์เซอร์นี้ไม่รองรับการอ่านออกเสียง — แสดงบทสนทนาเป็นข้อความแทนด้านล่าง</div>';
   } else if(DEBUG.voicesCount === 0 && st.phase !== "idle"){
-    html += '<div class="notice">ไม่พบเสียงพูดภาษาอังกฤษที่ติดตั้งในเครื่อง/เบราว์เซอร์นี้ — ถ้าไม่ได้ยินเสียงภายในไม่กี่วินาที ระบบจะข้ามให้อัตโนมัติ ลองตรวจสอบ Text-to-speech voices ในการตั้งค่าเครื่อง หรือเปลี่ยนเบราว์เซอร์ (เช่น Chrome/Edge บน Windows)</div>';
+    html += '<div class="notice">ไม่พบเสียงพูดภาษาอังกฤษที่ติดตั้งในเครื่อง/เบราว์เซอร์นี้ — ถ้าไม่ได้ยินเสียงภายในไม่กี่วินาที ระบบจะข้ามให้อัตโนมัติ ลองตรวจสอบ Text-to-speech voices ในการตั้งค่าเครื่อง หรือเปลี่ยนเบราว์เซอร์ (เช่น Chrome/Edge บน Windows)'
+      + '<br><span style="opacity:.8;font-size:.85em">เครื่องนี้พบเสียงทั้งหมด ' + DEBUG.allVoicesCount + ' เสียง'
+      + (DEBUG.allVoicesSample.length ? (": " + DEBUG.allVoicesSample.map(esc).join(", ")) : " (ยังไม่มีเสียงติดตั้งเลย)")
+      + '</span></div>';
   }
 
   html += '<div class="player">';

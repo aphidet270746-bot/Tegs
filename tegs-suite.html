@@ -1,5 +1,9 @@
-<title>ชุดเตรียมสอบ TEGS</title>
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ชุดเตรียมสอบ TEGS</title>
 <style>
 
   :root{
@@ -307,8 +311,6 @@
   }
 
 
-/* ===== exam app styles ===== */
-
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
     --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
@@ -529,8 +531,6 @@
   }
 
 
-/* ===== vocab app styles ===== */
-
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
     --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
@@ -667,77 +667,360 @@
   footer.foot{ text-align:center; color:var(--ink-faint); font-size:.8rem; padding:30px 0 0; }
 
 
-/* ===== shell ===== */
-
-  .shell-nav{
-    display:flex; gap:6px; flex-wrap:wrap; align-items:center;
-    padding:14px 20px; border-bottom:1px solid var(--rule);
-    background:var(--bg); max-width:1180px; margin:0 auto;
-  }
-  .shell-nav .brand-mini{ font-weight:800; font-size:1rem; color:var(--accent-ink); margin-right:auto; display:flex; align-items:center; gap:8px; }
-  .shell-nav button{
-    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
-    border-radius:999px; padding:8px 16px; font-size:.86rem; cursor:pointer; font-weight:600;
-  }
-  .shell-nav button.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
-  .panel{ display:none; }
-  .panel.active{ display:block; }
-  .home-wrap{ max-width:900px; margin:0 auto; padding:48px 20px 90px; }
-  .home-hero{ text-align:center; margin-bottom:36px; }
-  .home-hero h1{ font-size:clamp(1.8rem,4vw,2.4rem); margin:0 0 10px; }
-  .home-hero p{ color:var(--ink-muted); max-width:56ch; margin:0 auto; }
-  .home-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
-  .home-card{
-    display:flex; flex-direction:column; gap:10px; text-align:left;
-    border:1px solid var(--rule); background:var(--surface); border-radius:16px; padding:24px;
-    cursor:pointer; box-shadow:var(--shadow); color:inherit; font:inherit;
-  }
-  .home-card .ic{ font-size:2rem; }
-  .home-card .ti{ font-weight:800; font-size:1.1rem; }
-  .home-card .de{ font-size:.88rem; color:var(--ink-muted); line-height:1.5; }
-  .home-card .go{ margin-top:auto; font-size:.82rem; color:var(--accent-ink); font-weight:700; }
-  @media (max-width:760px){ .home-cards{ grid-template-columns:1fr; } }
+.shell-nav{ display:flex; gap:8px; flex-wrap:wrap; padding:12px 16px; background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50; }
+.shell-nav button{ font-family:inherit; font-size:.9rem; font-weight:600; padding:8px 16px; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; }
+.shell-nav button.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
+.panel{ display:none; }
+.panel.active{ display:block; }
+.home-wrap{ max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+.home-hero{ text-align:center; margin-bottom:32px; }
+.home-hero h1{ font-size:1.9rem; margin-bottom:8px; }
+.home-hero p{ color:var(--muted); }
+.home-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.home-card{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; cursor:pointer; text-align:left; }
+.home-card .ic{ font-size:2rem; margin-bottom:10px; display:block; }
+.home-card h3{ font-size:1.1rem; margin-bottom:6px; }
+.home-card p{ color:var(--muted); font-size:.9rem; }
 
 </style>
-
-<div class="shell-nav" id="shellNav">
-  <span class="brand-mini">🎓 ชุดเตรียมสอบ TEGS</span>
-  <button type="button" data-panel="home" class="active">หน้าแรก</button>
-  <button type="button" data-panel="grammar">📘 ไวยากรณ์</button>
-  <button type="button" data-panel="exam">🎧 ข้อสอบจำลอง</button>
-  <button type="button" data-panel="vocab">📚 คำศัพท์</button>
-</div>
+</head>
+<body>
+<nav class="shell-nav" id="shellNav">
+  <button data-panel="home" class="active">🏠 หน้าแรก</button>
+  <button data-panel="grammar">📘 ไวยากรณ์</button>
+  <button data-panel="exam">🎧 ข้อสอบจำลอง</button>
+  <button data-panel="vocab">📚 คำศัพท์</button>
+</nav>
 
 <div class="panel active" id="panel-home">
   <div class="home-wrap">
     <div class="home-hero">
-      <h1>เตรียมสอบ CMU-TEGS ครบในที่เดียว</h1>
-      <p>เลือกส่วนที่อยากฝึกด้านล่าง — ทบทวนไวยากรณ์ก่อน แล้วลองทำข้อสอบจำลองแบบจับเวลา พร้อมฝึกคำศัพท์เพิ่มความมั่นใจ</p>
+      <h1>ชุดเตรียมสอบ TEGS</h1>
+      <p>ไวยากรณ์ + ข้อสอบจำลองพร้อมเสียงฟังจริง + คลังคำศัพท์ 1,000 คำ ในที่เดียว</p>
     </div>
     <div class="home-cards">
-      <button type="button" class="home-card" data-panel="grammar">
-        <span class="ic">📘</span>
-        <span class="ti">คู่มือไวยากรณ์</span>
-        <span class="de">จุดไวยากรณ์ที่ออกสอบซ้ำ อธิบายเป็นภาษาไทยพร้อมสูตรและตัวอย่างจริงจากข้อสอบ</span>
-        <span class="go">เริ่มอ่าน →</span>
+      <button class="home-card" data-panel="grammar">
+        <span class="ic">📘</span><h3>คู่มือไวยากรณ์</h3><p>อธิบายจุดออกสอบซ้ำเป็นภาษาไทย พร้อมตัวอย่างจริงจากข้อสอบ</p>
       </button>
-      <button type="button" class="home-card" data-panel="exam">
-        <span class="ic">🎧</span>
-        <span class="ti">ข้อสอบจำลอง</span>
-        <span class="de">80 ข้อ 150 นาที 3 ชุด มีเสียงฟังจริงในเบราว์เซอร์ พร้อมโหมดสอบจริงจับเวลา</span>
-        <span class="go">เริ่มทำข้อสอบ →</span>
+      <button class="home-card" data-panel="exam">
+        <span class="ic">🎧</span><h3>ข้อสอบจำลอง</h3><p>80 ข้อ 150 นาที 3 ชุด มีเสียงฟังจริงในเบราว์เซอร์</p>
       </button>
-      <button type="button" class="home-card" data-panel="vocab">
-        <span class="ic">📚</span>
-        <span class="ti">คลังคำศัพท์</span>
-        <span class="de">คำศัพท์ระดับ TEGS ฝึกฟัง พูดตาม อ่าน เขียน พร้อมระบบจำคำที่ยังไม่แม่น</span>
-        <span class="go">เริ่มฝึกคำศัพท์ →</span>
+      <button class="home-card" data-panel="vocab">
+        <span class="ic">📚</span><h3>คลังคำศัพท์</h3><p>1,000 คำ ฝึกฟัง/พูดตาม/อ่าน/เขียน</p>
       </button>
     </div>
   </div>
 </div>
 
 <div class="panel" id="panel-grammar">
+e>คู่มือไวยากรณ์ TEGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#f6f5f1;
+    --surface:#ffffff;
+    --surface-2:#f0eee7;
+    --ink:#22242a;
+    --ink-muted:#5b5f6b;
+    --ink-faint:#8a8e97;
+    --accent:#2f5d62;
+    --accent-ink:#1d3b3f;
+    --accent-soft:#dcebea;
+    --mark:#f5c84c;
+    --mark-soft:#fff4cc;
+    --mark-ink:#5a4400;
+    --rule:#e3e1d9;
+    --warn-soft:#fbe6df;
+    --warn-ink:#8a3d1f;
+    --shadow: 0 1px 2px rgba(30,30,20,.04), 0 8px 24px rgba(30,30,20,.05);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171a;
+      --surface:#1b1f23;
+      --surface-2:#20252a;
+      --ink:#e9eae6;
+      --ink-muted:#a3a8ae;
+      --ink-faint:#767c84;
+      --accent:#7fc4c0;
+      --accent-ink:#bfe6e3;
+      --accent-soft:#1f3a3a;
+      --mark:#e8b93a;
+      --mark-soft:#3a331a;
+      --mark-ink:#f5dc94;
+      --rule:#2a2e33;
+      --warn-soft:#3a2620;
+      --warn-ink:#e8a688;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171a;
+    --surface:#1b1f23;
+    --surface-2:#20252a;
+    --ink:#e9eae6;
+    --ink-muted:#a3a8ae;
+    --ink-faint:#767c84;
+    --accent:#7fc4c0;
+    --accent-ink:#bfe6e3;
+    --accent-soft:#1f3a3a;
+    --mark:#e8b93a;
+    --mark-soft:#3a331a;
+    --mark-ink:#f5dc94;
+    --rule:#2a2e33;
+    --warn-soft:#3a2620;
+    --warn-ink:#e8a688;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family: "Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.65;
+  }
+  .mono{
+    font-family: ui-monospace,"Cascadia Code","SF Mono",Consolas,"Roboto Mono",monospace;
+  }
+  h1,h2,h3{ text-wrap:balance; }
+  a{ color:var(--accent); }
+
+  .layout{
+    display:grid;
+    grid-template-columns: 260px minmax(0,1fr);
+    gap:0;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:32px 20px 32px 28px;
+    border-right:1px solid var(--rule);
+  }
+  .toc-title{
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 14px;
+  }
+  .toc-group{ margin-bottom:18px; }
+  .toc a{
+    display:block;
+    padding:5px 10px;
+    margin:1px 0;
+    border-radius:8px;
+    color:var(--ink-muted);
+    text-decoration:none;
+    font-size:.88rem;
+  }
+  .toc a:hover{ background:var(--surface-2); color:var(--ink); }
+
+  main{ min-width:0; padding:0 28px 100px; }
+
+  .hero{
+    padding:56px 0 36px;
+    border-bottom:1px solid var(--rule);
+    margin-bottom:40px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.74rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--accent-ink);
+    background:var(--accent-soft);
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(1.9rem,4vw,2.6rem);
+    margin:0 0 12px;
+    letter-spacing:-.01em;
+  }
+  .hero p{
+    max-width:62ch;
+    color:var(--ink-muted);
+    font-size:1.02rem;
+    margin:0;
+  }
+
+  section.chapter{
+    padding-top:36px;
+    margin-top:8px;
+    scroll-margin-top:24px;
+  }
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .chapter-num{
+    font-family: ui-monospace,"Cascadia Code",Consolas,monospace;
+    font-size:.85rem;
+    color:var(--accent);
+    font-weight:600;
+  }
+  .chapter-head h2{
+    font-size:1.5rem;
+    margin:0;
+  }
+  .chapter-intro{
+    color:var(--ink-muted);
+    max-width:66ch;
+    margin:10px 0 24px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{
+    margin:0 0 10px;
+    font-size:1.08rem;
+  }
+  .card p{ margin:8px 0; }
+  .card p.thai-note{ color:var(--ink-muted); font-size:.95rem; }
+
+  .formula{
+    display:block;
+    font-family: ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+    font-size:.92rem;
+    background:var(--surface-2);
+    border:1px dashed var(--rule);
+    border-radius:10px;
+    padding:12px 16px;
+    margin:12px 0;
+    color:var(--accent-ink);
+    overflow-x:auto;
+    white-space:pre;
+  }
+
+  .ex-list{ margin:12px 0 4px; padding:0; list-style:none; }
+  .ex-list li{
+    padding:9px 0;
+    border-top:1px solid var(--rule);
+    font-size:.96rem;
+  }
+  .ex-list li:first-child{ border-top:none; }
+  .ex-tag{
+    display:inline-block;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-right:8px;
+  }
+  .wrong{ color:var(--warn-ink); text-decoration:line-through; text-decoration-thickness:1.5px; }
+  mark{
+    background:var(--mark-soft);
+    color:var(--mark-ink);
+    border-radius:4px;
+    padding:0 3px;
+    font-weight:600;
+    text-decoration:none;
+  }
+
+  .pitfall{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    background:var(--warn-soft);
+    color:var(--warn-ink);
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:.9rem;
+    margin-top:14px;
+  }
+  .pitfall b{ white-space:nowrap; }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.92rem;
+  }
+  th,td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  th{
+    color:var(--ink-faint);
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  td.mono, th.mono{ font-family: ui-monospace,"Cascadia Code",Consolas,monospace; }
+  .table-wrap{ overflow-x:auto; border-radius:10px; }
+
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .chip{
+    background:var(--accent-soft);
+    color:var(--accent-ink);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:.88rem;
+  }
+  .chip b{ display:block; font-family: ui-monospace,Consolas,monospace; margin-bottom:3px; }
+
+  .foot{
+    margin-top:64px;
+    padding-top:24px;
+    border-top:1px solid var(--rule);
+    color:var(--ink-faint);
+    font-size:.85rem;
+  }
+
+  @media (max-width:860px){
+    .layout{ grid-template-columns:1fr; }
+    .toc{
+      position:sticky;
+      height:auto;
+      display:flex;
+      gap:6px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding:12px 16px;
+      border-right:none;
+      border-bottom:1px solid var(--rule);
+      background:var(--bg);
+      z-index:5;
+    }
+    .toc-title{ display:none; }
+    .toc-group{ display:flex; gap:6px; margin:0; }
+    .toc a{ white-space:nowrap; }
+    main{ padding:0 18px 80px; }
+    .grid-2, .grid-3{ grid-template-columns:1fr; }
+  }
+</style>
+
 <div class="layout">
   <nav class="toc">
     <p class="toc-title">สารบัญ</p>
@@ -1192,6 +1475,229 @@ noun + V3/Ved + (by/prep...)        → V3 ขยายนามแบบลด�
 </div>
 
 <div class="panel" id="panel-exam">
+e>ห้องซ้อมสอบ TEGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
+    --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
+    --accent:#2f5d62; --accent-ink:#1d3b3f; --accent-soft:#dcebea;
+    --good:#2e7d4f; --good-soft:#e3f3e9;
+    --bad:#b3432f; --bad-soft:#fbe6df;
+    --rule:#e3e1d9;
+    --shadow:0 1px 2px rgba(30,30,20,.05), 0 8px 24px rgba(30,30,20,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+      --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+      --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+      --good:#5fbf86; --good-soft:#12331f;
+      --bad:#e8a688; --bad-soft:#3a2620;
+      --rule:#2a2e33;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+    --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+    --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+    --good:#5fbf86; --good-soft:#12331f;
+    --bad:#e8a688; --bad-soft:#3a2620;
+    --rule:#2a2e33;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .mono{ font-family:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace; font-variant-numeric:tabular-nums; }
+  button{ font-family:inherit; }
+  h1,h2,h3{ text-wrap:balance; margin:0; }
+  a{ color:var(--accent); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .wrap{ max-width:840px; margin:0 auto; padding:0 20px 90px; }
+
+  header.top{
+    position:sticky; top:0; z-index:10;
+    background:var(--bg);
+    border-bottom:1px solid var(--rule);
+    padding:16px 0 0;
+  }
+  .top-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-badge{
+    width:34px; height:34px; border-radius:9px; background:var(--accent);
+    color:var(--surface); display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex:none;
+  }
+  .brand h1{ font-size:1.08rem; }
+  .brand p{ margin:0; font-size:.76rem; color:var(--ink-faint); }
+
+  .mode-toggle{ display:flex; background:var(--surface-2); border-radius:10px; padding:3px; gap:2px; }
+  .mode-toggle button{
+    border:none; background:transparent; padding:7px 12px; border-radius:8px;
+    font-size:.82rem; color:var(--ink-muted); cursor:pointer;
+  }
+  .mode-toggle button.active{ background:var(--surface); color:var(--accent-ink); box-shadow:var(--shadow); font-weight:600; }
+
+  .set-switch{ display:flex; gap:6px; padding:10px 0 6px; flex-wrap:wrap; }
+  .set-switch button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:8px; padding:6px 12px; font-size:.8rem; cursor:pointer;
+  }
+  .set-switch button.active{ background:var(--accent-ink); border-color:var(--accent-ink); color:#fff; font-weight:600; }
+
+  nav.tabs{ display:flex; gap:4px; overflow-x:auto; padding-bottom:10px; }
+  nav.tabs button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:999px; padding:7px 14px; font-size:.82rem; white-space:nowrap; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+  }
+  nav.tabs button.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  nav.tabs button .cnt{ font-size:.7rem; opacity:.8; }
+
+  main{ padding-top:26px; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius);
+    padding:22px 24px; margin-bottom:16px; box-shadow:var(--shadow);
+  }
+  .section-intro{ color:var(--ink-muted); font-size:.92rem; margin:0 0 18px; }
+  .section-intro b{ color:var(--ink); }
+
+  .timerbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--accent-soft); color:var(--accent-ink);
+    border-radius:12px; padding:10px 16px; margin-bottom:18px; font-size:.86rem;
+  }
+  .timerbar.urgent{ background:var(--bad-soft); color:var(--bad); }
+  .timerbar .t{ font-size:1.1rem; font-weight:700; }
+
+  /* listening player */
+  .player{
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:30px 20px;
+  }
+  .eq{ display:flex; align-items:flex-end; gap:4px; height:44px; margin-bottom:16px; }
+  .eq span{ width:5px; background:var(--accent); border-radius:3px; height:8px; opacity:.35; }
+  .eq.live span{ animation:bounce 900ms ease-in-out infinite; opacity:1; }
+  .eq span:nth-child(1){ animation-delay:0ms; } .eq span:nth-child(2){ animation-delay:120ms; }
+  .eq span:nth-child(3){ animation-delay:240ms; } .eq span:nth-child(4){ animation-delay:360ms; }
+  .eq span:nth-child(5){ animation-delay:480ms; } .eq span:nth-child(6){ animation-delay:600ms; }
+  .eq span:nth-child(7){ animation-delay:720ms; }
+  @keyframes bounce{ 0%,100%{ height:8px; } 50%{ height:40px; } }
+  @media (prefers-reduced-motion:reduce){ .eq.live span{ animation:none; height:24px; opacity:.8; } }
+
+  .playbtn{
+    border:none; background:var(--accent); color:#fff; border-radius:999px;
+    width:64px; height:64px; font-size:22px; cursor:pointer; box-shadow:var(--shadow);
+  }
+  .playbtn:disabled{ opacity:.5; cursor:default; }
+  .player-label{ margin-top:12px; font-size:.86rem; color:var(--ink-muted); }
+  .replay{
+    margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer;
+  }
+
+  .qprompt{ font-size:1rem; margin:6px 0 14px; }
+  .choices{ display:flex; flex-direction:column; gap:8px; }
+  .choice{
+    display:flex; gap:10px; align-items:flex-start; text-align:left;
+    border:1px solid var(--rule); background:var(--surface); border-radius:10px;
+    padding:11px 14px; cursor:pointer; font-size:.94rem; color:var(--ink);
+  }
+  .choice .lab{
+    flex:none; width:22px; height:22px; border-radius:6px; background:var(--surface-2);
+    color:var(--ink-muted); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .choice.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .choice.selected .lab{ background:var(--accent); color:#fff; }
+  .choice.correct{ border-color:var(--good); background:var(--good-soft); }
+  .choice.correct .lab{ background:var(--good); color:#fff; }
+  .choice.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+  .choice.wrong .lab{ background:var(--bad); color:#fff; }
+  .choice:disabled, .choice[data-locked="1"]{ cursor:default; }
+
+  .explain{
+    margin-top:10px; font-size:.86rem; color:var(--ink-muted);
+    background:var(--surface-2); border-radius:10px; padding:10px 14px;
+  }
+  .explain b{ color:var(--ink); }
+
+  .btnrow{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+  .btn{
+    border:none; border-radius:10px; padding:10px 18px; font-size:.88rem; cursor:pointer;
+    background:var(--accent); color:#fff; font-weight:600;
+  }
+  .btn.ghost{ background:var(--surface-2); color:var(--ink); }
+  .btn:disabled{ opacity:.45; cursor:default; }
+  .transcript-toggle{
+    background:none; border:1px dashed var(--rule); color:var(--ink-faint); border-radius:8px;
+    padding:6px 12px; font-size:.78rem; cursor:pointer; margin-top:10px;
+  }
+  .transcript{
+    margin-top:8px; font-size:.86rem; color:var(--ink-muted); background:var(--surface-2);
+    border-radius:10px; padding:10px 14px;
+  }
+  .transcript p{ margin:4px 0; }
+  .transcript b{ color:var(--accent-ink); }
+
+  /* error segments */
+  .sentence{ font-size:1.02rem; line-height:2.1; }
+  .seg{
+    border:none; background:none; cursor:pointer; font:inherit; color:var(--ink);
+    border-bottom:2px dashed var(--ink-faint); padding:1px 2px; position:relative;
+  }
+  .seg sup{ color:var(--accent); font-weight:700; margin-left:2px; }
+  .seg.selected{ background:var(--accent-soft); border-bottom-color:var(--accent); border-radius:4px; }
+  .seg.correct{ background:var(--good-soft); border-bottom-color:var(--good); border-radius:4px; }
+  .seg.wrong{ background:var(--bad-soft); border-bottom-color:var(--bad); border-radius:4px; }
+  .seg:disabled{ cursor:default; }
+
+  .passage{
+    font-size:.94rem; color:var(--ink-muted); background:var(--surface-2);
+    border-radius:10px; padding:14px 16px; margin-bottom:18px; line-height:1.85;
+  }
+  .blankmark{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:22px; height:20px; padding:0 4px; border-radius:6px;
+    background:var(--accent-soft); color:var(--accent-ink); font-size:.72rem; font-weight:700;
+    margin:0 2px;
+  }
+  .qgroup-title{ font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin:0 0 6px; }
+
+  .progress-mini{ font-size:.78rem; color:var(--ink-faint); margin-bottom:14px; }
+
+  /* results */
+  .score-hero{ text-align:center; padding:34px 20px; }
+  .score-hero .big{ font-size:3rem; font-weight:800; color:var(--accent-ink); }
+  .score-hero .big span{ font-size:1.4rem; color:var(--ink-faint); font-weight:600; }
+  .bars{ display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+  .bar-row{ display:grid; grid-template-columns:110px 1fr 60px; align-items:center; gap:10px; font-size:.86rem; }
+  .bar-track{ height:9px; background:var(--surface-2); border-radius:999px; overflow:hidden; }
+  .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
+  .review-item{ border-top:1px solid var(--rule); padding:12px 0; font-size:.88rem; }
+  .review-item:first-child{ border-top:none; }
+  .review-tag{ font-size:.7rem; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.05em; }
+  .pill-good{ color:var(--good); font-weight:700; }
+  .pill-bad{ color:var(--bad); font-weight:700; }
+
+  .notice{
+    background:var(--bad-soft); color:var(--bad); border-radius:10px; padding:10px 14px; font-size:.85rem; margin-bottom:16px;
+  }
+
+  footer.foot{ text-align:center; color:var(--ink-faint); font-size:.8rem; padding:30px 0 0; }
+
+  @media (max-width:560px){
+    .bar-row{ grid-template-columns:84px 1fr 44px; font-size:.78rem; }
+  }
+</style>
+
 <div class="wrap">
   <header class="top">
     <div class="top-row">
@@ -1215,9 +1721,150 @@ noun + V3/Ved + (by/prep...)        → V3 ขยายนามแบบลด�
 
   <footer class="foot">โจทย์จำลองแต่งขึ้นตามแนวข้อสอบ CMU-TEGS · <a href="https://claude.ai/code/artifact/988fc8ab-a737-4211-a935-f5f0b8e24459" target="_blank" rel="noopener">ทบทวนไวยากรณ์ก่อนสอบ →</a></footer>
 </div>
+
+
 </div>
 
 <div class="panel" id="panel-vocab">
+e>คลังคำศัพท์ TEGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
+    --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
+    --accent:#2f5d62; --accent-ink:#1d3b3f; --accent-soft:#dcebea;
+    --good:#2e7d4f; --good-soft:#e3f3e9;
+    --bad:#b3432f; --bad-soft:#fbe6df;
+    --gold:#a9781f; --gold-soft:#f4ecd8;
+    --rule:#e3e1d9;
+    --shadow:0 1px 2px rgba(30,30,20,.05), 0 8px 24px rgba(30,30,20,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+      --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+      --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+      --good:#5fbf86; --good-soft:#12331f;
+      --bad:#e8a688; --bad-soft:#3a2620;
+      --gold:#d9b25c; --gold-soft:#3a3013;
+      --rule:#2a2e33;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+    --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+    --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+    --good:#5fbf86; --good-soft:#12331f;
+    --bad:#e8a688; --bad-soft:#3a2620;
+    --gold:#d9b25c; --gold-soft:#3a3013;
+    --rule:#2a2e33;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .mono{ font-family:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace; font-variant-numeric:tabular-nums; }
+  button, input{ font-family:inherit; }
+  h1,h2,h3{ text-wrap:balance; margin:0; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 20px 90px; }
+
+  header.top{ position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--rule); padding:16px 0 0; }
+  .top-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-badge{ width:34px; height:34px; border-radius:9px; background:var(--accent); color:var(--surface); display:flex; align-items:center; justify-content:center; font-size:16px; flex:none; }
+  .brand h1{ font-size:1.08rem; }
+  .brand p{ margin:0; font-size:.76rem; color:var(--ink-faint); }
+
+  nav.tabs{ display:flex; gap:4px; overflow-x:auto; padding-bottom:10px; }
+  nav.tabs button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:999px; padding:7px 14px; font-size:.82rem; white-space:nowrap; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+  }
+  nav.tabs button.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  main{ padding-top:26px; }
+
+  .card{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius); padding:22px 24px; margin-bottom:16px; box-shadow:var(--shadow); }
+  .section-intro{ color:var(--ink-muted); font-size:.92rem; margin:0 0 14px; }
+  .section-intro b{ color:var(--ink); }
+
+  .dash-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
+  .dash-stat{ background:var(--surface-2); border-radius:10px; padding:14px; text-align:center; }
+  .dash-stat .num{ font-size:1.5rem; font-weight:800; }
+  .dash-stat .lab{ font-size:.72rem; color:var(--ink-faint); margin-top:2px; }
+  .dash-stat.new .num{ color:var(--ink-muted); }
+  .dash-stat.learning .num{ color:var(--gold); }
+  .dash-stat.known .num{ color:var(--good); }
+
+  .mode-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+  .mode-btn{
+    display:flex; flex-direction:column; gap:4px; align-items:flex-start; text-align:left;
+    border:1px solid var(--rule); background:var(--surface); border-radius:12px; padding:16px;
+    cursor:pointer; box-shadow:var(--shadow);
+  }
+  .mode-btn .ic{ font-size:1.4rem; }
+  .mode-btn .ti{ font-weight:700; font-size:.94rem; }
+  .mode-btn .de{ font-size:.78rem; color:var(--ink-faint); }
+  @media (max-width:520px){ .mode-grid{ grid-template-columns:1fr; } }
+
+  .progress-mini{ font-size:.78rem; color:var(--ink-faint); margin-bottom:14px; }
+  .bar-track{ height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:16px; }
+  .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
+
+  .flash{ text-align:center; padding:36px 20px; }
+  .flash .pos{ font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
+  .flash .word{ font-size:2rem; font-weight:800; color:var(--accent-ink); margin-bottom:6px; }
+  .flash .th{ font-size:1.15rem; color:var(--ink); margin:14px 0 6px; }
+  .flash .ex{ font-size:.92rem; color:var(--ink-muted); font-style:italic; max-width:44ch; margin:0 auto; }
+  .flash .hidden-hint{ color:var(--ink-faint); font-size:.86rem; margin-top:18px; }
+
+  .playbtn{ border:none; background:var(--accent); color:#fff; border-radius:999px; width:56px; height:56px; font-size:20px; cursor:pointer; box-shadow:var(--shadow); }
+  .playbtn:disabled{ opacity:.5; }
+  .replay{ margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer; }
+
+  .btnrow{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center; }
+  .btn{ border:none; border-radius:10px; padding:11px 20px; font-size:.9rem; cursor:pointer; background:var(--accent); color:#fff; font-weight:600; }
+  .btn.ghost{ background:var(--surface-2); color:var(--ink); }
+  .btn.bad{ background:var(--bad-soft); color:var(--bad); }
+  .btn.good{ background:var(--good-soft); color:var(--good); }
+  .btn:disabled{ opacity:.45; }
+
+  .choices{ display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+  .choice{ display:flex; gap:10px; align-items:flex-start; text-align:left; border:1px solid var(--rule); background:var(--surface); border-radius:10px; padding:11px 14px; cursor:pointer; font-size:.94rem; color:var(--ink); }
+  .choice .lab{ flex:none; width:22px; height:22px; border-radius:6px; background:var(--surface-2); color:var(--ink-muted); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .choice.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .choice.selected .lab{ background:var(--accent); color:#fff; }
+  .choice.correct{ border-color:var(--good); background:var(--good-soft); }
+  .choice.correct .lab{ background:var(--good); color:#fff; }
+  .choice.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+  .choice.wrong .lab{ background:var(--bad); color:#fff; }
+
+  .explain{ margin-top:10px; font-size:.86rem; color:var(--ink-muted); background:var(--surface-2); border-radius:10px; padding:10px 14px; }
+  .explain b{ color:var(--ink); }
+
+  .blank{ display:inline-block; min-width:70px; border-bottom:2px dashed var(--ink-faint); text-align:center; }
+
+  .write-input{ width:100%; max-width:320px; padding:12px 14px; font-size:1.1rem; border:1px solid var(--rule); border-radius:10px; background:var(--surface); color:var(--ink); text-align:center; margin:16px auto 0; display:block; }
+  .write-input:focus{ border-color:var(--accent); outline:none; }
+  .write-input.correct{ border-color:var(--good); background:var(--good-soft); }
+  .write-input.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+
+  .speak-rep{ display:flex; justify-content:center; gap:8px; margin-top:14px; }
+  .speak-rep span{ width:10px; height:10px; border-radius:50%; background:var(--surface-2); }
+  .speak-rep span.done{ background:var(--accent); }
+
+  .notice{ background:var(--bad-soft); color:var(--bad); border-radius:10px; padding:10px 14px; font-size:.85rem; margin-bottom:16px; }
+  footer.foot{ text-align:center; color:var(--ink-faint); font-size:.8rem; padding:30px 0 0; }
+</style>
+
 <div class="wrap">
   <header class="top">
     <div class="top-row">
@@ -1236,32 +1883,31 @@ noun + V3/Ved + (by/prep...)        → V3 ขยายนามแบบลด�
 
   <footer class="foot">คำศัพท์แต่งขึ้นตามแนวข้อสอบ CMU-TEGS · <a href="https://claude.ai/code/artifact/988fc8ab-a737-4211-a935-f5f0b8e24459" target="_blank" rel="noopener">ทบทวนไวยากรณ์</a> · <a href="https://claude.ai/code/artifact/59e6e4b4-6765-445c-b6ab-9844732e7fdb" target="_blank" rel="noopener">ห้องซ้อมสอบ TEGS</a></footer>
 </div>
+
+
 </div>
 
 <script>
-(function(){
-  "use strict";
-  function showPanel(name){
-    var panels = document.querySelectorAll(".panel");
-    for(var i=0;i<panels.length;i++){ panels[i].classList.remove("active"); }
-    var el = document.getElementById("panel-"+name);
-    if(el) el.classList.add("active");
-    var btns = document.querySelectorAll("[data-panel]");
-    for(var j=0;j<btns.length;j++){
-      btns[j].classList.toggle("active", btns[j].getAttribute("data-panel")===name);
-    }
-    try{ localStorage.setItem("tegs_suite_panel", name); }catch(e){}
-    window.scrollTo(0,0);
-  }
-  document.addEventListener("click", function(e){
-    var b = e.target.closest("[data-panel]");
-    if(!b) return;
-    showPanel(b.getAttribute("data-panel"));
-  });
-  showPanel("home");
-})();
+function showPanel(name){
+  document.querySelectorAll(".panel").forEach(function(p){ p.classList.remove("active"); });
+  document.querySelectorAll(".shell-nav button").forEach(function(b){ b.classList.remove("active"); });
+  var panel = document.getElementById("panel-" + name);
+  if(panel) panel.classList.add("active");
+  document.querySelectorAll(".shell-nav button[data-panel=\"" + name + "\"]").forEach(function(b){ b.classList.add("active"); });
+  localStorage.setItem("tegs_suite_panel", name);
+  window.scrollTo(0,0);
+}
+document.getElementById("shellNav").addEventListener("click", function(e){
+  var btn = e.target.closest("[data-panel]");
+  if(!btn) return;
+  showPanel(btn.getAttribute("data-panel"));
+});
+document.querySelectorAll(".home-card[data-panel]").forEach(function(b){
+  b.addEventListener("click", function(){ showPanel(b.getAttribute("data-panel")); });
+});
+var savedPanel = localStorage.getItem("tegs_suite_panel");
+if(savedPanel && document.getElementById("panel-" + savedPanel)) showPanel(savedPanel);
 </script>
-
 <script>
 
 (function(){
@@ -2070,13 +2716,16 @@ loadSet(0);
 
 /* ---------------- SPEECH ---------------- */
 
-var DEBUG = { voicesCount:0 };
+var DEBUG = { voicesCount:0, allVoicesCount:0, allVoicesSample:[] };
 
 var voices = [];
 function loadVoices(){
-  voices = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(function(v){ return /^en/i.test(v.lang); });
+  var all = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voices = all.filter(function(v){ return /^en/i.test(v.lang); });
   voices.sort(function(a,b){ return (b.localService?1:0) - (a.localService?1:0); });
   DEBUG.voicesCount = voices.length;
+  DEBUG.allVoicesCount = all.length;
+  DEBUG.allVoicesSample = all.slice(0,6).map(function(v){ return v.name + " (" + v.lang + ")"; });
 }
 if("speechSynthesis" in window){
   loadVoices();
@@ -2223,7 +2872,10 @@ function renderListening(){
   if(noTTS){
     html += '<div class="notice">เบราว์เซอร์นี้ไม่รองรับการอ่านออกเสียง — แสดงบทสนทนาเป็นข้อความแทนด้านล่าง</div>';
   } else if(DEBUG.voicesCount === 0 && st.phase !== "idle"){
-    html += '<div class="notice">ไม่พบเสียงพูดภาษาอังกฤษที่ติดตั้งในเครื่อง/เบราว์เซอร์นี้ — ถ้าไม่ได้ยินเสียงภายในไม่กี่วินาที ระบบจะข้ามให้อัตโนมัติ ลองตรวจสอบ Text-to-speech voices ในการตั้งค่าเครื่อง หรือเปลี่ยนเบราว์เซอร์ (เช่น Chrome/Edge บน Windows)</div>';
+    html += '<div class="notice">ไม่พบเสียงพูดภาษาอังกฤษที่ติดตั้งในเครื่อง/เบราว์เซอร์นี้ — ถ้าไม่ได้ยินเสียงภายในไม่กี่วินาที ระบบจะข้ามให้อัตโนมัติ ลองตรวจสอบ Text-to-speech voices ในการตั้งค่าเครื่อง หรือเปลี่ยนเบราว์เซอร์ (เช่น Chrome/Edge บน Windows)'
+      + '<br><span style="opacity:.8;font-size:.85em">เครื่องนี้พบเสียงทั้งหมด ' + DEBUG.allVoicesCount + ' เสียง'
+      + (DEBUG.allVoicesSample.length ? (": " + DEBUG.allVoicesSample.map(esc).join(", ")) : " (ยังไม่มีเสียงติดตั้งเลย)")
+      + '</span></div>';
   }
 
   html += '<div class="player">';
@@ -2766,7 +3418,6 @@ render();
 })();
 
 </script>
-
 <script>
 
 (function(){
@@ -4231,3 +4882,5 @@ render();
 })();
 
 </script>
+</body>
+</html>
