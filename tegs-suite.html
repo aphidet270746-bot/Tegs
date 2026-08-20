@@ -621,7 +621,7 @@
   .bar-track{ height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:16px; }
   .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
 
-  .flash{ text-align:center; padding:36px 20px; }
+  .flash{ position:relative; z-index:2; text-align:center; padding:36px 20px; }
   .flash .pos{ font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
   .flash .word{ font-size:2rem; font-weight:800; color:var(--accent-ink); margin-bottom:6px; }
   .flash .th{ font-size:1.15rem; color:var(--ink); margin:14px 0 6px; }
@@ -632,11 +632,21 @@
   .playbtn:disabled{ opacity:.5; }
   .replay{ margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer; }
 
+  .voice-toggle{ display:flex; gap:6px; margin-top:12px; }
+  .voice-btn{ flex:1; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); border-radius:999px; padding:7px 10px; font-size:.8rem; cursor:pointer; }
+  .voice-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  .swipe-card{ position:relative; border-radius:var(--radius); overflow:hidden; touch-action:pan-y; cursor:grab; user-select:none; }
+  .swipe-card:active{ cursor:grabbing; }
+  .swipe-tint{ position:absolute; inset:0; opacity:0; z-index:1; pointer-events:none; }
+  .swipe-tint.bad{ background:var(--bad-soft); }
+  .swipe-tint.good{ background:var(--good-soft); }
+  .speak-ic{ position:relative; z-index:2; border:none; background:var(--accent-soft); color:var(--accent-ink); width:38px; height:38px; border-radius:50%; font-size:16px; cursor:pointer; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; }
+  .swipe-hint{ text-align:center; color:var(--ink-faint); font-size:.78rem; margin-top:12px; }
+
   .btnrow{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center; }
   .btn{ border:none; border-radius:10px; padding:11px 20px; font-size:.9rem; cursor:pointer; background:var(--accent); color:#fff; font-weight:600; }
   .btn.ghost{ background:var(--surface-2); color:var(--ink); }
-  .btn.bad{ background:var(--bad-soft); color:var(--bad); }
-  .btn.good{ background:var(--good-soft); color:var(--good); }
   .btn:disabled{ opacity:.45; }
 
   .choices{ display:flex; flex-direction:column; gap:8px; margin-top:14px; }
@@ -713,8 +723,6 @@
 </div>
 
 <div class="panel" id="panel-grammar">
-e>คู่มือไวยากรณ์ TEGS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
     --bg:#f6f5f1;
@@ -1475,8 +1483,6 @@ noun + V3/Ved + (by/prep...)        → V3 ขยายนามแบบลด�
 </div>
 
 <div class="panel" id="panel-exam">
-e>ห้องซ้อมสอบ TEGS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
@@ -1726,8 +1732,6 @@ e>ห้องซ้อมสอบ TEGS</title>
 </div>
 
 <div class="panel" id="panel-vocab">
-e>คลังคำศัพท์ TEGS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
@@ -1819,7 +1823,7 @@ e>คลังคำศัพท์ TEGS</title>
   .bar-track{ height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:16px; }
   .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
 
-  .flash{ text-align:center; padding:36px 20px; }
+  .flash{ position:relative; z-index:2; text-align:center; padding:36px 20px; }
   .flash .pos{ font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
   .flash .word{ font-size:2rem; font-weight:800; color:var(--accent-ink); margin-bottom:6px; }
   .flash .th{ font-size:1.15rem; color:var(--ink); margin:14px 0 6px; }
@@ -1830,11 +1834,21 @@ e>คลังคำศัพท์ TEGS</title>
   .playbtn:disabled{ opacity:.5; }
   .replay{ margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer; }
 
+  .voice-toggle{ display:flex; gap:6px; margin-top:12px; }
+  .voice-btn{ flex:1; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); border-radius:999px; padding:7px 10px; font-size:.8rem; cursor:pointer; }
+  .voice-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  .swipe-card{ position:relative; border-radius:var(--radius); overflow:hidden; touch-action:pan-y; cursor:grab; user-select:none; }
+  .swipe-card:active{ cursor:grabbing; }
+  .swipe-tint{ position:absolute; inset:0; opacity:0; z-index:1; pointer-events:none; }
+  .swipe-tint.bad{ background:var(--bad-soft); }
+  .swipe-tint.good{ background:var(--good-soft); }
+  .speak-ic{ position:relative; z-index:2; border:none; background:var(--accent-soft); color:var(--accent-ink); width:38px; height:38px; border-radius:50%; font-size:16px; cursor:pointer; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; }
+  .swipe-hint{ text-align:center; color:var(--ink-faint); font-size:.78rem; margin-top:12px; }
+
   .btnrow{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center; }
   .btn{ border:none; border-radius:10px; padding:11px 20px; font-size:.9rem; cursor:pointer; background:var(--accent); color:#fff; font-weight:600; }
   .btn.ghost{ background:var(--surface-2); color:var(--ink); }
-  .btn.bad{ background:var(--bad-soft); color:var(--bad); }
-  .btn.good{ background:var(--good-soft); color:var(--good); }
   .btn:disabled{ opacity:.45; }
 
   .choices{ display:flex; flex-direction:column; gap:8px; margin-top:14px; }
@@ -1877,6 +1891,10 @@ e>คลังคำศัพท์ TEGS</title>
       </div>
     </div>
     <nav class="tabs" id="vocabTabs"></nav>
+    <div class="voice-toggle" id="vocabVoiceToggle" role="group" aria-label="เลือกเสียงอ่านคำศัพท์">
+      <button type="button" class="voice-btn" data-action="set-voice-gender" data-gender="female">👩 เสียงผู้หญิง</button>
+      <button type="button" class="voice-btn" data-action="set-voice-gender" data-gender="male">👨 เสียงผู้ชาย</button>
+    </div>
   </header>
 
   <main id="vocabStage"></main>
@@ -4442,7 +4460,8 @@ var STATE = {
   choicesCache: {},
   writeChecked: false,
   writeCorrect: null,
-  speakRep: 0
+  speakRep: 0,
+  voiceGender: "female"
 };
 
 /* ---------------- PERSISTENCE ---------------- */
@@ -4455,6 +4474,22 @@ function loadStatus(){
 }
 function saveStatus(){
   try{ localStorage.setItem("tegs_vocab_status_v1", JSON.stringify(STATE.status)); }catch(e){}
+}
+function loadVoiceGender(){
+  try{
+    var g = localStorage.getItem("tegs_vocab_voice_gender_v1");
+    if(g === "male" || g === "female") STATE.voiceGender = g;
+  }catch(e){}
+}
+function saveVoiceGender(){
+  try{ localStorage.setItem("tegs_vocab_voice_gender_v1", STATE.voiceGender); }catch(e){}
+}
+function renderVoiceToggle(){
+  var wrap = document.getElementById("vocabVoiceToggle");
+  if(!wrap) return;
+  wrap.querySelectorAll(".voice-btn").forEach(function(b){
+    b.classList.toggle("active", b.getAttribute("data-gender") === STATE.voiceGender);
+  });
 }
 function getStatus(id){ return STATE.status[id] || "new"; }
 function markResult(id, correct){
@@ -4476,10 +4511,14 @@ function loadVoices(){
 }
 if("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
 var AVOID_RE = /\bdavid\b/i;
+var FEMALE_VOICE_RE = /\bfemale\b|zira|jenny|aria|susan|samantha|hazel|catherine|michelle|emma|ava|sara|sonia|libby|olivia|natasha|elizabeth|amber|ashley|nancy|cora|maisie/i;
+var MALE_VOICE_RE = /\bmale\b|mark|guy|daniel|christopher|eric|ryan|andrew|brian|roger|steffan|jacob|jason|tony|william|davis|brandon|thomas/i;
 function pickVoice(){
   if(!voices.length) return null;
-  var ok = voices.find(function(v){ return !AVOID_RE.test(v.name); });
-  return ok || voices[0];
+  var pool = voices.filter(function(v){ return !AVOID_RE.test(v.name); });
+  if(!pool.length) pool = voices.slice();
+  var genderRe = STATE.voiceGender === "male" ? MALE_VOICE_RE : FEMALE_VOICE_RE;
+  return pool.find(function(v){ return genderRe.test(v.name); }) || pool[0];
 }
 var speechGen = 0;
 var activeUtterance = null;
@@ -4601,7 +4640,11 @@ function renderBrowse(){
   var w = byId(STATE.queue[STATE.qIndex]);
   var html = '<div class="card">';
   html += '<p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<div class="swipe-card" id="vocabSwipeCard">';
+  html += '<div class="swipe-tint bad" id="vocabSwipeTintBad"></div>';
+  html += '<div class="swipe-tint good" id="vocabSwipeTintGood"></div>';
   html += '<div class="flash">';
+  html += '<button type="button" class="speak-ic" data-action="browse-play" aria-label="ฟังเสียงคำนี้">🔊</button>';
   html += '<div class="pos">' + esc(w.pos) + '</div>';
   html += '<div class="word">' + esc(w.word) + '</div>';
   if(STATE.flipShown){
@@ -4610,17 +4653,82 @@ function renderBrowse(){
   } else {
     html += '<div class="hidden-hint">แตะเพื่อดูความหมาย</div>';
   }
-  html += "</div>";
-  if(!STATE.flipShown){
-    html += '<div class="btnrow"><button class="btn" data-action="flip-card">พลิกดูความหมาย</button></div>';
-  } else {
-    html += '<div class="btnrow">';
-    html += '<button class="btn bad" data-action="browse-rate" data-ok="0">ยังไม่รู้</button>';
-    html += '<button class="btn good" data-action="browse-rate" data-ok="1">จำได้</button>';
-    html += "</div>";
-  }
+  html += "</div></div>";
+  html += STATE.flipShown
+    ? '<p class="swipe-hint">⟵ ปัดซ้าย = ยังไม่รู้ &nbsp;·&nbsp; ปัดขวา = จำได้ ⟶</p>'
+    : '<p class="swipe-hint">แตะการ์ดเพื่อพลิกดูความหมาย</p>';
   html += "</div>";
   return html;
+}
+
+function bindSwipeCard(){
+  var card = document.getElementById("vocabSwipeCard");
+  if(!card) return;
+  var tintBad = document.getElementById("vocabSwipeTintBad");
+  var tintGood = document.getElementById("vocabSwipeTintGood");
+  var TAP_MAX = 8;
+  var SWIPE_MIN = 70;
+  var drag = null;
+
+  function setTint(dx){
+    var t = Math.min(1, Math.abs(dx) / SWIPE_MIN) * 0.9;
+    if(tintBad) tintBad.style.opacity = dx < 0 ? t : 0;
+    if(tintGood) tintGood.style.opacity = dx > 0 ? t : 0;
+  }
+  function reset(){
+    card.style.transition = "";
+    card.style.transform = "";
+    card.style.opacity = "";
+    setTint(0);
+  }
+  function onDown(e){
+    if(e.target.closest(".speak-ic")) return;
+    drag = { x0:e.clientX, y0:e.clientY, dx:0, dy:0, id:e.pointerId };
+    card.style.transition = "none";
+    try{ card.setPointerCapture(e.pointerId); }catch(err){}
+  }
+  function onMove(e){
+    if(!drag || drag.id !== e.pointerId) return;
+    drag.dx = e.clientX - drag.x0;
+    drag.dy = e.clientY - drag.y0;
+    card.style.transform = "translateX(" + drag.dx + "px) rotate(" + (drag.dx/18) + "deg)";
+    setTint(drag.dx);
+  }
+  function onUp(e){
+    if(!drag || drag.id !== e.pointerId) return;
+    var dx = drag.dx, dy = drag.dy;
+    drag = null;
+    card.style.transition = "transform .25s ease, opacity .25s ease";
+
+    if(Math.abs(dx) < TAP_MAX && Math.abs(dy) < TAP_MAX){
+      reset();
+      STATE.flipShown = !STATE.flipShown;
+      render();
+      return;
+    }
+    if(Math.abs(dx) > SWIPE_MIN && Math.abs(dx) > Math.abs(dy)){
+      if(!STATE.flipShown){
+        reset();
+        STATE.flipShown = true;
+        render();
+        return;
+      }
+      var goingRight = dx > 0;
+      card.style.transform = "translateX(" + (goingRight?1:-1)*600 + "px) rotate(" + (goingRight?24:-24) + "deg)";
+      card.style.opacity = "0";
+      var w = byId(STATE.queue[STATE.qIndex]);
+      markResult(w.id, goingRight);
+      setTimeout(nextItem, 220);
+      return;
+    }
+    reset();
+  }
+  function onCancel(){ drag = null; reset(); }
+
+  card.addEventListener("pointerdown", onDown);
+  card.addEventListener("pointermove", onMove);
+  card.addEventListener("pointerup", onUp);
+  card.addEventListener("pointercancel", onCancel);
 }
 
 /* ---------------- RENDER: LISTEN ---------------- */
@@ -4762,6 +4870,7 @@ function render(){
     var box = document.getElementById("vocabWriteBox");
     if(box) box.focus();
   }
+  if(STATE.mode === "browse") bindSwipeCard();
 }
 
 /* ---------------- ACTIONS ---------------- */
@@ -4805,11 +4914,18 @@ document.addEventListener("click", function(e){
     STATE.status = {}; saveStatus(); render(); return;
   }
 
-  if(action === "flip-card"){ STATE.flipShown = true; render(); return; }
-  if(action === "browse-rate"){
-    var w = byId(STATE.queue[STATE.qIndex]);
-    markResult(w.id, t.getAttribute("data-ok") === "1");
-    nextItem();
+  if(action === "browse-play"){
+    var wPlay = byId(STATE.queue[STATE.qIndex]);
+    speakText(STATE.flipShown ? (wPlay.word + ". " + wPlay.ex) : wPlay.word, 0.92, function(){});
+    return;
+  }
+  if(action === "set-voice-gender"){
+    var gender = t.getAttribute("data-gender");
+    if(gender === "male" || gender === "female"){
+      STATE.voiceGender = gender;
+      saveVoiceGender();
+      renderVoiceToggle();
+    }
     return;
   }
 
@@ -4874,10 +4990,30 @@ document.addEventListener("keydown", function(e){
       STATE.writeCorrect = ok;
       render();
     }
+    return;
+  }
+  if(STATE.mode === "browse" && STATE.qIndex < STATE.queue.length){
+    if(e.key === " " || e.key === "Enter"){
+      e.preventDefault();
+      STATE.flipShown = !STATE.flipShown;
+      render();
+    } else if(e.key === "ArrowLeft" || e.key === "ArrowRight"){
+      e.preventDefault();
+      if(!STATE.flipShown){
+        STATE.flipShown = true;
+        render();
+      } else {
+        var wKey = byId(STATE.queue[STATE.qIndex]);
+        markResult(wKey.id, e.key === "ArrowRight");
+        nextItem();
+      }
+    }
   }
 });
 
 loadStatus();
+loadVoiceGender();
+renderVoiceToggle();
 render();
 })();
 
