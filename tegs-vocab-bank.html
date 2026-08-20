@@ -1193,6 +1193,7 @@ var STATE = {
   choicesCache: {},
   writeChecked: false,
   writeCorrect: null,
+  writeInput: "",
   speakRep: 0,
   voiceGender: "female"
 };
@@ -1565,7 +1566,7 @@ function renderWrite(){
   html += '<div class="ex">' + esc(w.ex.replace(new RegExp("\\b" + w.word + "\\b", "i"), "_____")) + '</div>';
   html += "</div>";
   var inputCls = "write-input" + (STATE.writeChecked ? (STATE.writeCorrect ? " correct" : " wrong") : "");
-  html += '<input type="text" class="' + inputCls + '" id="writeBox" placeholder="พิมพ์คำศัพท์ภาษาอังกฤษ" ' + (STATE.writeChecked ? "disabled" : "") + ' autocomplete="off" spellcheck="false">';
+  html += '<input type="text" class="' + inputCls + '" id="writeBox" placeholder="พิมพ์คำศัพท์ภาษาอังกฤษ" value="' + esc(STATE.writeInput) + '" ' + (STATE.writeChecked ? "disabled" : "") + ' autocomplete="off" spellcheck="false">';
   if(STATE.writeChecked){
     html += '<div class="explain" style="text-align:center"><b>เฉลย:</b> ' + esc(w.word) + '</div>';
     html += '<div class="btnrow"><button class="btn" data-action="vocab-next">ถัดไป →</button></div>';
@@ -1615,7 +1616,7 @@ function startMode(mode){
   STATE.qIndex = 0;
   STATE.flipShown = false;
   STATE.answers = {}; STATE.locked = {}; STATE.choicesCache = {};
-  STATE.writeChecked = false; STATE.writeCorrect = null;
+  STATE.writeChecked = false; STATE.writeCorrect = null; STATE.writeInput = "";
   STATE.speakRep = 0;
   render();
 }
@@ -1624,7 +1625,7 @@ function nextItem(){
   stopSpeech();
   STATE.qIndex++;
   STATE.flipShown = false;
-  STATE.writeChecked = false; STATE.writeCorrect = null;
+  STATE.writeChecked = false; STATE.writeCorrect = null; STATE.writeInput = "";
   STATE.speakRep = 0;
   render();
 }
@@ -1706,6 +1707,7 @@ document.addEventListener("click", function(e){
     var ok = val === target;
     var w4 = byId(STATE.queue[STATE.qIndex]);
     markResult(w4.id, ok);
+    STATE.writeInput = box2.value;
     STATE.writeChecked = true;
     STATE.writeCorrect = ok;
     render();
@@ -1720,6 +1722,7 @@ document.addEventListener("keydown", function(e){
       var w = byId(STATE.queue[STATE.qIndex]);
       var ok = box.value.trim().toLowerCase() === w.word.toLowerCase();
       markResult(w.id, ok);
+      STATE.writeInput = box.value;
       STATE.writeChecked = true;
       STATE.writeCorrect = ok;
       render();
