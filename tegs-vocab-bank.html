@@ -1,0 +1,1592 @@
+<title>คลังคำศัพท์ TEGS</title>
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
+    --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
+    --accent:#2f5d62; --accent-ink:#1d3b3f; --accent-soft:#dcebea;
+    --good:#2e7d4f; --good-soft:#e3f3e9;
+    --bad:#b3432f; --bad-soft:#fbe6df;
+    --gold:#a9781f; --gold-soft:#f4ecd8;
+    --rule:#e3e1d9;
+    --shadow:0 1px 2px rgba(30,30,20,.05), 0 8px 24px rgba(30,30,20,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+      --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+      --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+      --good:#5fbf86; --good-soft:#12331f;
+      --bad:#e8a688; --bad-soft:#3a2620;
+      --gold:#d9b25c; --gold-soft:#3a3013;
+      --rule:#2a2e33;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+    --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+    --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+    --good:#5fbf86; --good-soft:#12331f;
+    --bad:#e8a688; --bad-soft:#3a2620;
+    --gold:#d9b25c; --gold-soft:#3a3013;
+    --rule:#2a2e33;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .mono{ font-family:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace; font-variant-numeric:tabular-nums; }
+  button, input{ font-family:inherit; }
+  h1,h2,h3{ text-wrap:balance; margin:0; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 20px 90px; }
+
+  header.top{ position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--rule); padding:16px 0 0; }
+  .top-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-badge{ width:34px; height:34px; border-radius:9px; background:var(--accent); color:var(--surface); display:flex; align-items:center; justify-content:center; font-size:16px; flex:none; }
+  .brand h1{ font-size:1.08rem; }
+  .brand p{ margin:0; font-size:.76rem; color:var(--ink-faint); }
+
+  nav.tabs{ display:flex; gap:4px; overflow-x:auto; padding-bottom:10px; }
+  nav.tabs button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:999px; padding:7px 14px; font-size:.82rem; white-space:nowrap; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+  }
+  nav.tabs button.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  main{ padding-top:26px; }
+
+  .card{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius); padding:22px 24px; margin-bottom:16px; box-shadow:var(--shadow); }
+  .section-intro{ color:var(--ink-muted); font-size:.92rem; margin:0 0 14px; }
+  .section-intro b{ color:var(--ink); }
+
+  .dash-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
+  .dash-stat{ background:var(--surface-2); border-radius:10px; padding:14px; text-align:center; }
+  .dash-stat .num{ font-size:1.5rem; font-weight:800; }
+  .dash-stat .lab{ font-size:.72rem; color:var(--ink-faint); margin-top:2px; }
+  .dash-stat.new .num{ color:var(--ink-muted); }
+  .dash-stat.learning .num{ color:var(--gold); }
+  .dash-stat.known .num{ color:var(--good); }
+
+  .mode-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+  .mode-btn{
+    display:flex; flex-direction:column; gap:4px; align-items:flex-start; text-align:left;
+    border:1px solid var(--rule); background:var(--surface); border-radius:12px; padding:16px;
+    cursor:pointer; box-shadow:var(--shadow);
+  }
+  .mode-btn .ic{ font-size:1.4rem; }
+  .mode-btn .ti{ font-weight:700; font-size:.94rem; }
+  .mode-btn .de{ font-size:.78rem; color:var(--ink-faint); }
+  @media (max-width:520px){ .mode-grid{ grid-template-columns:1fr; } }
+
+  .progress-mini{ font-size:.78rem; color:var(--ink-faint); margin-bottom:14px; }
+  .bar-track{ height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:16px; }
+  .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
+
+  .flash{ text-align:center; padding:36px 20px; }
+  .flash .pos{ font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
+  .flash .word{ font-size:2rem; font-weight:800; color:var(--accent-ink); margin-bottom:6px; }
+  .flash .th{ font-size:1.15rem; color:var(--ink); margin:14px 0 6px; }
+  .flash .ex{ font-size:.92rem; color:var(--ink-muted); font-style:italic; max-width:44ch; margin:0 auto; }
+  .flash .hidden-hint{ color:var(--ink-faint); font-size:.86rem; margin-top:18px; }
+
+  .playbtn{ border:none; background:var(--accent); color:#fff; border-radius:999px; width:56px; height:56px; font-size:20px; cursor:pointer; box-shadow:var(--shadow); }
+  .playbtn:disabled{ opacity:.5; }
+  .replay{ margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted); padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer; }
+
+  .btnrow{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center; }
+  .btn{ border:none; border-radius:10px; padding:11px 20px; font-size:.9rem; cursor:pointer; background:var(--accent); color:#fff; font-weight:600; }
+  .btn.ghost{ background:var(--surface-2); color:var(--ink); }
+  .btn.bad{ background:var(--bad-soft); color:var(--bad); }
+  .btn.good{ background:var(--good-soft); color:var(--good); }
+  .btn:disabled{ opacity:.45; }
+
+  .choices{ display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+  .choice{ display:flex; gap:10px; align-items:flex-start; text-align:left; border:1px solid var(--rule); background:var(--surface); border-radius:10px; padding:11px 14px; cursor:pointer; font-size:.94rem; color:var(--ink); }
+  .choice .lab{ flex:none; width:22px; height:22px; border-radius:6px; background:var(--surface-2); color:var(--ink-muted); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .choice.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .choice.selected .lab{ background:var(--accent); color:#fff; }
+  .choice.correct{ border-color:var(--good); background:var(--good-soft); }
+  .choice.correct .lab{ background:var(--good); color:#fff; }
+  .choice.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+  .choice.wrong .lab{ background:var(--bad); color:#fff; }
+
+  .explain{ margin-top:10px; font-size:.86rem; color:var(--ink-muted); background:var(--surface-2); border-radius:10px; padding:10px 14px; }
+  .explain b{ color:var(--ink); }
+
+  .blank{ display:inline-block; min-width:70px; border-bottom:2px dashed var(--ink-faint); text-align:center; }
+
+  .write-input{ width:100%; max-width:320px; padding:12px 14px; font-size:1.1rem; border:1px solid var(--rule); border-radius:10px; background:var(--surface); color:var(--ink); text-align:center; margin:16px auto 0; display:block; }
+  .write-input:focus{ border-color:var(--accent); outline:none; }
+  .write-input.correct{ border-color:var(--good); background:var(--good-soft); }
+  .write-input.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+
+  .speak-rep{ display:flex; justify-content:center; gap:8px; margin-top:14px; }
+  .speak-rep span{ width:10px; height:10px; border-radius:50%; background:var(--surface-2); }
+  .speak-rep span.done{ background:var(--accent); }
+
+  .notice{ background:var(--bad-soft); color:var(--bad); border-radius:10px; padding:10px 14px; font-size:.85rem; margin-bottom:16px; }
+  footer.foot{ text-align:center; color:var(--ink-faint); font-size:.8rem; padding:30px 0 0; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="top-row">
+      <div class="brand">
+        <div class="brand-badge">📚</div>
+        <div>
+          <h1>คลังคำศัพท์ TEGS</h1>
+          <p id="brandSub">1,000 คำศัพท์ระดับ TEGS · ฟัง · พูดตาม · อ่าน · เขียน</p>
+        </div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </header>
+
+  <main id="stage"></main>
+
+  <footer class="foot">คำศัพท์แต่งขึ้นตามแนวข้อสอบ CMU-TEGS · <a href="https://claude.ai/code/artifact/988fc8ab-a737-4211-a935-f5f0b8e24459" target="_blank" rel="noopener">ทบทวนไวยากรณ์</a> · <a href="https://claude.ai/code/artifact/59e6e4b4-6765-445c-b6ab-9844732e7fdb" target="_blank" rel="noopener">ห้องซ้อมสอบ TEGS</a></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- DATA ---------------- */
+
+var VOCAB_BANK = [
+  { id:"w1", word:"abandon", pos:"v", th:"ละทิ้ง เลิกทำ", ex:"They had to abandon the old plan." },
+  { id:"w2", word:"abstract", pos:"adj", th:"เชิงนามธรรม ไม่จับต้องได้", ex:"The lecture covered a very abstract idea." },
+  { id:"w3", word:"access", pos:"n", th:"การเข้าถึง", ex:"Students need access to the library database." },
+  { id:"w4", word:"accompany", pos:"v", th:"ไปด้วยกัน ประกอบกับ", ex:"A short summary will accompany the report." },
+  { id:"w5", word:"accumulate", pos:"v", th:"สะสม เพิ่มพูน", ex:"Dust tends to accumulate on old shelves." },
+  { id:"w6", word:"acquire", pos:"v", th:"ได้มา ได้รับ", ex:"She hopes to acquire new skills this year." },
+  { id:"w7", word:"adapt", pos:"v", th:"ปรับตัว ดัดแปลง", ex:"Animals must adapt to a changing climate." },
+  { id:"w8", word:"adequate", pos:"adj", th:"เพียงพอ พอเหมาะ", ex:"The team needs adequate time to finish." },
+  { id:"w9", word:"adjacent", pos:"adj", th:"ติดกัน อยู่ใกล้", ex:"The park is adjacent to the school." },
+  { id:"w10", word:"adjust", pos:"v", th:"ปรับ ปรับเปลี่ยน", ex:"You may need to adjust the schedule." },
+  { id:"w11", word:"advocate", pos:"v", th:"สนับสนุน เรียกร้อง", ex:"Doctors advocate regular exercise for good health." },
+  { id:"w12", word:"aesthetic", pos:"adj", th:"เชิงสุนทรียะ ด้านความงาม", ex:"The design has both function and aesthetic value." },
+  { id:"w13", word:"affluent", pos:"adj", th:"ร่ำรวย มั่งคั่ง", ex:"They grew up in an affluent neighborhood." },
+  { id:"w14", word:"aggregate", pos:"n", th:"ผลรวม ยอดรวม", ex:"The aggregate score determines the winner." },
+  { id:"w15", word:"albeit", pos:"conj", th:"แม้ว่า ถึงแม้", ex:"The plan worked, albeit slowly." },
+  { id:"w16", word:"alienate", pos:"v", th:"ทำให้แปลกแยก ทำให้ห่างเหิน", ex:"His harsh comments began to alienate his friends." },
+  { id:"w17", word:"allege", pos:"v", th:"กล่าวหา อ้างโดยไม่มีหลักฐานแน่ชัด", ex:"Reporters allege the company hid the results." },
+  { id:"w18", word:"alter", pos:"v", th:"เปลี่ยนแปลง แก้ไข", ex:"They had to alter their travel plans." },
+  { id:"w19", word:"ambivalent", pos:"adj", th:"รู้สึกสองจิตสองใจ", ex:"She felt ambivalent about changing jobs." },
+  { id:"w20", word:"amend", pos:"v", th:"แก้ไข ปรับปรุง", ex:"The committee voted to amend the rule." },
+  { id:"w21", word:"amiable", pos:"adj", th:"เป็นมิตร อารมณ์ดี", ex:"The new manager is amiable and easy to talk to." },
+  { id:"w22", word:"anecdote", pos:"n", th:"เกร็ดเล็กเกร็ดน้อย เรื่องเล่า", ex:"He opened his speech with a funny anecdote." },
+  { id:"w23", word:"anonymous", pos:"adj", th:"ไม่ระบุชื่อ นิรนาม", ex:"The donation was made by an anonymous donor." },
+  { id:"w24", word:"anticipate", pos:"v", th:"คาดการณ์ คาดหวัง", ex:"We anticipate strong sales next quarter." },
+  { id:"w25", word:"apparatus", pos:"n", th:"เครื่องมือ อุปกรณ์", ex:"The lab bought new apparatus for the experiment." },
+  { id:"w26", word:"appease", pos:"v", th:"ทำให้สงบ เอาใจ", ex:"The manager tried to appease angry customers." },
+  { id:"w27", word:"apprehensive", pos:"adj", th:"กังวล วิตกกังวล", ex:"She felt apprehensive before her first interview." },
+  { id:"w28", word:"arbitrary", pos:"adj", th:"ตามอำเภอใจ ไม่มีหลักเกณฑ์", ex:"The rule seemed completely arbitrary to the students." },
+  { id:"w29", word:"array", pos:"n", th:"ชุด แถว หลากหลาย", ex:"The store offers a wide array of products." },
+  { id:"w30", word:"articulate", pos:"v", th:"แสดงออกอย่างชัดเจน", ex:"He struggled to articulate his concerns clearly." },
+  { id:"w31", word:"ascertain", pos:"v", th:"ค้นหาความจริง พิสูจน์ให้แน่ชัด", ex:"Investigators tried to ascertain the cause of the fire." },
+  { id:"w32", word:"aspire", pos:"v", th:"ใฝ่ฝัน มุ่งหวัง", ex:"Many students aspire to study abroad." },
+  { id:"w33", word:"assert", pos:"v", th:"ยืนยัน ยืนกราน", ex:"She assert that the results were accurate." },
+  { id:"w34", word:"assess", pos:"v", th:"ประเมิน", ex:"Teachers assess students through weekly quizzes." },
+  { id:"w35", word:"assimilate", pos:"v", th:"หลอมรวม กลมกลืน", ex:"New employees quickly assimilate into the team culture." },
+  { id:"w36", word:"attain", pos:"v", th:"บรรลุ ไปถึง", ex:"It took years to attain such expertise." },
+  { id:"w37", word:"attribute", pos:"v", th:"ระบุว่าเป็นสาเหตุจาก", ex:"Experts attribute the delay to bad weather." },
+  { id:"w38", word:"authentic", pos:"adj", th:"แท้จริง ของแท้", ex:"The restaurant serves authentic Thai food." },
+  { id:"w39", word:"autonomous", pos:"adj", th:"เป็นอิสระ ปกครองตนเอง", ex:"The region became an autonomous state." },
+  { id:"w40", word:"benevolent", pos:"adj", th:"ใจดี เมตตากรุณา", ex:"The benevolent donor funded the new library." },
+  { id:"w41", word:"bias", pos:"n", th:"อคติ ความลำเอียง", ex:"The survey questions showed clear bias." },
+  { id:"w42", word:"bleak", pos:"adj", th:"มืดมน หดหู่", ex:"The forecast for the industry looks bleak." },
+  { id:"w43", word:"bolster", pos:"v", th:"เสริมกำลัง สนับสนุน", ex:"The new policy will bolster local businesses." },
+  { id:"w44", word:"boundary", pos:"n", th:"ขอบเขต เส้นแบ่ง", ex:"The river marks the boundary between two towns." },
+  { id:"w45", word:"brevity", pos:"n", th:"ความกระชับ ความสั้น", ex:"The editor valued brevity in every article." },
+  { id:"w46", word:"capacity", pos:"n", th:"ความจุ ความสามารถ", ex:"The stadium has a capacity of fifty thousand." },
+  { id:"w47", word:"catalyst", pos:"n", th:"ตัวเร่งปฏิกิริยา ปัจจัยกระตุ้น", ex:"The scandal was a catalyst for reform." },
+  { id:"w48", word:"caution", pos:"n", th:"ความระมัดระวัง", ex:"Drivers should proceed with caution in the fog." },
+  { id:"w49", word:"celebrated", pos:"adj", th:"มีชื่อเสียง เป็นที่ยกย่อง", ex:"She is a celebrated author in her country." },
+  { id:"w50", word:"chronic", pos:"adj", th:"เรื้อรัง เป็นประจำ", ex:"He suffers from chronic back pain." },
+  { id:"w51", word:"circumvent", pos:"v", th:"หลีกเลี่ยง หาทางลัด", ex:"They found a way to circumvent the rule." },
+  { id:"w52", word:"coherent", pos:"adj", th:"สอดคล้องกัน มีเหตุผลต่อเนื่อง", ex:"His argument was clear and coherent." },
+  { id:"w53", word:"collaborate", pos:"v", th:"ร่วมมือกัน", ex:"The two labs collaborate on climate research." },
+  { id:"w54", word:"commence", pos:"v", th:"เริ่มต้น", ex:"The ceremony will commence at noon." },
+  { id:"w55", word:"commodity", pos:"n", th:"สินค้าโภคภัณฑ์", ex:"Oil is a valuable global commodity." },
+  { id:"w56", word:"compatible", pos:"adj", th:"เข้ากันได้", ex:"The new software is compatible with older devices." },
+  { id:"w57", word:"compensate", pos:"v", th:"ชดเชย ทดแทน", ex:"The airline agreed to compensate the passengers." },
+  { id:"w58", word:"competent", pos:"adj", th:"มีความสามารถ", ex:"She is a competent and reliable engineer." },
+  { id:"w59", word:"comprehend", pos:"v", th:"เข้าใจ", ex:"It took time to comprehend the full report." },
+  { id:"w60", word:"comprehensive", pos:"adj", th:"ครอบคลุม ครบถ้วน", ex:"The book offers a comprehensive history of the region." },
+  { id:"w61", word:"conceive", pos:"v", th:"คิดขึ้น จินตนาการ", ex:"It's hard to conceive of life without electricity." },
+  { id:"w62", word:"conducive", pos:"adj", th:"เอื้อต่อ ส่งเสริม", ex:"A quiet room is conducive to studying." },
+  { id:"w63", word:"confine", pos:"v", th:"จำกัด กักขัง", ex:"Rules confine what employees can post online." },
+  { id:"w64", word:"conform", pos:"v", th:"ทำตาม ปฏิบัติตาม", ex:"New products must conform to safety standards." },
+  { id:"w65", word:"congestion", pos:"n", th:"ความแออัด การติดขัด", ex:"Traffic congestion worsens during rush hour." },
+  { id:"w66", word:"connotation", pos:"n", th:"ความหมายแฝง", ex:"The word carries a negative connotation." },
+  { id:"w67", word:"consecutive", pos:"adj", th:"ติดต่อกัน ต่อเนื่อง", ex:"The team won three consecutive championships." },
+  { id:"w68", word:"considerable", pos:"adj", th:"มาก พอสมควร", ex:"The renovation cost a considerable amount of money." },
+  { id:"w69", word:"constitute", pos:"v", th:"ประกอบเป็น นับเป็น", ex:"Women constitute half of the workforce." },
+  { id:"w70", word:"constrain", pos:"v", th:"จำกัด บีบบังคับ", ex:"A tight budget can constrain creative options." },
+  { id:"w71", word:"contentious", pos:"adj", th:"เป็นที่ถกเถียง ขัดแย้ง", ex:"Immigration remains a contentious political issue." },
+  { id:"w72", word:"contradict", pos:"v", th:"ขัดแย้ง แย้งกัน", ex:"His statement seemed to contradict earlier reports." },
+  { id:"w73", word:"controversy", pos:"n", th:"ข้อโต้แย้ง ความขัดแย้งทางความเห็น", ex:"The proposal sparked a heated controversy." },
+  { id:"w74", word:"convention", pos:"n", th:"ธรรมเนียมปฏิบัติ ข้อตกลง", ex:"The design breaks from traditional convention." },
+  { id:"w75", word:"convey", pos:"v", th:"สื่อความหมาย ถ่ายทอด", ex:"The poster aims to convey a simple message." },
+  { id:"w76", word:"convince", pos:"v", th:"ทำให้เชื่อ โน้มน้าว", ex:"It took hours to convince him to join." },
+  { id:"w77", word:"cordial", pos:"adj", th:"สุภาพเป็นมิตร", ex:"The two leaders had a cordial meeting." },
+  { id:"w78", word:"correlate", pos:"v", th:"มีความสัมพันธ์กัน", ex:"Higher exercise levels correlate with better sleep." },
+  { id:"w79", word:"counterpart", pos:"n", th:"สิ่งที่เทียบเท่ากัน คู่เทียบ", ex:"The minister met with his foreign counterpart." },
+  { id:"w80", word:"credible", pos:"adj", th:"น่าเชื่อถือ", ex:"The report comes from a credible source." },
+  { id:"w81", word:"criteria", pos:"n", th:"เกณฑ์ตัดสิน", ex:"Applicants must meet strict criteria." },
+  { id:"w82", word:"cumbersome", pos:"adj", th:"ยุ่งยาก เทอะทะ", ex:"The old process was slow and cumbersome." },
+  { id:"w83", word:"curb", pos:"v", th:"ควบคุม ยับยั้ง", ex:"The city hopes to curb noise pollution." },
+  { id:"w84", word:"debris", pos:"n", th:"เศษซาก ซากปรักหักพัง", ex:"Workers cleared debris after the storm." },
+  { id:"w85", word:"decisive", pos:"adj", th:"เด็ดขาด ตัดสินใจแน่วแน่", ex:"The coach made a decisive call in the final minute." },
+  { id:"w86", word:"decline", pos:"v", th:"ลดลง ปฏิเสธ", ex:"Sales began to decline in the winter months." },
+  { id:"w87", word:"deficient", pos:"adj", th:"บกพร่อง ขาดแคลน", ex:"A deficient diet can weaken the immune system." },
+  { id:"w88", word:"delegate", pos:"v", th:"มอบหมาย", ex:"Good managers delegate tasks to their team." },
+  { id:"w89", word:"deliberate", pos:"adj", th:"จงใจ ไตร่ตรองแล้ว", ex:"It was a deliberate decision, not an accident." },
+  { id:"w90", word:"demeanor", pos:"n", th:"ท่าทาง กิริยาท่าทาง", ex:"The nurse had a calm, reassuring demeanor." },
+  { id:"w91", word:"denote", pos:"v", th:"บ่งชี้ หมายถึง", ex:"A red flag can denote danger ahead." },
+  { id:"w92", word:"depict", pos:"v", th:"พรรณนา วาดภาพให้เห็น", ex:"The film depicts life in a small village." },
+  { id:"w93", word:"derive", pos:"v", th:"ได้มาจาก สืบเนื่องมาจาก", ex:"Many English words derive from Latin." },
+  { id:"w94", word:"designate", pos:"v", th:"กำหนด แต่งตั้ง", ex:"The area was designate a wildlife reserve." },
+  { id:"w95", word:"desperate", pos:"adj", th:"สิ้นหวัง เดือดร้อนมาก", ex:"Villagers made a desperate plea for aid." },
+  { id:"w96", word:"detrimental", pos:"adj", th:"เป็นอันตราย เป็นผลเสีย", ex:"Too much stress can be detrimental to health." },
+  { id:"w97", word:"devastating", pos:"adj", th:"ร้ายแรง ทำลายล้าง", ex:"The earthquake had a devastating effect on the town." },
+  { id:"w98", word:"deviate", pos:"v", th:"เบี่ยงเบน เบนออกจาก", ex:"The plane had to deviate from its route." },
+  { id:"w99", word:"devoid", pos:"adj", th:"ปราศจาก ว่างเปล่าจาก", ex:"The room felt devoid of any warmth." },
+  { id:"w100", word:"differentiate", pos:"v", th:"แยกแยะ ทำให้แตกต่าง", ex:"It can be hard to differentiate the two species." },
+  { id:"w101", word:"diligence", pos:"n", th:"ความขยันหมั่นเพียร", ex:"Her diligence earned her a promotion." },
+  { id:"w102", word:"discern", pos:"v", th:"แยกแยะได้ มองออก", ex:"It was hard to discern any pattern in the data." },
+  { id:"w103", word:"discretion", pos:"n", th:"ดุลยพินิจ ความรอบคอบ", ex:"Managers may use their own discretion in such cases." },
+  { id:"w104", word:"disparity", pos:"n", th:"ความไม่เท่าเทียม ความแตกต่าง", ex:"There is a wide disparity in income levels." },
+  { id:"w105", word:"dispute", pos:"n", th:"ข้อพิพาท", ex:"The two companies settled their dispute in court." },
+  { id:"w106", word:"disrupt", pos:"v", th:"ขัดจังหวะ รบกวน ก่อกวน", ex:"Heavy rain will disrupt tomorrow's schedule." },
+  { id:"w107", word:"distinct", pos:"adj", th:"แตกต่างชัดเจน โดดเด่น", ex:"The two dialects have distinct pronunciations." },
+  { id:"w108", word:"diverse", pos:"adj", th:"หลากหลาย", ex:"The city has a diverse population." },
+  { id:"w109", word:"dominant", pos:"adj", th:"ครอบงำ เด่นที่สุด", ex:"English remains the dominant language in business." },
+  { id:"w110", word:"dormant", pos:"adj", th:"อยู่นิ่งเฉย สงบนิ่ง", ex:"The volcano has been dormant for centuries." },
+  { id:"w111", word:"drastic", pos:"adj", th:"รุนแรง ถึงขั้นเด็ดขาด", ex:"The company made drastic cuts to its budget." },
+  { id:"w112", word:"drought", pos:"n", th:"ภัยแล้ง", ex:"The region suffered a severe drought last year." },
+  { id:"w113", word:"dubious", pos:"adj", th:"น่าสงสัย ไม่แน่ใจ", ex:"He gave a dubious explanation for being late." },
+  { id:"w114", word:"durable", pos:"adj", th:"ทนทาน", ex:"The bags are made from durable material." },
+  { id:"w115", word:"dwell", pos:"v", th:"อาศัยอยู่ ครุ่นคิดถึง", ex:"Try not to dwell on past mistakes." },
+  { id:"w116", word:"eccentric", pos:"adj", th:"ประหลาด แปลกไปจากปกติ", ex:"The professor was known for being eccentric." },
+  { id:"w117", word:"eclipse", pos:"v", th:"บดบัง ทำให้ด้อยลง", ex:"The new model quickly eclipsed the old one." },
+  { id:"w118", word:"edible", pos:"adj", th:"กินได้ รับประทานได้", ex:"Not every mushroom in the forest is edible." },
+  { id:"w119", word:"elaborate", pos:"v", th:"ขยายความ อธิบายเพิ่ม", ex:"Could you elaborate on that last point?" },
+  { id:"w120", word:"elicit", pos:"v", th:"กระตุ้นให้เกิดขึ้น ดึงออกมา", ex:"The question was meant to elicit honest feedback." },
+  { id:"w121", word:"eliminate", pos:"v", th:"กำจัด ขจัดออก", ex:"The new filter can eliminate most bacteria." },
+  { id:"w122", word:"elusive", pos:"adj", th:"จับต้องยาก หายาก", ex:"A cure for the disease remains elusive." },
+  { id:"w123", word:"emerge", pos:"v", th:"ปรากฏขึ้น โผล่ขึ้นมา", ex:"New evidence began to emerge after the trial." },
+  { id:"w124", word:"eminent", pos:"adj", th:"มีชื่อเสียงโดดเด่น", ex:"She is an eminent scholar in her field." },
+  { id:"w125", word:"empirical", pos:"adj", th:"เชิงประจักษ์ อ้างอิงจากข้อมูลจริง", ex:"The theory needs more empirical evidence." },
+  { id:"w126", word:"emulate", pos:"v", th:"เลียนแบบ ทำตามอย่าง", ex:"Young athletes often emulate their idols." },
+  { id:"w127", word:"encompass", pos:"v", th:"ครอบคลุม รวมถึง", ex:"The course will encompass both theory and practice." },
+  { id:"w128", word:"endeavor", pos:"n", th:"ความพยายาม ความมุ่งมั่น", ex:"The research project is a joint endeavor." },
+  { id:"w129", word:"endorse", pos:"v", th:"รับรอง สนับสนุน", ex:"Several celebrities endorse the new product." },
+  { id:"w130", word:"enhance", pos:"v", th:"เพิ่มพูน ยกระดับ", ex:"The update will enhance system performance." },
+  { id:"w131", word:"enormous", pos:"adj", th:"มหาศาล ใหญ่โต", ex:"The project required an enormous amount of funding." },
+  { id:"w132", word:"entail", pos:"v", th:"เกี่ยวข้องด้วย จำเป็นต้องมี", ex:"The job entails frequent travel abroad." },
+  { id:"w133", word:"envision", pos:"v", th:"มองเห็นภาพในอนาคต จินตนาการ", ex:"The founders envision a fully green campus." },
+  { id:"w134", word:"epitome", pos:"n", th:"ตัวอย่างที่สมบูรณ์แบบ", ex:"The building is the epitome of modern design." },
+  { id:"w135", word:"equate", pos:"v", th:"เทียบเท่ากับ ทำให้เท่ากัน", ex:"People often equate wealth with happiness." },
+  { id:"w136", word:"eradicate", pos:"v", th:"กำจัดให้หมดสิ้น", ex:"The vaccine helped eradicate the disease." },
+  { id:"w137", word:"erode", pos:"v", th:"กัดกร่อน สึกกร่อน", ex:"Coastal cliffs slowly erode over time." },
+  { id:"w138", word:"escalate", pos:"v", th:"ทวีความรุนแรง ยกระดับขึ้น", ex:"Tensions began to escalate quickly." },
+  { id:"w139", word:"essential", pos:"adj", th:"จำเป็นอย่างยิ่ง", ex:"Clean water is essential for good health." },
+  { id:"w140", word:"evoke", pos:"v", th:"กระตุ้นให้เกิดความรู้สึก", ex:"The old photo evoked many memories." },
+  { id:"w141", word:"exceed", pos:"v", th:"เกินกว่า มากกว่า", ex:"Sales figures exceeded expectations this quarter." },
+  { id:"w142", word:"exempt", pos:"adj", th:"ได้รับการยกเว้น", ex:"Nonprofits are exempt from certain taxes." },
+  { id:"w143", word:"exhaustive", pos:"adj", th:"ครบถ้วนละเอียด ถี่ถ้วน", ex:"The report gives an exhaustive analysis of the market." },
+  { id:"w144", word:"expedite", pos:"v", th:"เร่งให้เร็วขึ้น", ex:"Extra staff were hired to expedite the process." },
+  { id:"w145", word:"explicit", pos:"adj", th:"ชัดเจนแจ่มแจ้ง ตรงไปตรงมา", ex:"The instructions were explicit and easy to follow." },
+  { id:"w146", word:"exploit", pos:"v", th:"ใช้ประโยชน์ เอาเปรียบ", ex:"Some companies exploit cheap labor overseas." },
+  { id:"w147", word:"extract", pos:"v", th:"สกัด ดึงออกมา", ex:"Workers extract oil from the seeds." },
+  { id:"w148", word:"facilitate", pos:"v", th:"อำนวยความสะดวก ช่วยให้ง่ายขึ้น", ex:"The app helps facilitate communication between teams." },
+  { id:"w149", word:"faction", pos:"n", th:"กลุ่มย่อยในองค์กร ฝ่าย", ex:"The party split into two rival factions." },
+  { id:"w150", word:"fallacy", pos:"n", th:"ความเข้าใจผิด ตรรกะวิบัติ", ex:"It's a common fallacy that money buys happiness." },
+  { id:"w151", word:"feasibility", pos:"n", th:"ความเป็นไปได้", ex:"Engineers studied the feasibility of the new bridge." },
+  { id:"w152", word:"finite", pos:"adj", th:"มีจำกัด ไม่ไม่สิ้นสุด", ex:"Fossil fuels are a finite resource." },
+  { id:"w153", word:"fluctuate", pos:"v", th:"ผันผวน แปรปรวน", ex:"Prices tend to fluctuate throughout the year." },
+  { id:"w154", word:"forfeit", pos:"v", th:"เสียสิทธิ์ สูญเสียไป", ex:"Late applicants may forfeit their deposit." },
+  { id:"w155", word:"fragile", pos:"adj", th:"เปราะบาง แตกหักง่าย", ex:"Handle the glass items carefully; they are fragile." },
+  { id:"w156", word:"fundamental", pos:"adj", th:"พื้นฐาน สำคัญยิ่ง", ex:"Trust is fundamental to any relationship." },
+  { id:"w157", word:"generate", pos:"v", th:"สร้าง ก่อให้เกิด", ex:"Solar panels generate clean electricity." },
+  { id:"w158", word:"genuine", pos:"adj", th:"แท้จริง จริงใจ", ex:"She showed genuine concern for her neighbors." },
+  { id:"w159", word:"grim", pos:"adj", th:"น่าหดหู่ เลวร้าย", ex:"The doctor gave a grim prognosis." },
+  { id:"w160", word:"hazardous", pos:"adj", th:"เป็นอันตราย", ex:"The chemicals must be stored in a hazardous materials cabinet." },
+  { id:"w161", word:"hierarchy", pos:"n", th:"ลำดับชั้น", ex:"The company has a clear management hierarchy." },
+  { id:"w162", word:"hinder", pos:"v", th:"ขัดขวาง เป็นอุปสรรค", ex:"Poor internet access can hinder online learning." },
+  { id:"w163", word:"holistic", pos:"adj", th:"แบบองค์รวม", ex:"The clinic takes a holistic approach to health." },
+  { id:"w164", word:"humble", pos:"adj", th:"ถ่อมตน เรียบง่าย", ex:"Despite his success, he remained humble." },
+  { id:"w165", word:"hypothesis", pos:"n", th:"สมมติฐาน", ex:"The scientists tested their hypothesis carefully." },
+  { id:"w166", word:"identical", pos:"adj", th:"เหมือนกันทุกประการ", ex:"The twins wore identical outfits." },
+  { id:"w167", word:"ignite", pos:"v", th:"จุดไฟ ก่อให้เกิด", ex:"A single spark can ignite a wildfire." },
+  { id:"w168", word:"illuminate", pos:"v", th:"ให้แสงสว่าง อธิบายให้กระจ่าง", ex:"Streetlights illuminate the whole avenue at night." },
+  { id:"w169", word:"illustrate", pos:"v", th:"แสดงให้เห็น ยกตัวอย่างประกอบ", ex:"The chart helps illustrate the sales trend." },
+  { id:"w170", word:"immense", pos:"adj", th:"มหาศาล ใหญ่โตมาก", ex:"The project required an immense effort." },
+  { id:"w171", word:"imminent", pos:"adj", th:"ใกล้จะเกิดขึ้น", ex:"Forecasters warned that a storm was imminent." },
+  { id:"w172", word:"impede", pos:"v", th:"ขัดขวาง ทำให้ล่าช้า", ex:"Fallen trees impeded traffic on the highway." },
+  { id:"w173", word:"implement", pos:"v", th:"นำไปปฏิบัติ ดำเนินการ", ex:"The school will implement a new grading system." },
+  { id:"w174", word:"implicit", pos:"adj", th:"โดยนัย ไม่ได้พูดตรงๆ", ex:"There was an implicit agreement between them." },
+  { id:"w175", word:"impose", pos:"v", th:"กำหนดบังคับใช้ บังคับ", ex:"The government decided to impose new tariffs." },
+  { id:"w176", word:"incentive", pos:"n", th:"สิ่งจูงใจ แรงจูงใจ", ex:"The company offers an incentive for early sign-ups." },
+  { id:"w177", word:"incorporate", pos:"v", th:"รวมเข้าไว้ด้วยกัน ผนวก", ex:"The recipe incorporates several local ingredients." },
+  { id:"w178", word:"indispensable", pos:"adj", th:"ขาดไม่ได้ จำเป็นอย่างยิ่ง", ex:"Clean water is indispensable to public health." },
+  { id:"w179", word:"induce", pos:"v", th:"ชักนำให้เกิดขึ้น กระตุ้น", ex:"The medicine can induce drowsiness." },
+  { id:"w180", word:"inevitably", pos:"adv", th:"อย่างหลีกเลี่ยงไม่ได้", ex:"Costs will inevitably rise over time." },
+  { id:"w181", word:"infer", pos:"v", th:"อนุมาน สรุปเอา", ex:"From the data, we can infer a clear trend." },
+  { id:"w182", word:"infringe", pos:"v", th:"ละเมิด ล่วงล้ำ", ex:"The company was accused of infringing the patent." },
+  { id:"w183", word:"ingenious", pos:"adj", th:"ฉลาดหลักแหลม มีไหวพริบ", ex:"She came up with an ingenious solution." },
+  { id:"w184", word:"initiate", pos:"v", th:"ริเริ่ม เริ่มดำเนินการ", ex:"The city plans to initiate a recycling program." },
+  { id:"w185", word:"innovative", pos:"adj", th:"สร้างสรรค์ ริเริ่มสิ่งใหม่", ex:"The startup is known for its innovative products." },
+  { id:"w186", word:"insight", pos:"n", th:"ความเข้าใจอย่างลึกซึ้ง", ex:"The interview gave useful insight into customer needs." },
+  { id:"w187", word:"instigate", pos:"v", th:"ยุยง ก่อให้เกิดขึ้น", ex:"Officials say a rumor instigated the panic." },
+  { id:"w188", word:"integral", pos:"adj", th:"เป็นส่วนสำคัญที่ขาดไม่ได้", ex:"Teamwork is integral to the company's success." },
+  { id:"w189", word:"interpret", pos:"v", th:"ตีความ แปลความหมาย", ex:"Analysts interpret the data differently." },
+  { id:"w190", word:"intervene", pos:"v", th:"เข้าแทรกแซง", ex:"Teachers intervened to stop the argument." },
+  { id:"w191", word:"intricate", pos:"adj", th:"ซับซ้อน ประณีต", ex:"The watch has an intricate mechanical design." },
+  { id:"w192", word:"intrinsic", pos:"adj", th:"โดยเนื้อแท้ ติดตัวมาแต่กำเนิด", ex:"The painting has intrinsic artistic value." },
+  { id:"w193", word:"invariably", pos:"adv", th:"เสมอ อย่างไม่เปลี่ยนแปลง", ex:"He invariably arrives early to meetings." },
+  { id:"w194", word:"invoke", pos:"v", th:"อ้างถึง เรียกใช้", ex:"The lawyer chose to invoke an old law." },
+  { id:"w195", word:"irrational", pos:"adj", th:"ไร้เหตุผล", ex:"His fear of the elevator seemed irrational." },
+  { id:"w196", word:"isolate", pos:"v", th:"แยกออกมา ทำให้โดดเดี่ยว", ex:"Doctors had to isolate the infected patients." },
+  { id:"w197", word:"jeopardy", pos:"n", th:"ความเสี่ยงอันตราย", ex:"The delay put the whole project in jeopardy." },
+  { id:"w198", word:"justify", pos:"v", th:"ให้เหตุผลรองรับ ทำให้ชอบธรรม", ex:"He struggled to justify the extra expense." },
+  { id:"w199", word:"keen", pos:"adj", th:"กระตือรือร้น สนใจอย่างมาก", ex:"She is keen to join the debate club." },
+  { id:"w200", word:"lament", pos:"v", th:"คร่ำครวญ เสียใจต่อสิ่งที่สูญเสีย", ex:"Residents lament the loss of the old park." },
+  { id:"w201", word:"latent", pos:"adj", th:"แฝงอยู่ ซ่อนเร้น", ex:"The test revealed a latent talent for music." },
+  { id:"w202", word:"legitimate", pos:"adj", th:"ถูกต้องตามกฎหมาย ชอบธรรม", ex:"They raised a legitimate concern about safety." },
+  { id:"w203", word:"lethal", pos:"adj", th:"ร้ายแรงถึงชีวิต", ex:"The snake's venom can be lethal." },
+  { id:"w204", word:"leverage", pos:"v", th:"ใช้ประโยชน์จาก ใช้อำนาจต่อรอง", ex:"The company plans to leverage social media for marketing." },
+  { id:"w205", word:"liable", pos:"adj", th:"มีความรับผิดชอบตามกฎหมาย มีแนวโน้ม", ex:"The driver was found liable for the accident." },
+  { id:"w206", word:"linger", pos:"v", th:"อยู่ต่อ ค้างอยู่", ex:"The smell of coffee lingered in the kitchen." },
+  { id:"w207", word:"literacy", pos:"n", th:"การรู้หนังสือ ความสามารถในการอ่านเขียน", ex:"The program aims to improve adult literacy." },
+  { id:"w208", word:"lucid", pos:"adj", th:"ชัดเจน เข้าใจง่าย", ex:"She gave a lucid explanation of the theory." },
+  { id:"w209", word:"magnitude", pos:"n", th:"ขนาด ความรุนแรง", ex:"The earthquake had a magnitude of seven." },
+  { id:"w210", word:"mandate", pos:"n", th:"คำสั่ง อำนาจที่ได้รับมอบหมาย", ex:"The new leader has a clear mandate for reform." },
+  { id:"w211", word:"manipulate", pos:"v", th:"บิดเบือน ควบคุมด้วยเล่ห์เหลี่ยม", ex:"He tried to manipulate the results in his favor." },
+  { id:"w212", word:"marginal", pos:"adj", th:"เล็กน้อย ไม่มีนัยสำคัญ", ex:"The changes made only a marginal difference." },
+  { id:"w213", word:"meager", pos:"adj", th:"น้อยนิด ไม่เพียงพอ", ex:"They survived on a meager income." },
+  { id:"w214", word:"mediate", pos:"v", th:"เป็นตัวกลางไกล่เกลี่ย", ex:"A lawyer was asked to mediate the dispute." },
+  { id:"w215", word:"mere", pos:"adj", th:"เพียงแค่ เท่านั้น", ex:"It took a mere five minutes to fix." },
+  { id:"w216", word:"meticulous", pos:"adj", th:"ละเอียดรอบคอบ", ex:"She is meticulous about checking her work." },
+  { id:"w217", word:"migrate", pos:"v", th:"อพยพย้ายถิ่น", ex:"Many birds migrate south for the winter." },
+  { id:"w218", word:"minimal", pos:"adj", th:"น้อยที่สุด ต่ำสุด", ex:"The design uses minimal decoration." },
+  { id:"w219", word:"mitigate", pos:"v", th:"บรรเทา ลดความรุนแรง", ex:"New laws aim to mitigate flood damage." },
+  { id:"w220", word:"momentum", pos:"n", th:"แรงผลักดัน โมเมนตัม", ex:"The campaign is gaining momentum nationwide." },
+  { id:"w221", word:"mundane", pos:"adj", th:"ธรรมดา น่าเบื่อ", ex:"He was tired of the mundane daily routine." },
+  { id:"w222", word:"myriad", pos:"adj", th:"มากมายนับไม่ถ้วน", ex:"There are myriad reasons for the delay." },
+  { id:"w223", word:"naive", pos:"adj", th:"ไร้เดียงสา ขาดประสบการณ์", ex:"It was naive of them to trust the offer." },
+  { id:"w224", word:"negate", pos:"v", th:"หักล้าง ทำให้เป็นโมฆะ", ex:"One bad review can negate months of good ones." },
+  { id:"w225", word:"negligible", pos:"adj", th:"เล็กน้อยจนไม่สำคัญ", ex:"The price difference is negligible." },
+  { id:"w226", word:"neutral", pos:"adj", th:"เป็นกลาง", ex:"The referee must remain neutral throughout the match." },
+  { id:"w227", word:"nonetheless", pos:"adv", th:"อย่างไรก็ตาม กระนั้นก็ตาม", ex:"It rained; nonetheless, the event continued." },
+  { id:"w228", word:"notion", pos:"n", th:"ความคิด แนวคิด", ex:"The notion of a paperless office is now common." },
+  { id:"w229", word:"nourish", pos:"v", th:"บำรุงเลี้ยง หล่อเลี้ยง", ex:"A balanced diet helps nourish the body." },
+  { id:"w230", word:"nuisance", pos:"n", th:"สิ่งที่น่ารำคาญ", ex:"The constant noise became a real nuisance." },
+  { id:"w231", word:"obscure", pos:"adj", th:"คลุมเครือ ไม่ชัดเจน", ex:"The meaning of the old text remains obscure." },
+  { id:"w232", word:"obsolete", pos:"adj", th:"ล้าสมัย", ex:"Many old phone models are now obsolete." },
+  { id:"w233", word:"obstacle", pos:"n", th:"อุปสรรค", ex:"Funding was the biggest obstacle to the project." },
+  { id:"w234", word:"omit", pos:"v", th:"ละไว้ ตัดออก", ex:"Please don't omit any important details." },
+  { id:"w235", word:"onset", pos:"n", th:"จุดเริ่มต้น การเริ่มเกิดขึ้น", ex:"Doctors watch for the early onset of symptoms." },
+  { id:"w236", word:"optimal", pos:"adj", th:"เหมาะสมที่สุด", ex:"This is the optimal time to plant seeds." },
+  { id:"w237", word:"orient", pos:"v", th:"ปรับทิศทาง ทำความคุ้นเคย", ex:"New staff spend a day orienting themselves at the office." },
+  { id:"w238", word:"outweigh", pos:"v", th:"มีน้ำหนักมากกว่า สำคัญกว่า", ex:"The benefits clearly outweigh the risks." },
+  { id:"w239", word:"overwhelm", pos:"v", th:"ท่วมท้น จัดการไม่ไหว", ex:"The flood of emails began to overwhelm her." },
+  { id:"w240", word:"paradox", pos:"n", th:"ความขัดแย้งในตัวเอง ปรากฏการณ์ที่ดูขัดกัน", ex:"It's a paradox that busy people often have more free time." },
+  { id:"w241", word:"parallel", pos:"adj", th:"คู่ขนาน คล้ายคลึงกัน", ex:"The two events happened along a parallel timeline." },
+  { id:"w242", word:"partial", pos:"adj", th:"บางส่วน ไม่สมบูรณ์", ex:"Only a partial refund was given." },
+  { id:"w243", word:"passive", pos:"adj", th:"ตั้งรับ ไม่กระตือรือร้น", ex:"He took a passive role in the discussion." },
+  { id:"w244", word:"pending", pos:"adj", th:"อยู่ระหว่างรอดำเนินการ", ex:"The application is still pending approval." },
+  { id:"w245", word:"perceive", pos:"v", th:"รับรู้ มองเห็น", ex:"Customers perceive the brand as reliable." },
+  { id:"w246", word:"peripheral", pos:"adj", th:"รอบนอก ไม่ใช่ประเด็นหลัก", ex:"That issue is peripheral to the main discussion." },
+  { id:"w247", word:"persistent", pos:"adj", th:"ไม่ลดละ ต่อเนื่อง", ex:"Persistent rain flooded several roads." },
+  { id:"w248", word:"pertinent", pos:"adj", th:"เกี่ยวข้องโดยตรง", ex:"She asked several pertinent questions." },
+  { id:"w249", word:"pervasive", pos:"adj", th:"แพร่กระจายทั่วไป", ex:"Smartphones have become pervasive in daily life." },
+  { id:"w250", word:"plausible", pos:"adj", th:"ดูมีเหตุผลน่าเชื่อ", ex:"His explanation sounded plausible at first." },
+  { id:"w251", word:"plummet", pos:"v", th:"ดิ่งลงอย่างรวดเร็ว", ex:"Stock prices began to plummet overnight." },
+  { id:"w252", word:"portray", pos:"v", th:"นำเสนอภาพลักษณ์ พรรณนา", ex:"The film portrays the city in a positive light." },
+  { id:"w253", word:"pose", pos:"v", th:"ก่อให้เกิดความเสี่ยง ตั้งคำถาม", ex:"Loose wires pose a serious safety risk." },
+  { id:"w254", word:"potent", pos:"adj", th:"มีฤทธิ์แรง มีอิทธิพลมาก", ex:"The medicine is potent even in small doses." },
+  { id:"w255", word:"precede", pos:"v", th:"เกิดขึ้นก่อน มาก่อน", ex:"A short introduction will precede the main speech." },
+  { id:"w256", word:"precise", pos:"adj", th:"แม่นยำ ชัดเจน", ex:"We need a precise measurement of the room." },
+  { id:"w257", word:"predecessor", pos:"n", th:"ผู้ดำรงตำแหน่งก่อนหน้า รุ่นก่อน", ex:"The new model is faster than its predecessor." },
+  { id:"w258", word:"predominant", pos:"adj", th:"เด่นที่สุด เป็นส่วนใหญ่", ex:"Rice is the predominant crop in the region." },
+  { id:"w259", word:"prerequisite", pos:"n", th:"เงื่อนไขที่ต้องมีก่อน วิชาบังคับก่อน", ex:"Basic math is a prerequisite for this course." },
+  { id:"w260", word:"prevail", pos:"v", th:"มีชัยเหนือ เป็นที่แพร่หลาย", ex:"Fair play should always prevail in sports." },
+  { id:"w261", word:"prevalent", pos:"adj", th:"แพร่หลาย พบได้ทั่วไป", ex:"Remote work is more prevalent than before." },
+  { id:"w262", word:"proficient", pos:"adj", th:"เชี่ยวชาญ ชำนาญ", ex:"She is proficient in three languages." },
+  { id:"w263", word:"profound", pos:"adj", th:"ลึกซึ้ง สำคัญยิ่ง", ex:"The book had a profound effect on readers." },
+  { id:"w264", word:"prohibit", pos:"v", th:"ห้าม", ex:"The sign prohibits smoking in the building." },
+  { id:"w265", word:"prolong", pos:"v", th:"ยืดเวลาออกไป ทำให้ยาวนานขึ้น", ex:"Rest can help prolong recovery time." },
+  { id:"w266", word:"prominent", pos:"adj", th:"โดดเด่น มีชื่อเสียง", ex:"He is a prominent figure in local politics." },
+  { id:"w267", word:"prone", pos:"adj", th:"มีแนวโน้มเกิดขึ้นง่าย", ex:"This area is prone to flooding." },
+  { id:"w268", word:"proponent", pos:"n", th:"ผู้สนับสนุน", ex:"She is a strong proponent of renewable energy." },
+  { id:"w269", word:"provoke", pos:"v", th:"ยั่วยุ กระตุ้นให้เกิดปฏิกิริยา", ex:"The comment was meant to provoke a reaction." },
+  { id:"w270", word:"prudent", pos:"adj", th:"รอบคอบ ระมัดระวัง", ex:"It would be prudent to save some money each month." },
+  { id:"w271", word:"quantify", pos:"v", th:"วัดปริมาณ กำหนดเป็นตัวเลข", ex:"It's difficult to quantify customer satisfaction." },
+  { id:"w272", word:"query", pos:"n", th:"คำถาม ข้อสงสัย", ex:"Please send any query to the support team." },
+  { id:"w273", word:"radical", pos:"adj", th:"รุนแรงถึงราก สุดโต่ง", ex:"The company made a radical change in strategy." },
+  { id:"w274", word:"random", pos:"adj", th:"สุ่ม ไม่มีแบบแผน", ex:"Winners are chosen at random each week." },
+  { id:"w275", word:"rational", pos:"adj", th:"มีเหตุผล", ex:"Try to make a rational decision, not an emotional one." },
+  { id:"w276", word:"realm", pos:"n", th:"ขอบเขต อาณาจักร วงการ", ex:"The discovery opened a new realm of research." },
+  { id:"w277", word:"rebuke", pos:"v", th:"ตำหนิติเตียน", ex:"The coach rebuked the player for arguing with the referee." },
+  { id:"w278", word:"reciprocal", pos:"adj", th:"ต่างตอบแทนกัน", ex:"The two countries signed a reciprocal trade agreement." },
+  { id:"w279", word:"reconcile", pos:"v", th:"ทำให้ปรองดองกัน คืนดี", ex:"It took years for the brothers to reconcile." },
+  { id:"w280", word:"redundant", pos:"adj", th:"ซ้ำซ้อน เกินความจำเป็น", ex:"Some of the steps in the process are redundant." },
+  { id:"w281", word:"refine", pos:"v", th:"ปรับปรุงให้ดีขึ้น ทำให้บริสุทธิ์", ex:"The team continued to refine the design." },
+  { id:"w282", word:"refute", pos:"v", th:"หักล้าง โต้แย้งด้วยหลักฐาน", ex:"New evidence helped refute the old theory." },
+  { id:"w283", word:"regime", pos:"n", th:"ระบอบการปกครอง", ex:"The country was ruled by a strict regime for decades." },
+  { id:"w284", word:"reinforce", pos:"v", th:"เสริมความแข็งแรง ตอกย้ำ", ex:"Extra beams were added to reinforce the roof." },
+  { id:"w285", word:"reluctant", pos:"adj", th:"ลังเล ไม่เต็มใจ", ex:"He was reluctant to change his opinion." },
+  { id:"w286", word:"remedy", pos:"n", th:"วิธีแก้ไข ยารักษา", ex:"There is no simple remedy for the problem." },
+  { id:"w287", word:"render", pos:"v", th:"ทำให้กลายเป็น ส่งมอบ", ex:"The storm rendered the road impassable." },
+  { id:"w288", word:"replicate", pos:"v", th:"ทำซ้ำ จำลองแบบ", ex:"Scientists tried to replicate the earlier results." },
+  { id:"w289", word:"reside", pos:"v", th:"อาศัยอยู่", ex:"Most employees reside within the city limits." },
+  { id:"w290", word:"resilient", pos:"adj", th:"ฟื้นตัวไว ยืดหยุ่น", ex:"Children are often surprisingly resilient." },
+  { id:"w291", word:"resolve", pos:"v", th:"แก้ไข คลี่คลาย", ex:"The two sides agreed to resolve the conflict peacefully." },
+  { id:"w292", word:"restrain", pos:"v", th:"ยับยั้ง ควบคุม", ex:"He had to restrain himself from laughing." },
+  { id:"w293", word:"retain", pos:"v", th:"เก็บรักษาไว้ คงไว้", ex:"The company works hard to retain talented staff." },
+  { id:"w294", word:"retrieve", pos:"v", th:"ดึงกลับมา นำกลับคืนมา", ex:"The dog learned to retrieve the ball." },
+  { id:"w295", word:"revenue", pos:"n", th:"รายได้", ex:"Ticket sales are the theater's main source of revenue." },
+  { id:"w296", word:"rigid", pos:"adj", th:"เข้มงวด ไม่ยืดหยุ่น", ex:"The school has a rigid dress code." },
+  { id:"w297", word:"rigorous", pos:"adj", th:"เข้มงวดถี่ถ้วน", ex:"Applicants must pass a rigorous screening process." },
+  { id:"w298", word:"robust", pos:"adj", th:"แข็งแรงทนทาน", ex:"The bridge was built with a robust steel frame." },
+  { id:"w299", word:"rudimentary", pos:"adj", th:"ขั้นพื้นฐาน ยังไม่พัฒนา", ex:"He has only rudimentary knowledge of coding." },
+  { id:"w300", word:"salient", pos:"adj", th:"เด่นชัด สำคัญที่สุด", ex:"Let's focus on the most salient points." },
+  { id:"w301", word:"sanction", pos:"n", th:"บทลงโทษ การอนุมัติ", ex:"The country faced economic sanctions." },
+  { id:"w302", word:"scarce", pos:"adj", th:"ขาดแคลน หายาก", ex:"Clean water is scarce in some regions." },
+  { id:"w303", word:"scrutiny", pos:"n", th:"การตรวจสอบอย่างละเอียด", ex:"The deal came under close public scrutiny." },
+  { id:"w304", word:"segregate", pos:"v", th:"แยกออกจากกัน", ex:"Recyclable waste should be segregated from the rest." },
+  { id:"w305", word:"sequential", pos:"adj", th:"ตามลำดับ ต่อเนื่องกัน", ex:"The steps must be completed in sequential order." },
+  { id:"w306", word:"simultaneous", pos:"adj", th:"เกิดขึ้นพร้อมกัน", ex:"The two events happened almost simultaneous." },
+  { id:"w307", word:"skeptic", pos:"n", th:"ผู้ที่ไม่เชื่อง่าย", ex:"He remained a skeptic about the new theory." },
+  { id:"w308", word:"solitary", pos:"adj", th:"โดดเดี่ยว อยู่ลำพัง", ex:"She enjoys a solitary walk every morning." },
+  { id:"w309", word:"sparse", pos:"adj", th:"เบาบาง ห่างๆ", ex:"Vegetation is sparse in the desert region." },
+  { id:"w310", word:"speculate", pos:"v", th:"คาดเดา ตั้งข้อสันนิษฐาน", ex:"Analysts speculate about the company's next move." },
+  { id:"w311", word:"spontaneous", pos:"adj", th:"เกิดขึ้นเองตามธรรมชาติ ไม่ได้วางแผน", ex:"They took a spontaneous trip to the coast." },
+  { id:"w312", word:"stagnant", pos:"adj", th:"หยุดนิ่ง ไม่เคลื่อนไหว", ex:"The economy has been stagnant for two years." },
+  { id:"w313", word:"stark", pos:"adj", th:"ชัดเจนตัดกัน รุนแรงเด่นชัด", ex:"There is a stark contrast between the two designs." },
+  { id:"w314", word:"stem", pos:"v", th:"มีต้นเหตุมาจาก", ex:"The problem seems to stem from a lack of funding." },
+  { id:"w315", word:"stringent", pos:"adj", th:"เข้มงวดมาก", ex:"The lab follows stringent safety guidelines." },
+  { id:"w316", word:"subsequent", pos:"adj", th:"ที่ตามมาภายหลัง", ex:"Subsequent studies confirmed the initial findings." },
+  { id:"w317", word:"subside", pos:"v", th:"ลดลง สงบลง บรรเทาลง", ex:"The pain should subside within a few days." },
+  { id:"w318", word:"subsidy", pos:"n", th:"เงินอุดหนุน", ex:"Farmers receive a government subsidy each year." },
+  { id:"w319", word:"substantiate", pos:"v", th:"พิสูจน์ยืนยันด้วยหลักฐาน", ex:"The report failed to substantiate the claims." },
+  { id:"w320", word:"subtle", pos:"adj", th:"ละเอียดอ่อน สังเกตได้ยาก", ex:"There is a subtle difference between the two flavors." },
+  { id:"w321", word:"succinct", pos:"adj", th:"กระชับได้ใจความ", ex:"Please give a succinct summary of the report." },
+  { id:"w322", word:"sufficient", pos:"adj", th:"เพียงพอ", ex:"We have sufficient supplies for the trip." },
+  { id:"w323", word:"superficial", pos:"adj", th:"ผิวเผิน ไม่ลึกซึ้ง", ex:"His knowledge of the topic was rather superficial." },
+  { id:"w324", word:"supersede", pos:"v", th:"เข้ามาแทนที่", ex:"The new policy will supersede the old one." },
+  { id:"w325", word:"suppress", pos:"v", th:"ระงับ กดไว้", ex:"She tried to suppress a laugh during the meeting." },
+  { id:"w326", word:"surge", pos:"n", th:"การพุ่งขึ้นอย่างรวดเร็ว", ex:"There was a sudden surge in demand." },
+  { id:"w327", word:"surpass", pos:"v", th:"เหนือกว่า แซงหน้า", ex:"This year's profits surpass all previous records." },
+  { id:"w328", word:"susceptible", pos:"adj", th:"อ่อนไหวต่อ เสี่ยงต่อ", ex:"Young children are more susceptible to colds." },
+  { id:"w329", word:"sustain", pos:"v", th:"ค้ำจุน รักษาไว้", ex:"The economy needs new industries to sustain growth." },
+  { id:"w330", word:"symmetry", pos:"n", th:"ความสมมาตร", ex:"The building's design is admired for its symmetry." },
+  { id:"w331", word:"synthesize", pos:"v", th:"สังเคราะห์ รวมเข้าด้วยกัน", ex:"The report synthesizes data from several studies." },
+  { id:"w332", word:"tangible", pos:"adj", th:"จับต้องได้ เป็นรูปธรรม", ex:"The training produced tangible results." },
+  { id:"w333", word:"tedious", pos:"adj", th:"น่าเบื่อ ซ้ำซาก", ex:"Filing paperwork can be a tedious task." },
+  { id:"w334", word:"temper", pos:"v", th:"ทำให้ผ่อนคลายลง บรรเทา", ex:"Good news helped temper the earlier disappointment." },
+  { id:"w335", word:"tentative", pos:"adj", th:"ยังไม่แน่นอน ชั่วคราว", ex:"We have a tentative plan for next week." },
+  { id:"w336", word:"terminate", pos:"v", th:"ยุติ สิ้นสุด", ex:"The company decided to terminate the contract early." },
+  { id:"w337", word:"testimony", pos:"n", th:"คำให้การ คำยืนยัน", ex:"Her testimony helped clarify the events." },
+  { id:"w338", word:"thorough", pos:"adj", th:"ละเอียดถี่ถ้วน", ex:"The inspector did a thorough check of the building." },
+  { id:"w339", word:"thrive", pos:"v", th:"เจริญเติบโตดี รุ่งเรือง", ex:"These plants thrive in warm, humid climates." },
+  { id:"w340", word:"transient", pos:"adj", th:"ชั่วคราว ผ่านไปเร็ว", ex:"The joy of winning was transient." },
+  { id:"w341", word:"transition", pos:"n", th:"การเปลี่ยนผ่าน", ex:"The country is going through a political transition." },
+  { id:"w342", word:"trigger", pos:"v", th:"กระตุ้นให้เกิดขึ้น จุดชนวน", ex:"Loud noises can trigger a panic response." },
+  { id:"w343", word:"trivial", pos:"adj", th:"เล็กน้อย ไม่สำคัญ", ex:"They argued over a trivial matter." },
+  { id:"w344", word:"turbulent", pos:"adj", th:"ปั่นป่วน วุ่นวาย", ex:"The country went through a turbulent period of change." },
+  { id:"w345", word:"ubiquitous", pos:"adj", th:"มีอยู่ทุกหนทุกแห่ง", ex:"Smartphones have become ubiquitous worldwide." },
+  { id:"w346", word:"undermine", pos:"v", th:"บ่อนทำลาย ทำให้อ่อนแอลง", ex:"Constant criticism can undermine confidence." },
+  { id:"w347", word:"undertake", pos:"v", th:"รับดำเนินการ ลงมือทำ", ex:"The team will undertake a full review next month." },
+  { id:"w348", word:"uniform", pos:"adj", th:"เหมือนกันหมด สม่ำเสมอ", ex:"All the boxes are of uniform size." },
+  { id:"w349", word:"unprecedented", pos:"adj", th:"ไม่เคยเกิดขึ้นมาก่อน", ex:"The city saw unprecedented levels of rainfall." },
+  { id:"w350", word:"unveil", pos:"v", th:"เปิดเผย เผยโฉม", ex:"The company will unveil its new product next week." },
+  { id:"w351", word:"utilize", pos:"v", th:"ใช้ประโยชน์", ex:"The factory utilizes solar power to cut costs." },
+  { id:"w352", word:"vague", pos:"adj", th:"คลุมเครือ ไม่ชัดเจน", ex:"His answer was too vague to be useful." },
+  { id:"w353", word:"valid", pos:"adj", th:"ถูกต้องสมเหตุสมผล มีผลบังคับใช้", ex:"That is a valid point worth discussing." },
+  { id:"w354", word:"vanish", pos:"v", th:"หายไป สาบสูญ", ex:"The animal seemed to vanish into the forest." },
+  { id:"w355", word:"verify", pos:"v", th:"ตรวจสอบยืนยัน", ex:"Please verify your email address before continuing." },
+  { id:"w356", word:"versatile", pos:"adj", th:"ปรับตัวได้หลากหลาย อเนกประสงค์", ex:"This tool is versatile enough for many tasks." },
+  { id:"w357", word:"viable", pos:"adj", th:"เป็นไปได้จริง ทำได้จริง", ex:"Solar energy is now a viable option for many homes." },
+  { id:"w358", word:"vigorous", pos:"adj", th:"กระฉับกระเฉง เข้มแข็ง", ex:"The debate turned into a vigorous exchange of ideas." },
+  { id:"w359", word:"visible", pos:"adj", th:"มองเห็นได้ ชัดเจน", ex:"The mountain was clearly visible from the hotel." },
+  { id:"w360", word:"volatile", pos:"adj", th:"ผันผวน ไม่แน่นอน", ex:"The stock market has been quite volatile lately." },
+  { id:"w361", word:"warrant", pos:"v", th:"สมควรที่จะได้รับ รับประกัน", ex:"The situation does not warrant such a strong response." },
+  { id:"w362", word:"widespread", pos:"adj", th:"แพร่หลาย กว้างขวาง", ex:"There is widespread support for the new law." },
+  { id:"w363", word:"withhold", pos:"v", th:"ระงับไว้ ไม่ให้", ex:"The company decided to withhold the bonus this year." },
+  { id:"w364", word:"yield", pos:"v", th:"ให้ผลผลิต ยอมจำนน", ex:"The new method should yield better crop results." },
+  { id:"w365", word:"zealous", pos:"adj", th:"กระตือรือร้นมาก คลั่งไคล้", ex:"He is a zealous supporter of the local team." },
+  { id:"w366", word:"accommodate", pos:"v", th:"รองรับ อำนวยความสะดวก", ex:"The hall can accommodate up to five hundred guests." },
+  { id:"w367", word:"accountable", pos:"adj", th:"รับผิดชอบต่อสิ่งที่ทำ", ex:"Leaders should be accountable for their decisions." },
+  { id:"w368", word:"adhere", pos:"v", th:"ยึดมั่น ปฏิบัติตาม", ex:"All staff must adhere to the safety rules." },
+  { id:"w369", word:"advent", pos:"n", th:"การมาถึง การถือกำเนิด", ex:"The advent of the internet changed how people communicate." },
+  { id:"w370", word:"adversity", pos:"n", th:"ความทุกข์ยาก ความยากลำบาก", ex:"She stayed positive despite years of adversity." },
+  { id:"w371", word:"affirm", pos:"v", th:"ยืนยัน รับรอง", ex:"The court affirmed the earlier decision." },
+  { id:"w372", word:"aggravate", pos:"v", th:"ทำให้แย่ลง ทำให้รุนแรงขึ้น", ex:"Skipping meals can aggravate the illness." },
+  { id:"w373", word:"align", pos:"v", th:"ปรับให้สอดคล้องกัน", ex:"The new goals align with the company's mission." },
+  { id:"w374", word:"allocate", pos:"v", th:"จัดสรร แบ่งปัน", ex:"The city will allocate more funds to schools." },
+  { id:"w375", word:"alternate", pos:"v", th:"สลับกัน", ex:"The two teams alternate hosting the event each year." },
+  { id:"w376", word:"ambiguous", pos:"adj", th:"คลุมเครือ ตีความได้หลายแบบ", ex:"The instructions were somewhat ambiguous." },
+  { id:"w377", word:"amplify", pos:"v", th:"ขยาย ทำให้ชัดเจนขึ้น", ex:"Social media can amplify small local stories." },
+  { id:"w378", word:"analogy", pos:"n", th:"การเปรียบเทียบ อุปมา", ex:"The teacher used a simple analogy to explain gravity." },
+  { id:"w379", word:"annual", pos:"adj", th:"ประจำปี", ex:"The company holds an annual meeting every March." },
+  { id:"w380", word:"anomaly", pos:"n", th:"ความผิดปกติ สิ่งที่แตกต่างจากปกติ", ex:"Researchers noticed an anomaly in the data." },
+  { id:"w381", word:"apparent", pos:"adj", th:"ปรากฏชัด ดูเหมือนว่า", ex:"It became apparent that the plan would not work." },
+  { id:"w382", word:"applicable", pos:"adj", th:"นำมาใช้ได้ เกี่ยวข้อง", ex:"This rule is applicable to all new employees." },
+  { id:"w383", word:"appraise", pos:"v", th:"ประเมินค่า ตีราคา", ex:"An expert was hired to appraise the antique clock." },
+  { id:"w384", word:"apt", pos:"adj", th:"เหมาะสม มีแนวโน้ม", ex:"That is an apt description of the situation." },
+  { id:"w385", word:"arduous", pos:"adj", th:"ยากลำบาก ต้องใช้ความพยายามมาก", ex:"The hikers faced an arduous climb up the mountain." },
+  { id:"w386", word:"ascribe", pos:"v", th:"ระบุว่าเป็นของ ให้เครดิตแก่", ex:"Historians ascribe the invention to a local craftsman." },
+  { id:"w387", word:"assemble", pos:"v", th:"ประกอบ รวมกลุ่ม", ex:"Workers assemble the parts on a production line." },
+  { id:"w388", word:"assumption", pos:"n", th:"ข้อสันนิษฐาน สมมติฐาน", ex:"The plan was based on a false assumption." },
+  { id:"w389", word:"assure", pos:"v", th:"รับรอง ทำให้มั่นใจ", ex:"The manager assured staff their jobs were safe." },
+  { id:"w390", word:"attentive", pos:"adj", th:"ใส่ใจ ตั้งใจฟัง", ex:"The waiter was attentive throughout the meal." },
+  { id:"w391", word:"aptitude", pos:"n", th:"ความถนัด พรสวรรค์", ex:"She has a natural aptitude for languages." },
+  { id:"w392", word:"authorize", pos:"v", th:"อนุมัติ ให้อำนาจ", ex:"Only a manager can authorize the refund." },
+  { id:"w393", word:"avert", pos:"v", th:"ป้องกันไม่ให้เกิดขึ้น หลีกเลี่ยง", ex:"Quick action helped avert a major accident." },
+  { id:"w394", word:"await", pos:"v", th:"รอคอย", ex:"Passengers await their flight in the terminal." },
+  { id:"w395", word:"awry", pos:"adj", th:"ผิดพลาด คลาดเคลื่อนจากแผน", ex:"The plan went awry at the last minute." },
+  { id:"w396", word:"barren", pos:"adj", th:"แห้งแล้ง ไม่อุดมสมบูรณ์", ex:"The land was too barren to grow crops." },
+  { id:"w397", word:"barter", pos:"v", th:"แลกเปลี่ยนสินค้า", ex:"Villagers used to barter goods instead of using money." },
+  { id:"w398", word:"belated", pos:"adj", th:"ล่าช้า มาช้ากว่ากำหนด", ex:"She sent a belated birthday card." },
+  { id:"w399", word:"beneficial", pos:"adj", th:"เป็นประโยชน์", ex:"Regular exercise is beneficial for mental health." },
+  { id:"w400", word:"blur", pos:"v", th:"ทำให้เลือนราง พร่ามัว", ex:"Fast movement can blur the photo." },
+  { id:"w401", word:"bounty", pos:"n", th:"ความอุดมสมบูรณ์ รางวัลตอบแทน", ex:"The harvest brought a bounty of fresh vegetables." },
+  { id:"w402", word:"breach", pos:"n", th:"การละเมิด การฝ่าฝืน", ex:"The leak was considered a serious security breach." },
+  { id:"w403", word:"brisk", pos:"adj", th:"รวดเร็วกระฉับกระเฉง", ex:"They went for a brisk walk before breakfast." },
+  { id:"w404", word:"burgeoning", pos:"adj", th:"เติบโตอย่างรวดเร็ว", ex:"The city has a burgeoning tech industry." },
+  { id:"w405", word:"candid", pos:"adj", th:"ตรงไปตรงมา จริงใจ", ex:"He gave a candid account of what happened." },
+  { id:"w406", word:"capable", pos:"adj", th:"มีความสามารถ", ex:"She is capable of handling difficult clients." },
+  { id:"w407", word:"captivate", pos:"v", th:"ดึงดูดใจ ตรึงความสนใจ", ex:"The performance captivated the entire audience." },
+  { id:"w408", word:"cease", pos:"v", th:"หยุด ยุติ", ex:"The factory will cease operations next month." },
+  { id:"w409", word:"characteristic", pos:"n", th:"ลักษณะเฉพาะ", ex:"Curiosity is a key characteristic of good scientists." },
+  { id:"w410", word:"circulate", pos:"v", th:"หมุนเวียน แพร่กระจาย", ex:"Rumors began to circulate around the office." },
+  { id:"w411", word:"clarify", pos:"v", th:"ทำให้ชัดเจนขึ้น อธิบายให้กระจ่าง", ex:"Could you clarify what you mean by that?" },
+  { id:"w412", word:"clash", pos:"v", th:"ปะทะกัน ขัดแย้งกัน", ex:"The two policies clash on several points." },
+  { id:"w413", word:"coincide", pos:"v", th:"เกิดขึ้นพร้อมกัน สอดคล้องกัน", ex:"The festival will coincide with the school holiday." },
+  { id:"w414", word:"collapse", pos:"v", th:"ล้มครืน พังทลาย", ex:"The old bridge finally began to collapse." },
+  { id:"w415", word:"condense", pos:"v", th:"ทำให้กระชับ ย่อให้สั้นลง", ex:"Please condense the report into two pages." },
+  { id:"w416", word:"commend", pos:"v", th:"ชมเชย ยกย่อง", ex:"The principal commended the students for their effort." },
+  { id:"w417", word:"comparable", pos:"adj", th:"เทียบเคียงได้", ex:"The two products offer comparable performance." },
+  { id:"w418", word:"compile", pos:"v", th:"รวบรวม", ex:"Researchers compile data from multiple surveys." },
+  { id:"w419", word:"complement", pos:"v", th:"เสริมให้สมบูรณ์", ex:"The sauce nicely complements the grilled fish." },
+  { id:"w420", word:"comply", pos:"v", th:"ปฏิบัติตาม", ex:"All vehicles must comply with the new emission rules." },
+  { id:"w421", word:"conceal", pos:"v", th:"ปิดบัง ซ่อน", ex:"He tried to conceal his disappointment." },
+  { id:"w422", word:"concede", pos:"v", th:"ยอมรับ ยอมแพ้", ex:"She had to concede that the plan had flaws." },
+  { id:"w423", word:"concise", pos:"adj", th:"กระชับได้ใจความ", ex:"Keep your answers concise and to the point." },
+  { id:"w424", word:"condone", pos:"v", th:"ยอมรับได้ ไม่ถือสา", ex:"The school does not condone any form of bullying." },
+  { id:"w425", word:"confront", pos:"v", th:"เผชิญหน้า", ex:"She decided to confront the issue directly." },
+  { id:"w426", word:"congregate", pos:"v", th:"รวมตัวกัน", ex:"Fans began to congregate outside the stadium." },
+  { id:"w427", word:"conscientious", pos:"adj", th:"มีจิตสำนึก รับผิดชอบ", ex:"He is a conscientious worker who never misses deadlines." },
+  { id:"w428", word:"consensus", pos:"n", th:"ความเห็นพ้องต้องกัน", ex:"The team reached a consensus after a long debate." },
+  { id:"w429", word:"consequence", pos:"n", th:"ผลที่ตามมา", ex:"Every choice has a consequence." },
+  { id:"w430", word:"consolidate", pos:"v", th:"รวมให้เป็นหนึ่งเดียว ทำให้มั่นคง", ex:"The two departments will consolidate into one team." },
+  { id:"w431", word:"conspicuous", pos:"adj", th:"เด่นชัด สะดุดตา", ex:"The bright sign was conspicuous from far away." },
+  { id:"w432", word:"contemplate", pos:"v", th:"ไตร่ตรอง พิจารณา", ex:"She sat quietly to contemplate her next move." },
+  { id:"w433", word:"contempt", pos:"n", th:"ความดูหมิ่น การไม่ให้ความเคารพ", ex:"He spoke with clear contempt for the rules." },
+  { id:"w434", word:"contend", pos:"v", th:"โต้แย้ง ต่อสู้", ex:"Critics contend that the plan is unrealistic." },
+  { id:"w435", word:"contour", pos:"n", th:"เส้นรูปร่างขอบเขต", ex:"The map shows the contour of the coastline." },
+  { id:"w436", word:"convert", pos:"v", th:"เปลี่ยนแปลงให้เป็น แปลงรูป", ex:"The old factory was converted into apartments." },
+  { id:"w437", word:"convoluted", pos:"adj", th:"ซับซ้อนวกวน", ex:"The instructions were long and convoluted." },
+  { id:"w438", word:"cordon", pos:"v", th:"กั้นเขต ปิดกั้น", ex:"Police cordoned off the area after the accident." },
+  { id:"w439", word:"corroborate", pos:"v", th:"ยืนยันสนับสนุนด้วยหลักฐาน", ex:"Witness statements corroborate the officer's report." },
+  { id:"w440", word:"counterproductive", pos:"adj", th:"ให้ผลตรงข้ามกับที่ตั้งใจ", ex:"Working too much overtime can be counterproductive." },
+  { id:"w441", word:"credentials", pos:"n", th:"คุณสมบัติ วุฒิการศึกษา", ex:"The applicant has strong academic credentials." },
+  { id:"w442", word:"cripple", pos:"v", th:"ทำให้อ่อนแอลงมาก ทำให้พิการ", ex:"The strike could cripple the entire transport system." },
+  { id:"w443", word:"crucial", pos:"adj", th:"สำคัญยิ่ง จำเป็นอย่างยิ่ง", ex:"Sleep is crucial for good concentration." },
+  { id:"w444", word:"culminate", pos:"v", th:"จบลงด้วย ไปถึงจุดสูงสุด", ex:"The festival will culminate in a fireworks show." },
+  { id:"w445", word:"cursory", pos:"adj", th:"ผ่านๆ อย่างเร่งรีบ ไม่ละเอียด", ex:"He gave the report only a cursory glance." },
+  { id:"w446", word:"deduce", pos:"v", th:"อนุมาน สรุปโดยการให้เหตุผล", ex:"From the clues, she could deduce who left the note." },
+  { id:"w447", word:"deficiency", pos:"n", th:"ความบกพร่อง การขาดแคลน", ex:"The patient showed signs of a vitamin deficiency." },
+  { id:"w448", word:"defy", pos:"v", th:"ท้าทาย ฝ่าฝืน", ex:"The results seemed to defy explanation." },
+  { id:"w449", word:"denounce", pos:"v", th:"ประณาม กล่าวโทษ", ex:"Leaders were quick to denounce the attack." },
+  { id:"w450", word:"deplete", pos:"v", th:"ใช้จนหมด ทำให้ลดลง", ex:"Overfishing has begun to deplete local fish stocks." },
+  { id:"w451", word:"deprive", pos:"v", th:"ทำให้ขาด ไม่ให้", ex:"Lack of sleep can deprive the body of energy." },
+  { id:"w452", word:"desirable", pos:"adj", th:"เป็นที่ต้องการ น่าปรารถนา", ex:"A quiet location is desirable for a library." },
+  { id:"w453", word:"despair", pos:"n", th:"ความสิ้นหวัง", ex:"Many families felt despair after the flood." },
+  { id:"w454", word:"deteriorate", pos:"v", th:"เสื่อมลง แย่ลง", ex:"His health began to deteriorate over the winter." },
+  { id:"w455", word:"devise", pos:"v", th:"คิดค้นวางแผน", ex:"Engineers devised a clever way to save energy." },
+  { id:"w456", word:"dexterity", pos:"n", th:"ความชำนาญคล่องแคล่ว", ex:"The surgeon performed the operation with great dexterity." },
+  { id:"w457", word:"diagnose", pos:"v", th:"วินิจฉัย", ex:"Doctors were finally able to diagnose the illness." },
+  { id:"w458", word:"dictate", pos:"v", th:"กำหนด บงการ", ex:"Weather often dictates the day's activities." },
+  { id:"w459", word:"diligent", pos:"adj", th:"ขยันหมั่นเพียร", ex:"She is a diligent student who studies every day." },
+  { id:"w460", word:"diminish", pos:"v", th:"ลดลง ทำให้น้อยลง", ex:"Interest in the project began to diminish over time." },
+  { id:"w461", word:"discard", pos:"v", th:"ทิ้ง ละทิ้ง", ex:"Please discard any expired items from the fridge." },
+  { id:"w462", word:"disclose", pos:"v", th:"เปิดเผย", ex:"The company must disclose its financial results." },
+  { id:"w463", word:"discourage", pos:"v", th:"ทำให้ท้อแท้ ห้ามปราม", ex:"High prices discourage many people from buying." },
+  { id:"w464", word:"discrepancy", pos:"n", th:"ความไม่สอดคล้องกัน ความคลาดเคลื่อน", ex:"There is a discrepancy between the two reports." },
+  { id:"w465", word:"discriminate", pos:"v", th:"เลือกปฏิบัติ แยกแยะ", ex:"The law prohibits employers from discriminating by age." },
+  { id:"w466", word:"disintegrate", pos:"v", th:"แตกสลาย ผุพัง", ex:"Old newspapers can disintegrate if not stored properly." },
+  { id:"w467", word:"dismiss", pos:"v", th:"ปัดตก ไล่ออก", ex:"The teacher dismissed the idea as impractical." },
+  { id:"w468", word:"dispatch", pos:"v", th:"ส่งออกไป จัดส่ง", ex:"The company will dispatch the order today." },
+  { id:"w469", word:"dispense", pos:"v", th:"จ่ายแจก จัดสรรให้", ex:"The machine can dispense change automatically." },
+  { id:"w470", word:"disperse", pos:"v", th:"กระจายออกไป สลายตัว", ex:"Police asked the crowd to disperse peacefully." },
+  { id:"w471", word:"displace", pos:"v", th:"แทนที่ ทำให้ต้องย้ายที่", ex:"The flood displaced hundreds of families." },
+  { id:"w472", word:"dissent", pos:"n", th:"ความคิดเห็นที่ไม่เห็นด้วย", ex:"There was some dissent among committee members." },
+  { id:"w473", word:"distort", pos:"v", th:"บิดเบือน ทำให้ผิดรูป", ex:"The mirror seemed to distort every reflection." },
+  { id:"w474", word:"diverge", pos:"v", th:"แยกออกจากกัน ผันแปรไป", ex:"Their opinions began to diverge on the final decision." },
+  { id:"w475", word:"divert", pos:"v", th:"เบี่ยงเบน เปลี่ยนทิศทาง", ex:"Traffic was diverted due to the road closure." },
+  { id:"w476", word:"dwindling", pos:"adj", th:"ที่ค่อยๆ ลดลง", ex:"The village faced a dwindling water supply." },
+  { id:"w477", word:"eloquent", pos:"adj", th:"พูดจาไพเราะ คล่องแคล่ว", ex:"She gave an eloquent speech at the ceremony." },
+  { id:"w478", word:"embark", pos:"v", th:"เริ่มดำเนินการ ออกเดินทาง", ex:"The team is about to embark on a new project." },
+  { id:"w479", word:"embed", pos:"v", th:"ฝังตัวอยู่ ผนวกเข้าไว้", ex:"The chip is embedded inside the card." },
+  { id:"w480", word:"embody", pos:"v", th:"เป็นตัวแทนของ รวบรวมไว้ในตัว", ex:"The award embodies years of dedicated work." },
+  { id:"w481", word:"emphasize", pos:"v", th:"เน้นย้ำ", ex:"The coach emphasized the importance of teamwork." },
+  { id:"w482", word:"empower", pos:"v", th:"เสริมพลัง ให้อำนาจ", ex:"The program aims to empower young entrepreneurs." },
+  { id:"w483", word:"enact", pos:"v", th:"ตราขึ้นเป็นกฎหมาย บังคับใช้", ex:"Parliament voted to enact the new law." },
+  { id:"w484", word:"encounter", pos:"v", th:"พบเจอ ประสบกับ", ex:"Travelers often encounter delays during peak season." },
+  { id:"w485", word:"endure", pos:"v", th:"อดทน ทนทาน", ex:"The old bridge has endured many storms." },
+  { id:"w486", word:"engage", pos:"v", th:"ทำให้มีส่วนร่วม ดึงดูดความสนใจ", ex:"The teacher tried to engage every student in the discussion." },
+  { id:"w487", word:"enrich", pos:"v", th:"ทำให้อุดมสมบูรณ์ขึ้น เพิ่มคุณค่า", ex:"Travel can enrich a person's understanding of the world." },
+  { id:"w488", word:"ensue", pos:"v", th:"เกิดตามมา", ex:"A long silence ensued after the announcement." },
+  { id:"w489", word:"entice", pos:"v", th:"ล่อใจ ดึงดูดใจ", ex:"The discount was meant to entice new customers." },
+  { id:"w490", word:"entitle", pos:"v", th:"ให้สิทธิ์แก่", ex:"Members are entitled to a free monthly visit." },
+  { id:"w491", word:"equilibrium", pos:"n", th:"ภาวะสมดุล", ex:"The market eventually reached a new equilibrium." },
+  { id:"w492", word:"equivalent", pos:"adj", th:"เท่ากับ เทียบเท่า", ex:"One kilometer is roughly equivalent to 0.6 miles." },
+  { id:"w493", word:"erratic", pos:"adj", th:"ไม่แน่นอน แปรปรวน", ex:"His driving became erratic in the heavy rain." },
+  { id:"w494", word:"essence", pos:"n", th:"แก่นแท้ สาระสำคัญ", ex:"The essence of the plan is simplicity." },
+  { id:"w495", word:"evade", pos:"v", th:"หลบเลี่ยง หนี", ex:"The suspect tried to evade the police." },
+  { id:"w496", word:"evaluate", pos:"v", th:"ประเมิน", ex:"Teachers evaluate students through several assignments." },
+  { id:"w497", word:"eventual", pos:"adj", th:"ในที่สุด สุดท้าย", ex:"The eventual outcome pleased everyone involved." },
+  { id:"w498", word:"evident", pos:"adj", th:"เห็นได้ชัด ประจักษ์", ex:"Her talent was evident from a young age." },
+  { id:"w499", word:"evolve", pos:"v", th:"วิวัฒนาการ พัฒนาเปลี่ยนแปลง", ex:"The company's strategy has evolved over the years." },
+  { id:"w500", word:"exacerbate", pos:"v", th:"ทำให้แย่ลง ทำให้รุนแรงขึ้น", ex:"Poor drainage can exacerbate flooding in the area." },
+  { id:"w501", word:"exceptional", pos:"adj", th:"ยอดเยี่ยม พิเศษกว่าปกติ", ex:"She showed exceptional talent at a young age." },
+  { id:"w502", word:"excerpt", pos:"n", th:"ข้อความคัดตอน", ex:"The teacher read an excerpt from the novel." },
+  { id:"w503", word:"exclusive", pos:"adj", th:"เฉพาะกลุ่ม พิเศษเฉพาะ", ex:"The club offers exclusive access to members only." },
+  { id:"w504", word:"exemplify", pos:"v", th:"เป็นตัวอย่างของ แสดงให้เห็นชัด", ex:"This case exemplifies the challenges facing small farmers." },
+  { id:"w505", word:"exert", pos:"v", th:"ใช้ ออกแรง ส่งอิทธิพล", ex:"Parents exert a strong influence on children's habits." },
+  { id:"w506", word:"exhilarating", pos:"adj", th:"น่าตื่นเต้นเร้าใจ", ex:"The roller coaster ride was truly exhilarating." },
+  { id:"w507", word:"expedient", pos:"adj", th:"สะดวกรวดเร็ว เอื้อประโยชน์เฉพาะหน้า", ex:"They chose the most expedient solution available." },
+  { id:"w508", word:"expenditure", pos:"n", th:"รายจ่าย ค่าใช้จ่าย", ex:"The government reviewed its annual expenditure." },
+  { id:"w509", word:"explicable", pos:"adj", th:"อธิบายได้", ex:"The sudden change in behavior was not easily explicable." },
+  { id:"w510", word:"exponential", pos:"adj", th:"แบบทวีคูณ เพิ่มขึ้นอย่างรวดเร็ว", ex:"The app saw exponential growth in its first year." },
+  { id:"w511", word:"exquisite", pos:"adj", th:"ประณีตงดงาม", ex:"The museum displayed an exquisite collection of jewelry." },
+  { id:"w512", word:"extensive", pos:"adj", th:"กว้างขวาง ครอบคลุมมาก", ex:"The library has an extensive collection of old maps." },
+  { id:"w513", word:"external", pos:"adj", th:"ภายนอก", ex:"The company hired an external consultant for advice." },
+  { id:"w514", word:"extinct", pos:"adj", th:"สูญพันธุ์", ex:"Many species became extinct due to habitat loss." },
+  { id:"w515", word:"extraneous", pos:"adj", th:"ไม่เกี่ยวข้อง ไม่จำเป็น", ex:"Please remove any extraneous details from the summary." },
+  { id:"w516", word:"fabricated", pos:"adj", th:"ที่ถูกกุขึ้น แต่งขึ้นเป็นเท็จ", ex:"The story turned out to be entirely fabricated." },
+  { id:"w517", word:"facet", pos:"n", th:"แง่มุม ด้านหนึ่ง", ex:"Every facet of the project was carefully planned." },
+  { id:"w518", word:"factual", pos:"adj", th:"อ้างอิงจากข้อเท็จจริง", ex:"The report is entirely factual, with no personal opinion." },
+  { id:"w519", word:"faltering", pos:"adj", th:"สั่นคลอน ไม่มั่นคง", ex:"The economy showed faltering growth this quarter." },
+  { id:"w520", word:"fatigue", pos:"n", th:"ความอ่อนล้า ความเหนื่อยล้า", ex:"Long shifts often lead to mental fatigue." },
+  { id:"w521", word:"favorable", pos:"adj", th:"เป็นผลดี เอื้ออำนวย", ex:"The weather conditions were favorable for the flight." },
+  { id:"w522", word:"feat", pos:"n", th:"ความสำเร็จที่น่าทึ่ง วีรกรรม", ex:"Climbing the mountain alone was quite a feat." },
+  { id:"w523", word:"feeble", pos:"adj", th:"อ่อนแอ ไร้เรี่ยวแรง", ex:"He gave only a feeble attempt at an excuse." },
+  { id:"w524", word:"fervent", pos:"adj", th:"กระตือรือร้นแรงกล้า", ex:"She is a fervent supporter of animal rights." },
+  { id:"w525", word:"fiscal", pos:"adj", th:"เกี่ยวกับการคลัง งบประมาณ", ex:"The new fiscal year begins in October." },
+  { id:"w526", word:"flaw", pos:"n", th:"ข้อบกพร่อง จุดอ่อน", ex:"Engineers found a small flaw in the design." },
+  { id:"w527", word:"fleeting", pos:"adj", th:"ผ่านไปอย่างรวดเร็ว ชั่วครู่", ex:"They shared a fleeting glance across the room." },
+  { id:"w528", word:"flourish", pos:"v", th:"เจริญรุ่งเรือง งอกงาม", ex:"Local businesses began to flourish after the festival." },
+  { id:"w529", word:"forsake", pos:"v", th:"ละทิ้ง ทอดทิ้ง", ex:"He refused to forsake his old friends." },
+  { id:"w530", word:"fortify", pos:"v", th:"เสริมความแข็งแรง", ex:"The walls were fortified to withstand storms." },
+  { id:"w531", word:"foster", pos:"v", th:"ส่งเสริม บ่มเพาะ", ex:"The program aims to foster creativity among students." },
+  { id:"w532", word:"fraught", pos:"adj", th:"เต็มไปด้วย (ปัญหา/ความเสี่ยง)", ex:"The negotiations were fraught with tension." },
+  { id:"w533", word:"frivolous", pos:"adj", th:"ไร้สาระ ไม่จำเป็น", ex:"The judge dismissed the case as frivolous." },
+  { id:"w534", word:"frugal", pos:"adj", th:"ประหยัด มัธยัสถ์", ex:"They lead a frugal lifestyle to save for the future." },
+  { id:"w535", word:"futile", pos:"adj", th:"ไร้ผล เปล่าประโยชน์", ex:"Their efforts to fix the old machine were futile." },
+  { id:"w536", word:"galvanize", pos:"v", th:"กระตุ้นให้ลงมือทำ", ex:"The speech helped galvanize the community into action." },
+  { id:"w537", word:"garner", pos:"v", th:"รวบรวม ได้รับมา", ex:"The film garnered praise from critics worldwide." },
+  { id:"w538", word:"generic", pos:"adj", th:"ทั่วไป ไม่เฉพาะเจาะจง", ex:"The store sells generic brands at lower prices." },
+  { id:"w539", word:"genesis", pos:"n", th:"จุดกำเนิด ที่มา", ex:"The genesis of the idea came from a class project." },
+  { id:"w540", word:"glimpse", pos:"n", th:"การเห็นแวบหนึ่ง", ex:"We caught a glimpse of the mountains through the fog." },
+  { id:"w541", word:"gloomy", pos:"adj", th:"หม่นหมอง มืดครึ้ม", ex:"The forecast looks gloomy for the outdoor event." },
+  { id:"w542", word:"gradual", pos:"adj", th:"ค่อยเป็นค่อยไป", ex:"There has been a gradual increase in temperature." },
+  { id:"w543", word:"grievance", pos:"n", th:"ข้อร้องเรียน ความไม่พอใจ", ex:"Employees raised several grievances at the meeting." },
+  { id:"w544", word:"gruelling", pos:"adj", th:"เหน็ดเหนื่อยหนักหน่วง", ex:"The marathon was a gruelling test of endurance." },
+  { id:"w545", word:"habitual", pos:"adj", th:"เป็นนิสัย เคยชิน", ex:"He is a habitual latecomer to meetings." },
+  { id:"w546", word:"haphazard", pos:"adj", th:"สะเปะสะปะ ไม่มีระบบ", ex:"The files were stored in a haphazard manner." },
+  { id:"w547", word:"harness", pos:"v", th:"นำมาใช้ประโยชน์ ควบคุม", ex:"The plant is designed to harness wind energy." },
+  { id:"w548", word:"hasten", pos:"v", th:"เร่งให้เร็วขึ้น", ex:"Warm weather can hasten the ripening of fruit." },
+  { id:"w549", word:"haven", pos:"n", th:"ที่หลบภัย สถานที่ปลอดภัย", ex:"The island became a haven for wildlife." },
+  { id:"w550", word:"heed", pos:"v", th:"เชื่อฟัง ใส่ใจคำแนะนำ", ex:"Residents were urged to heed the storm warning." },
+  { id:"w551", word:"hindsight", pos:"n", th:"การหยั่งรู้ภายหลัง การมองย้อนกลับ", ex:"In hindsight, the plan had obvious flaws." },
+  { id:"w552", word:"hone", pos:"v", th:"ฝึกฝนให้เชี่ยวชาญขึ้น", ex:"She spent years honing her writing skills." },
+  { id:"w553", word:"hospitable", pos:"adj", th:"ต้อนรับขับสู้ เป็นมิตร", ex:"The villagers were warm and hospitable to visitors." },
+  { id:"w554", word:"hypothetical", pos:"adj", th:"เชิงสมมติ ยังไม่เกิดขึ้นจริง", ex:"Let's consider a hypothetical situation for a moment." },
+  { id:"w555", word:"idealistic", pos:"adj", th:"เพ้อฝัน ยึดถืออุดมคติ", ex:"His idealistic plans rarely matched reality." },
+  { id:"w556", word:"impending", pos:"adj", th:"ใกล้จะเกิดขึ้น", ex:"Dark clouds signaled the impending storm." },
+  { id:"w557", word:"idle", pos:"adj", th:"ว่างงาน เฉื่อยชา", ex:"The factory machines sat idle for weeks." },
+  { id:"w558", word:"immerse", pos:"v", th:"ดื่มด่ำ จมอยู่กับ", ex:"Students immerse themselves in the language during the trip." },
+  { id:"w559", word:"immune", pos:"adj", th:"มีภูมิคุ้มกัน ไม่ได้รับผลกระทบ", ex:"No industry is entirely immune to economic change." },
+  { id:"w560", word:"impartiality", pos:"n", th:"ความเป็นกลาง", ex:"Judges must act with complete impartiality." },
+  { id:"w561", word:"impassioned", pos:"adj", th:"เปี่ยมด้วยอารมณ์ แรงกล้า", ex:"She gave an impassioned speech about climate change." },
+  { id:"w562", word:"impeccable", pos:"adj", th:"ไร้ที่ติ สมบูรณ์แบบ", ex:"His manners were impeccable at the dinner." },
+  { id:"w563", word:"imperative", pos:"adj", th:"จำเป็นอย่างยิ่ง สำคัญมาก", ex:"It is imperative that we act now." },
+  { id:"w564", word:"impetus", pos:"n", th:"แรงกระตุ้น แรงผลักดัน", ex:"The award gave her career a new impetus." },
+  { id:"w565", word:"implausible", pos:"adj", th:"ไม่น่าเป็นไปได้", ex:"The witness gave a rather implausible account." },
+  { id:"w566", word:"impoverished", pos:"adj", th:"ยากจน ขัดสน", ex:"Aid was sent to impoverished communities after the flood." },
+  { id:"w567", word:"impromptu", pos:"adj", th:"ไม่ได้เตรียมล่วงหน้า ฉับพลัน", ex:"They held an impromptu meeting after the announcement." },
+  { id:"w568", word:"inadvertent", pos:"adj", th:"โดยไม่ตั้งใจ", ex:"The mistake was entirely inadvertent." },
+  { id:"w569", word:"inaugural", pos:"adj", th:"ครั้งแรกในการเปิดตัว", ex:"The inaugural meeting was held last Monday." },
+  { id:"w570", word:"incessant", pos:"adj", th:"ไม่หยุดหย่อน ต่อเนื่องไม่ขาดสาย", ex:"The incessant noise from construction disturbed the neighborhood." },
+  { id:"w571", word:"incidence", pos:"n", th:"อัตราการเกิดขึ้น ความถี่", ex:"The incidence of the disease dropped after the vaccine." },
+  { id:"w572", word:"inclination", pos:"n", th:"ความโน้มเอียง แนวโน้ม", ex:"She has a natural inclination toward science." },
+  { id:"w573", word:"incompatible", pos:"adj", th:"เข้ากันไม่ได้", ex:"The two software systems are incompatible." },
+  { id:"w574", word:"inconceivable", pos:"adj", th:"คิดไม่ถึง เป็นไปไม่ได้", ex:"It seemed inconceivable that the plan would fail." },
+  { id:"w575", word:"inconsistent", pos:"adj", th:"ไม่สอดคล้องกัน ไม่คงเส้นคงวา", ex:"His statements were inconsistent with the evidence." },
+  { id:"w576", word:"underscore", pos:"v", th:"เน้นย้ำ ทำให้เห็นชัดเจนขึ้น", ex:"The results underscore the need for more funding." },
+  { id:"w577", word:"incur", pos:"v", th:"ก่อให้เกิด (ค่าใช้จ่าย/ผลเสีย)", ex:"Late payments will incur an extra fee." },
+  { id:"w578", word:"indifferent", pos:"adj", th:"เฉยเมย ไม่สนใจ", ex:"He seemed indifferent to the outcome of the game." },
+  { id:"w579", word:"indignant", pos:"adj", th:"โกรธเคือง ไม่พอใจอย่างมีเหตุผล", ex:"She was indignant at being blamed unfairly." },
+  { id:"w580", word:"indistinguishable", pos:"adj", th:"แยกไม่ออก เหมือนกันจนแยกไม่ได้", ex:"The copy was indistinguishable from the original." },
+  { id:"w581", word:"inertia", pos:"n", th:"ความเฉื่อย ความเฉื่อยชา", ex:"Organizational inertia often slows down reform." },
+  { id:"w582", word:"infallible", pos:"adj", th:"ไม่มีวันผิดพลาด", ex:"No system is completely infallible." },
+  { id:"w583", word:"infuse", pos:"v", th:"แทรกซึม เติมเข้าไป", ex:"The teacher tried to infuse humor into every lesson." },
+  { id:"w584", word:"ingrained", pos:"adj", th:"ฝังรากลึก ติดเป็นนิสัย", ex:"The habit was deeply ingrained after years of practice." },
+  { id:"w585", word:"inherent", pos:"adj", th:"โดยธรรมชาติ ติดตัวมา", ex:"There is an inherent risk in every investment." },
+  { id:"w586", word:"inhibit", pos:"v", th:"ยับยั้ง ขัดขวาง", ex:"Fear can inhibit a person's ability to speak in public." },
+  { id:"w587", word:"innocuous", pos:"adj", th:"ไม่เป็นอันตราย ไม่มีพิษภัย", ex:"The comment seemed innocuous at the time." },
+  { id:"w588", word:"inordinate", pos:"adj", th:"มากเกินควร เกินขนาด", ex:"They spent an inordinate amount of time on the details." },
+  { id:"w589", word:"inquisitive", pos:"adj", th:"ช่างสงสัย อยากรู้อยากเห็น", ex:"The inquisitive child asked question after question." },
+  { id:"w590", word:"insatiable", pos:"adj", th:"ไม่รู้จักพอ ไม่อาจเติมเต็มได้", ex:"He has an insatiable curiosity about history." },
+  { id:"w591", word:"insolvent", pos:"adj", th:"ล้มละลาย ไม่สามารถชำระหนี้ได้", ex:"The company became insolvent after years of losses." },
+  { id:"w592", word:"instill", pos:"v", th:"ปลูกฝัง", ex:"Parents try to instill good values in their children." },
+  { id:"w593", word:"insular", pos:"adj", th:"คับแคบ แยกตัวโดดเดี่ยว", ex:"His insular attitude limited new opportunities." },
+  { id:"w594", word:"intangible", pos:"adj", th:"จับต้องไม่ได้ นามธรรม", ex:"Trust is an intangible but essential asset." },
+  { id:"w595", word:"integrity", pos:"n", th:"ความซื่อสัตย์ ความมั่นคงในหลักการ", ex:"She is respected for her honesty and integrity." },
+  { id:"w596", word:"intensify", pos:"v", th:"ทำให้รุนแรงขึ้น เข้มข้นขึ้น", ex:"The storm is expected to intensify overnight." },
+  { id:"w597", word:"interim", pos:"adj", th:"ชั่วคราว ระหว่างกาล", ex:"An interim manager was appointed until a replacement is found." },
+  { id:"w598", word:"intermittent", pos:"adj", th:"เป็นระยะๆ ไม่ต่อเนื่อง", ex:"There will be intermittent rain throughout the day." },
+  { id:"w599", word:"intimidate", pos:"v", th:"ข่มขู่ ทำให้หวาดกลัว", ex:"The manager's tone seemed designed to intimidate staff." },
+  { id:"w600", word:"intricacy", pos:"n", th:"ความซับซ้อนละเอียด", ex:"The intricacy of the design impressed the judges." },
+  { id:"w601", word:"intrusive", pos:"adj", th:"รุกล้ำ ก้าวก่าย", ex:"Some questions felt too intrusive for a first interview." },
+  { id:"w602", word:"inundate", pos:"v", th:"ท่วมท้น มากมายจนรับมือไม่ไหว", ex:"The office was inundated with complaints." },
+  { id:"w603", word:"invaluable", pos:"adj", th:"มีค่าอย่างยิ่ง ประเมินค่าไม่ได้", ex:"Her advice proved invaluable during the project." },
+  { id:"w604", word:"irate", pos:"adj", th:"โกรธจัด", ex:"Irate customers called about the delayed shipment." },
+  { id:"w605", word:"irreversible", pos:"adj", th:"ที่ย้อนกลับไม่ได้", ex:"The damage to the coral reef may be irreversible." },
+  { id:"w606", word:"jargon", pos:"n", th:"ศัพท์เฉพาะทาง", ex:"The manual was full of technical jargon." },
+  { id:"w607", word:"jolt", pos:"v", th:"ทำให้สะเทือนใจอย่างฉับพลัน", ex:"The news jolted the entire office into action." },
+  { id:"w608", word:"jubilant", pos:"adj", th:"ปีติยินดี ดีใจสุดขีด", ex:"The jubilant crowd celebrated the victory." },
+  { id:"w609", word:"judicious", pos:"adj", th:"รอบคอบมีวิจารณญาณ", ex:"He made a judicious decision to postpone the trip." },
+  { id:"w610", word:"juxtapose", pos:"v", th:"วางเทียบเคียงกัน", ex:"The exhibit juxtaposes old photos with modern ones." },
+  { id:"w611", word:"kindle", pos:"v", th:"จุดประกาย ก่อให้เกิด", ex:"The trip helped kindle her interest in geology." },
+  { id:"w612", word:"knack", pos:"n", th:"ความถนัดเฉพาะตัว", ex:"She has a knack for explaining difficult topics simply." },
+  { id:"w613", word:"lackluster", pos:"adj", th:"ไม่โดดเด่น ซบเซา", ex:"The team delivered a lackluster performance this season." },
+  { id:"w614", word:"landmark", pos:"adj", th:"สำคัญเป็นประวัติศาสตร์ จุดเปลี่ยนสำคัญ", ex:"The court made a landmark ruling on the case." },
+  { id:"w615", word:"lavish", pos:"adj", th:"หรูหราฟุ่มเฟือย", ex:"They held a lavish wedding at the hotel." },
+  { id:"w616", word:"leeway", pos:"n", th:"ช่องว่างให้ยืดหยุ่น", ex:"The manager gave the team some leeway on the deadline." },
+  { id:"w617", word:"legible", pos:"adj", th:"อ่านออกได้ชัดเจน", ex:"Please write your name in legible handwriting." },
+  { id:"w618", word:"leisurely", pos:"adj", th:"อย่างเรื่อยเปื่อยไม่เร่งรีบ", ex:"They took a leisurely walk along the beach." },
+  { id:"w619", word:"lethargic", pos:"adj", th:"เซื่องซึม ไม่มีเรี่ยวแรง", ex:"The hot weather made everyone feel lethargic." },
+  { id:"w620", word:"levy", pos:"v", th:"เก็บภาษีหรือค่าธรรมเนียม", ex:"The city plans to levy a new tax on plastic bags." },
+  { id:"w621", word:"liaison", pos:"n", th:"ผู้ประสานงาน การประสานงาน", ex:"She works as a liaison between the two departments." },
+  { id:"w622", word:"lofty", pos:"adj", th:"สูงส่ง ยิ่งใหญ่ (เป้าหมาย)", ex:"The company has lofty goals for next year." },
+  { id:"w623", word:"adept", pos:"adj", th:"เชี่ยวชาญชำนาญ", ex:"She is adept at solving complex problems quickly." },
+  { id:"w624", word:"luminous", pos:"adj", th:"เรืองแสง สว่างไสว", ex:"The clock had luminous hands that glowed at night." },
+  { id:"w625", word:"lure", pos:"v", th:"ล่อใจ ดึงดูด", ex:"Discounts are used to lure new customers." },
+  { id:"w626", word:"magnify", pos:"v", th:"ขยายให้ใหญ่ขึ้น ทำให้เด่นชัด", ex:"The lens can magnify objects up to ten times." },
+  { id:"w627", word:"maim", pos:"v", th:"ทำให้พิการ บาดเจ็บสาหัส", ex:"The accident could have maimed several workers." },
+  { id:"w628", word:"malleable", pos:"adj", th:"ยืดหยุ่นปรับเปลี่ยนได้ง่าย", ex:"Young minds tend to be more malleable." },
+  { id:"w629", word:"mar", pos:"v", th:"ทำให้เสียหาย ทำลายความสมบูรณ์", ex:"A single mistake marred an otherwise perfect performance." },
+  { id:"w630", word:"marred", pos:"adj", th:"ที่ถูกทำให้เสียหาย", ex:"The ceremony was marred by heavy rain." },
+  { id:"w631", word:"meddle", pos:"v", th:"ยุ่งเรื่องคนอื่น ก้าวก่าย", ex:"He tends to meddle in his coworkers' projects." },
+  { id:"w632", word:"mediocre", pos:"adj", th:"ธรรมดา ไม่โดดเด่น", ex:"The restaurant's food was mediocre at best." },
+  { id:"w633", word:"mend", pos:"v", th:"ซ่อมแซม ทำให้ดีขึ้น", ex:"They worked hard to mend their broken friendship." },
+  { id:"w634", word:"menial", pos:"adj", th:"งานต่ำต้อยไม่ต้องใช้ทักษะ", ex:"She started with menial tasks before her promotion." },
+  { id:"w635", word:"merger", pos:"n", th:"การควบรวมกิจการ", ex:"The two banks announced a merger last week." },
+  { id:"w636", word:"meticulously", pos:"adv", th:"อย่างละเอียดรอบคอบ", ex:"The room was meticulously cleaned before the guests arrived." },
+  { id:"w637", word:"mimic", pos:"v", th:"เลียนแบบ", ex:"The robot can mimic human facial expressions." },
+  { id:"w638", word:"minute", pos:"adj", th:"เล็กมาก ละเอียดยิบ", ex:"Even the most minute detail was checked twice." },
+  { id:"w639", word:"misconception", pos:"n", th:"ความเข้าใจผิด", ex:"There is a common misconception about how vaccines work." },
+  { id:"w640", word:"mishap", pos:"n", th:"อุบัติเหตุเล็กน้อย เหตุขัดข้อง", ex:"Despite a small mishap, the event went smoothly." },
+  { id:"w641", word:"modest", pos:"adj", th:"พอประมาณ ถ่อมตน", ex:"The company reported modest growth this year." },
+  { id:"w642", word:"momentous", pos:"adj", th:"สำคัญยิ่งใหญ่", ex:"Signing the treaty was a momentous occasion." },
+  { id:"w643", word:"monotonous", pos:"adj", th:"ซ้ำซากจำเจ", ex:"The factory work felt monotonous after a while." },
+  { id:"w644", word:"morale", pos:"n", th:"ขวัญกำลังใจ", ex:"The bonus helped boost employee morale." },
+  { id:"w645", word:"gratify", pos:"v", th:"ทำให้พึงพอใจ", ex:"The award gratified everyone who worked on the project." },
+  { id:"w646", word:"mutual", pos:"adj", th:"ร่วมกัน ต่างฝ่ายต่างมี", ex:"They reached a mutual agreement after negotiations." },
+  { id:"w647", word:"negligent", pos:"adj", th:"ประมาทเลินเล่อ", ex:"The driver was found negligent in the accident." },
+  { id:"w648", word:"nimble", pos:"adj", th:"คล่องแคล่วว่องไว", ex:"The dancer moved with nimble, precise steps." },
+  { id:"w649", word:"nostalgic", pos:"adj", th:"คิดถึงอดีต อาลัยอาวรณ์", ex:"The old song made her feel nostalgic." },
+  { id:"w650", word:"notorious", pos:"adj", th:"ขึ้นชื่อในทางไม่ดี", ex:"The area is notorious for heavy traffic." },
+  { id:"w651", word:"nuance", pos:"n", th:"ความแตกต่างเล็กน้อยแต่สำคัญ", ex:"A good translator understands every nuance of meaning." },
+  { id:"w652", word:"nurturing", pos:"adj", th:"เอื้ออาทร บ่มเพาะ", ex:"The school provides a nurturing environment for young children." },
+  { id:"w653", word:"obligatory", pos:"adj", th:"บังคับ จำเป็นต้องทำ", ex:"Wearing a helmet is obligatory on the construction site." },
+  { id:"w654", word:"oblivious", pos:"adj", th:"ไม่รู้ตัว ไม่ทันสังเกต", ex:"He was completely oblivious to the danger nearby." },
+  { id:"w655", word:"veil", pos:"v", th:"ปกปิดซ่อนไว้", ex:"Fog began to veil the outline of the hills." },
+  { id:"w656", word:"obsessive", pos:"adj", th:"ครุ่นคิดหมกมุ่นมากเกินไป", ex:"He became obsessive about checking the data twice." },
+  { id:"w657", word:"obstinate", pos:"adj", th:"ดื้อรั้น ไม่ยอมเปลี่ยนใจ", ex:"The obstinate child refused to try new food." },
+  { id:"w658", word:"obtain", pos:"v", th:"ได้มา จัดหามาได้", ex:"Applicants must obtain a permit before starting work." },
+  { id:"w659", word:"offset", pos:"v", th:"ชดเชย หักกลบ", ex:"The extra sales helped offset the earlier losses." },
+  { id:"w660", word:"ominous", pos:"adj", th:"ลางร้าย น่าวิตก", ex:"Dark clouds gave an ominous sign of the coming storm." },
+  { id:"w661", word:"onerous", pos:"adj", th:"หนักหน่วงเป็นภาระ", ex:"The new regulations placed an onerous burden on small firms." },
+  { id:"w662", word:"opaque", pos:"adj", th:"ทึบแสง คลุมเครือ", ex:"The glass was opaque, blocking any view inside." },
+  { id:"w663", word:"opt", pos:"v", th:"เลือก ตัดสินใจเลือก", ex:"Many students opt to study abroad for a semester." },
+  { id:"w664", word:"optimistic", pos:"adj", th:"มองโลกในแง่ดี", ex:"She remained optimistic despite the setbacks." },
+  { id:"w665", word:"orchestrate", pos:"v", th:"จัดวางแผนอย่างประณีต", ex:"The event was carefully orchestrated by the organizers." },
+  { id:"w666", word:"ordeal", pos:"n", th:"ประสบการณ์ที่ทรมานยากลำบาก", ex:"Surviving the storm was a terrifying ordeal." },
+  { id:"w667", word:"outdated", pos:"adj", th:"ล้าสมัย", ex:"Their computer systems are hopelessly outdated." },
+  { id:"w668", word:"outlast", pos:"v", th:"อยู่ได้นานกว่า", ex:"The old bridge has outlasted several newer ones." },
+  { id:"w669", word:"outrage", pos:"n", th:"ความโกรธแค้นอย่างรุนแรง", ex:"The decision sparked public outrage." },
+  { id:"w670", word:"overhaul", pos:"v", th:"ปรับปรุงใหม่ทั้งหมด", ex:"The company plans to overhaul its entire website." },
+  { id:"w671", word:"overlap", pos:"v", th:"ทับซ้อนกัน", ex:"The two schedules overlap on Wednesday afternoon." },
+  { id:"w672", word:"overrate", pos:"v", th:"ประเมินค่าสูงเกินไป", ex:"Critics say the film is overrated." },
+  { id:"w673", word:"oversee", pos:"v", th:"ควบคุมดูแล", ex:"She was hired to oversee the entire construction project." },
+  { id:"w674", word:"overshadow", pos:"v", th:"บดบังรัศมี ทำให้ด้อยลง", ex:"The scandal overshadowed the team's achievements." },
+  { id:"w675", word:"overt", pos:"adj", th:"เปิดเผยชัดเจน ไม่ปิดบัง", ex:"There was overt tension between the two leaders." },
+  { id:"w676", word:"pacify", pos:"v", th:"ทำให้สงบลง", ex:"The manager tried to pacify the angry customer." },
+  { id:"w677", word:"painstaking", pos:"adj", th:"ทุ่มเทอย่างพิถีพิถัน", ex:"The restoration required painstaking attention to detail." },
+  { id:"w678", word:"palpable", pos:"adj", th:"รู้สึกได้ชัดเจน", ex:"The tension in the room was palpable." },
+  { id:"w679", word:"paramount", pos:"adj", th:"สำคัญที่สุด", ex:"Safety is of paramount importance on the site." },
+  { id:"w680", word:"parch", pos:"v", th:"ทำให้แห้งผาก", ex:"The sun had parched the fields after weeks of drought." },
+  { id:"w681", word:"partake", pos:"v", th:"เข้าร่วม มีส่วนร่วม", ex:"Guests were invited to partake in the celebration." },
+  { id:"w682", word:"passable", pos:"adj", th:"พอใช้ได้ ผ่านเกณฑ์", ex:"His French is passable, though not fluent." },
+  { id:"w683", word:"paucity", pos:"n", th:"ความขาดแคลน มีน้อยเกินไป", ex:"There is a paucity of data on the rare species." },
+  { id:"w684", word:"peculiar", pos:"adj", th:"แปลกประหลาด เฉพาะตัว", ex:"There was a peculiar smell coming from the kitchen." },
+  { id:"w685", word:"peer", pos:"n", th:"เพื่อนร่วมรุ่น ผู้มีสถานะเทียบเท่ากัน", ex:"Teenagers often feel pressure from their peers." },
+  { id:"w686", word:"penalize", pos:"v", th:"ลงโทษ", ex:"Late submissions will be penalized." },
+  { id:"w687", word:"penchant", pos:"n", th:"ความชื่นชอบเป็นพิเศษ", ex:"She has a penchant for old jazz records." },
+  { id:"w688", word:"perilous", pos:"adj", th:"อันตราย เสี่ยงภัย", ex:"The mountain path was steep and perilous." },
+  { id:"w689", word:"perpetual", pos:"adj", th:"ต่อเนื่องไม่หยุด ถาวร", ex:"The city seems to be in a state of perpetual construction." },
+  { id:"w690", word:"perplex", pos:"v", th:"ทำให้งุนงงสับสน", ex:"The strange results perplexed the researchers." },
+  { id:"w691", word:"persevere", pos:"v", th:"อดทนมุ่งมั่นทำต่อไป", ex:"Despite many setbacks, she chose to persevere." },
+  { id:"w692", word:"pertain", pos:"v", th:"เกี่ยวข้องกับ", ex:"These rules pertain only to new employees." },
+  { id:"w693", word:"petty", pos:"adj", th:"จุกจิกไม่สำคัญ ใจแคบ", ex:"They argued over a petty misunderstanding." },
+  { id:"w694", word:"philanthropic", pos:"adj", th:"ใจบุญ เพื่อการกุศล", ex:"The foundation supports many philanthropic causes." },
+  { id:"w695", word:"pinnacle", pos:"n", th:"จุดสูงสุด", ex:"Winning the award was the pinnacle of her career." },
+  { id:"w696", word:"pioneer", pos:"n", th:"ผู้บุกเบิก", ex:"She is considered a pioneer in renewable energy research." },
+  { id:"w697", word:"pivotal", pos:"adj", th:"สำคัญยิ่งต่อผลลัพธ์ เป็นจุดเปลี่ยน", ex:"That meeting was pivotal to the company's future." },
+  { id:"w698", word:"placate", pos:"v", th:"ทำให้สงบใจ เอาใจ", ex:"The airline offered vouchers to placate frustrated passengers." },
+  { id:"w699", word:"plight", pos:"n", th:"สภาพที่ยากลำบาก ความทุกข์ยาก", ex:"The documentary highlighted the plight of refugees." },
+  { id:"w700", word:"poised", pos:"adj", th:"พร้อมที่จะ มั่นคงสง่างาม", ex:"The company is poised for rapid growth next year." },
+  { id:"w701", word:"ponder", pos:"v", th:"ครุ่นคิดพิจารณา", ex:"She sat by the window to ponder her next move." },
+  { id:"w702", word:"populous", pos:"adj", th:"มีประชากรหนาแน่น", ex:"Tokyo is one of the most populous cities in the world." },
+  { id:"w703", word:"precarious", pos:"adj", th:"ไม่มั่นคง เสี่ยงต่อการล้มเหลว", ex:"The company is in a precarious financial position." },
+  { id:"w704", word:"precocious", pos:"adj", th:"เก่งกาจเกินวัย", ex:"The precocious child was reading novels by age six." },
+  { id:"w705", word:"predicament", pos:"n", th:"สถานการณ์ลำบาก", ex:"He found himself in an awkward predicament." },
+  { id:"w706", word:"preliminary", pos:"adj", th:"เบื้องต้น ขั้นแรก", ex:"The preliminary results look promising." },
+  { id:"w707", word:"premise", pos:"n", th:"ข้อสมมติฐานตั้งต้น", ex:"The argument is based on a flawed premise." },
+  { id:"w708", word:"preoccupied", pos:"adj", th:"ครุ่นคิดกังวลอยู่กับเรื่องหนึ่ง", ex:"She seemed preoccupied with work all weekend." },
+  { id:"w709", word:"prestige", pos:"n", th:"เกียรติภูมิ ชื่อเสียง", ex:"The university enjoys great academic prestige." },
+  { id:"w710", word:"pristine", pos:"adj", th:"บริสุทธิ์ไม่ถูกแตะต้อง สะอาดสมบูรณ์", ex:"The lake remains pristine, far from any development." },
+  { id:"w711", word:"proactive", pos:"adj", th:"เชิงรุก ริเริ่มก่อน", ex:"The team took a proactive approach to solving problems." },
+  { id:"w712", word:"probe", pos:"v", th:"สืบสวน ตรวจสอบเชิงลึก", ex:"Investigators continue to probe the cause of the fire." },
+  { id:"w713", word:"procrastinate", pos:"v", th:"ผัดวันประกันพรุ่ง", ex:"He tends to procrastinate until the deadline is near." },
+  { id:"w714", word:"prodigious", pos:"adj", th:"มหาศาล น่าทึ่ง", ex:"She has shown prodigious talent in mathematics." },
+  { id:"w715", word:"profane", pos:"adj", th:"หยาบคาย ไม่เคารพสิ่งศักดิ์สิทธิ์", ex:"He apologized for using profane language." },
+  { id:"w716", word:"profuse", pos:"adj", th:"มากมายล้นเหลือ", ex:"She offered profuse apologies for the delay." },
+  { id:"w717", word:"prohibitive", pos:"adj", th:"สูงจนขัดขวางไม่ให้ทำ", ex:"The cost of the trip was prohibitive for most students." },
+  { id:"w718", word:"prolific", pos:"adj", th:"มีผลงานมากมาย ให้ผลผลิตสูง", ex:"He is a prolific writer with over thirty novels." },
+  { id:"w719", word:"prompt", pos:"adj", th:"ทันทีทันใด รวดเร็ว", ex:"We appreciate your prompt reply to our request." },
+  { id:"w720", word:"propel", pos:"v", th:"ผลักดันไปข้างหน้า", ex:"The invention propelled the company to new success." },
+  { id:"w721", word:"proscribe", pos:"v", th:"ห้ามอย่างเป็นทางการ", ex:"The rules proscribe the use of phones during exams." },
+  { id:"w722", word:"prosper", pos:"v", th:"เจริญรุ่งเรือง ประสบความสำเร็จ", ex:"Small businesses began to prosper after the reforms." },
+  { id:"w723", word:"protracted", pos:"adj", th:"ยืดเยื้อยาวนาน", ex:"The two sides were locked in a protracted dispute." },
+  { id:"w724", word:"provisional", pos:"adj", th:"ชั่วคราว ยังไม่เป็นทางการ", ex:"They reached a provisional agreement pending review." },
+  { id:"w725", word:"incite", pos:"v", th:"ยุยงปลุกปั่นให้เกิดขึ้น", ex:"The rumor helped incite panic among residents." },
+  { id:"w726", word:"prudence", pos:"n", th:"ความรอบคอบระมัดระวัง", ex:"Financial prudence helped the family through hard times." },
+  { id:"w727", word:"pugnacious", pos:"adj", th:"ชอบทะเลาะ ก้าวร้าว", ex:"His pugnacious attitude made negotiations difficult." },
+  { id:"w728", word:"punctual", pos:"adj", th:"ตรงต่อเวลา", ex:"She is always punctual for meetings." },
+  { id:"w729", word:"pundit", pos:"n", th:"ผู้เชี่ยวชาญที่ให้ความเห็น", ex:"Political pundits debated the election results all night." },
+  { id:"w730", word:"quaint", pos:"adj", th:"น่ารักแบบเก่าแก่ แปลกตาน่าสนใจ", ex:"They stayed at a quaint little inn by the sea." },
+  { id:"w731", word:"quandary", pos:"n", th:"สถานการณ์กลืนไม่เข้าคายไม่ออก", ex:"She was in a quandary about which job offer to accept." },
+  { id:"w732", word:"quell", pos:"v", th:"ระงับปราบปราม ทำให้สงบ", ex:"Police were called in to quell the disturbance." },
+  { id:"w733", word:"quintessential", pos:"adj", th:"เป็นตัวอย่างที่ดีที่สุดของสิ่งใดสิ่งหนึ่ง", ex:"The small cafe is a quintessential example of local charm." },
+  { id:"w734", word:"rally", pos:"v", th:"รวมพลัง ระดมกำลัง", ex:"Volunteers rallied to help after the flood." },
+  { id:"w735", word:"ramification", pos:"n", th:"ผลกระทบที่ตามมา", ex:"The policy change had far-reaching ramifications." },
+  { id:"w736", word:"rampant", pos:"adj", th:"แพร่ระบาดควบคุมไม่ได้", ex:"Corruption was rampant in the old system." },
+  { id:"w737", word:"rash", pos:"adj", th:"หุนหันพลันแล่น ไม่ยั้งคิด", ex:"He made a rash decision without consulting anyone." },
+  { id:"w738", word:"ratify", pos:"v", th:"ให้สัตยาบัน อนุมัติอย่างเป็นทางการ", ex:"The senate voted to ratify the new treaty." },
+  { id:"w739", word:"raucous", pos:"adj", th:"อึกทึกเสียงดังวุ่นวาย", ex:"A raucous crowd gathered outside the stadium." },
+  { id:"w740", word:"ravage", pos:"v", th:"ทำลายล้าง", ex:"The wildfire ravaged thousands of acres of forest." },
+  { id:"w741", word:"reciprocate", pos:"v", th:"ตอบแทน ทำตอบกลับ", ex:"She reciprocated his kindness with a thoughtful gift." },
+  { id:"w742", word:"reckless", pos:"adj", th:"สะเพร่า ไม่ยั้งคิดถึงผลที่ตามมา", ex:"Reckless driving caused the accident." },
+  { id:"w743", word:"reconstruct", pos:"v", th:"สร้างขึ้นใหม่ ปะติดปะต่อขึ้นใหม่", ex:"Historians tried to reconstruct the events of that day." },
+  { id:"w744", word:"redress", pos:"n", th:"การเยียวยาแก้ไข", ex:"Victims sought redress through the courts." },
+  { id:"w745", word:"refrain", pos:"v", th:"ละเว้น อดกลั้นจากการทำ", ex:"Please refrain from using your phone during the film." },
+  { id:"w746", word:"rebut", pos:"v", th:"โต้แย้งคัดค้านด้วยเหตุผล", ex:"The lawyer rebutted every point made by the opposition." },
+  { id:"w747", word:"regress", pos:"v", th:"ถดถอย เสื่อมลงกลับไปสภาพเดิม", ex:"Without practice, language skills tend to regress." },
+  { id:"w748", word:"reiterate", pos:"v", th:"กล่าวย้ำอีกครั้ง", ex:"Let me reiterate the importance of following safety rules." },
+  { id:"w749", word:"relegate", pos:"v", th:"ลดฐานะลง ผลักไปอยู่ตำแหน่งรอง", ex:"The old model was relegated to a minor role in the lineup." },
+  { id:"w750", word:"relinquish", pos:"v", th:"สละ ยกให้", ex:"He agreed to relinquish control of the company." },
+  { id:"w751", word:"reminisce", pos:"v", th:"หวนคิดถึงความหลัง", ex:"They sat on the porch and reminisced about old times." },
+  { id:"w752", word:"remnant", pos:"n", th:"เศษที่เหลืออยู่", ex:"Only a few remnants of the old wall still stand." },
+  { id:"w753", word:"remorse", pos:"n", th:"ความสำนึกผิด", ex:"He showed genuine remorse for the mistake." },
+  { id:"w754", word:"renounce", pos:"v", th:"สละ ประกาศเลิก", ex:"He decided to renounce his claim to the property." },
+  { id:"w755", word:"renowned", pos:"adj", th:"มีชื่อเสียงเลื่องลือ", ex:"The city is renowned for its historic architecture." },
+  { id:"w756", word:"repel", pos:"v", th:"ผลักไส ขับไล่ ทำให้รังเกียจ", ex:"The spray helps repel mosquitoes effectively." },
+  { id:"w757", word:"replenish", pos:"v", th:"เติมให้เต็มอีกครั้ง", ex:"Staff replenish the shelves every morning." },
+  { id:"w758", word:"repository", pos:"n", th:"คลังเก็บข้อมูลหรือสิ่งของ", ex:"The library serves as a repository of local history." },
+  { id:"w759", word:"reprimand", pos:"v", th:"ตำหนิตักเตือนอย่างเป็นทางการ", ex:"The employee was reprimanded for the error." },
+  { id:"w760", word:"repudiate", pos:"v", th:"ปฏิเสธไม่ยอมรับ", ex:"The company repudiated the accusations entirely." },
+  { id:"w761", word:"resentment", pos:"n", th:"ความไม่พอใจสะสม", ex:"Years of unfair treatment led to deep resentment." },
+  { id:"w762", word:"inhabit", pos:"v", th:"อยู่อาศัยใน", ex:"Few people inhabit the remote northern islands." },
+  { id:"w763", word:"resonate", pos:"v", th:"สอดคล้องกินใจ สะท้อนความรู้สึก", ex:"Her story resonated with many readers." },
+  { id:"w764", word:"restive", pos:"adj", th:"กระวนกระวายอยากเคลื่อนไหว", ex:"The audience grew restive during the long delay." },
+  { id:"w765", word:"retaliate", pos:"v", th:"ตอบโต้แก้แค้น", ex:"The country threatened to retaliate with new tariffs." },
+  { id:"w766", word:"reticent", pos:"adj", th:"ไม่ค่อยพูด สงวนท่าที", ex:"He was reticent about discussing his past." },
+  { id:"w767", word:"revere", pos:"v", th:"เคารพนับถืออย่างสูง", ex:"The teacher is revered by generations of students." },
+  { id:"w768", word:"revitalize", pos:"v", th:"ฟื้นฟูให้กลับมามีชีวิตชีวา", ex:"The new mayor hopes to revitalize the downtown area." },
+  { id:"w769", word:"rhetoric", pos:"n", th:"วาทศิลป์ การใช้ถ้อยคำโน้มน้าว", ex:"His speech was full of powerful rhetoric." },
+  { id:"w770", word:"ridicule", pos:"v", th:"เยาะเย้ยล้อเลียน", ex:"He was afraid his idea would be ridiculed." },
+  { id:"w771", word:"rife", pos:"adj", th:"แพร่หลายเต็มไปด้วย (สิ่งไม่ดี)", ex:"The neighborhood was once rife with crime." },
+  { id:"w772", word:"rigor", pos:"n", th:"ความเข้มงวดถี่ถ้วน", ex:"The course is known for its academic rigor." },
+  { id:"w773", word:"sturdy", pos:"adj", th:"แข็งแรงทนทาน", ex:"They built a sturdy fence around the garden." },
+  { id:"w774", word:"rousing", pos:"adj", th:"ปลุกเร้าใจ กระตุ้นอารมณ์", ex:"The coach gave a rousing speech before the final match." },
+  { id:"w775", word:"rueful", pos:"adj", th:"เศร้าเสียใจอย่างสำนึกผิด", ex:"He gave a rueful smile after admitting his mistake." },
+  { id:"w776", word:"rummage", pos:"v", th:"ค้นหาอย่างวุ่นวาย", ex:"She rummaged through the drawer looking for her keys." },
+  { id:"w777", word:"ruthless", pos:"adj", th:"โหดเหี้ยมไร้ความปรานี", ex:"The company gained a reputation as a ruthless competitor." },
+  { id:"w778", word:"sabotage", pos:"v", th:"ก่อวินาศกรรม ทำลายอย่างจงใจ", ex:"Investigators believe someone tried to sabotage the machine." },
+  { id:"w779", word:"sagacious", pos:"adj", th:"ฉลาดหลักแหลม มีวิจารณญาณดี", ex:"The elder gave sagacious advice to the young leader." },
+  { id:"w780", word:"sanctuary", pos:"n", th:"สถานที่ลี้ภัย เขตอนุรักษ์", ex:"The reserve serves as a sanctuary for endangered birds." },
+  { id:"w781", word:"sanguine", pos:"adj", th:"มองในแง่ดี มีความหวัง", ex:"She remained sanguine about the company's future." },
+  { id:"w782", word:"savvy", pos:"adj", th:"เชี่ยวชาญมีไหวพริบ", ex:"He is a tech-savvy entrepreneur." },
+  { id:"w783", word:"scant", pos:"adj", th:"น้อยนิดแทบไม่พอ", ex:"There was scant evidence to support the claim." },
+  { id:"w784", word:"scorn", pos:"n", th:"ความดูถูกเหยียดหยาม", ex:"His idea was met with scorn from the committee." },
+  { id:"w785", word:"scrupulous", pos:"adj", th:"พิถีพิถันมีจริยธรรมสูง", ex:"She is scrupulous about following every safety rule." },
+  { id:"w786", word:"secluded", pos:"adj", th:"สันโดษห่างไกลผู้คน", ex:"They found a secluded beach far from the crowds." },
+  { id:"w787", word:"sedentary", pos:"adj", th:"อยู่กับที่ ไม่ค่อยเคลื่อนไหว", ex:"A sedentary lifestyle can increase health risks." },
+  { id:"w788", word:"seep", pos:"v", th:"ซึมผ่าน ไหลซึม", ex:"Water began to seep through the cracked wall." },
+  { id:"w789", word:"semblance", pos:"n", th:"ลักษณะภายนอกที่คล้ายกับ", ex:"They tried to maintain a semblance of normalcy." },
+  { id:"w790", word:"serene", pos:"adj", th:"สงบเยือกเย็น", ex:"The lake looked serene in the early morning light." },
+  { id:"w791", word:"shrewd", pos:"adj", th:"เฉียบแหลมมีไหวพริบทางธุรกิจ", ex:"She made a shrewd investment decision." },
+  { id:"w792", word:"skirmish", pos:"n", th:"การปะทะกันเล็กน้อย", ex:"A minor skirmish broke out at the border." },
+  { id:"w793", word:"solace", pos:"n", th:"ความปลอบประโลมใจ", ex:"She found solace in reading during difficult times." },
+  { id:"w794", word:"somber", pos:"adj", th:"เศร้าหมองครุ่นคิด", ex:"A somber mood filled the room after the news." },
+  { id:"w795", word:"soothe", pos:"v", th:"ปลอบโยนทำให้สงบ", ex:"The gentle music helped soothe the crying baby." },
+  { id:"w796", word:"sordid", pos:"adj", th:"สกปรกน่ารังเกียจทางศีลธรรม", ex:"The report revealed the sordid details of the scandal." },
+  { id:"w797", word:"sovereign", pos:"adj", th:"มีอำนาจอธิปไตยเป็นอิสระ", ex:"The country became a sovereign nation in 1948." },
+  { id:"w798", word:"sporadic", pos:"adj", th:"เป็นครั้งคราวไม่สม่ำเสมอ", ex:"There were sporadic power outages during the storm." },
+  { id:"w799", word:"squander", pos:"v", th:"ผลาญใช้อย่างสิ้นเปลือง", ex:"He squandered his savings on risky investments." },
+  { id:"w800", word:"staunch", pos:"adj", th:"ยืนหยัดมั่นคงเหนียวแน่น", ex:"She is a staunch supporter of the environmental cause." },
+  { id:"w801", word:"steadfast", pos:"adj", th:"มั่นคงไม่เปลี่ยนแปลง", ex:"He remained steadfast in his beliefs despite criticism." },
+  { id:"w802", word:"stealthy", pos:"adj", th:"แอบซ่อนเงียบเชียบ", ex:"The cat moved with stealthy, silent steps." },
+  { id:"w803", word:"stern", pos:"adj", th:"เข้มงวดจริงจัง", ex:"The teacher gave a stern warning about lateness." },
+  { id:"w804", word:"stifle", pos:"v", th:"กดข่มยับยั้ง", ex:"Strict rules can stifle creativity in the workplace." },
+  { id:"w805", word:"stipulate", pos:"v", th:"ระบุเงื่อนไขไว้ชัดเจน", ex:"The contract stipulates a thirty-day notice period." },
+  { id:"w806", word:"strenuous", pos:"adj", th:"ต้องออกแรงมาก หนักหน่วง", ex:"The hike involved several strenuous climbs." },
+  { id:"w807", word:"exacting", pos:"adj", th:"พิถีพิถันเข้มงวดมาก", ex:"The chef has exacting standards for every dish." },
+  { id:"w808", word:"stymie", pos:"v", th:"ขัดขวางทำให้ติดขัด", ex:"Budget cuts stymied the research project." },
+  { id:"w809", word:"subdued", pos:"adj", th:"เงียบสงบข่มไว้", ex:"The mood in the room was subdued after the news." },
+  { id:"w810", word:"submissive", pos:"adj", th:"ยอมจำนน ว่านอนสอนง่าย", ex:"The dog was calm and submissive around strangers." },
+  { id:"w811", word:"subordinate", pos:"adj", th:"อยู่ในลำดับรอง ด้อยกว่า", ex:"The task is subordinate to more urgent priorities." },
+  { id:"w812", word:"subtlety", pos:"n", th:"ความละเอียดอ่อน", ex:"The film is admired for the subtlety of its story." },
+  { id:"w813", word:"succumb", pos:"v", th:"ยอมแพ้ พ่ายแพ้ต่อ", ex:"He finally succumbed to the pressure and agreed." },
+  { id:"w814", word:"sullen", pos:"adj", th:"หน้าบึ้งไม่พอใจเงียบๆ", ex:"The teenager gave a sullen response to every question." },
+  { id:"w815", word:"summon", pos:"v", th:"เรียกตัวมา ระดม", ex:"She had to summon all her courage before speaking." },
+  { id:"w816", word:"superfluous", pos:"adj", th:"เกินความจำเป็น ฟุ่มเฟือย", ex:"The editor removed several superfluous paragraphs." },
+  { id:"w817", word:"supplant", pos:"v", th:"เข้าแทนที่", ex:"Digital maps have largely supplanted paper ones." },
+  { id:"w818", word:"surmise", pos:"v", th:"คาดเดาจากหลักฐานที่มี", ex:"From the clues, detectives surmised the motive." },
+  { id:"w819", word:"surmount", pos:"v", th:"เอาชนะข้ามผ่านอุปสรรค", ex:"The team managed to surmount every obstacle." },
+  { id:"w820", word:"surreptitious", pos:"adj", th:"แอบทำอย่างลับๆ", ex:"He took a surreptitious glance at his phone." },
+  { id:"w821", word:"swindle", pos:"v", th:"หลอกลวงโกงเงิน", ex:"Several investors were swindled out of their savings." },
+  { id:"w822", word:"sycophant", pos:"n", th:"ผู้ประจบสอพลอ", ex:"He was surrounded by sycophants who never disagreed." },
+  { id:"w823", word:"tacit", pos:"adj", th:"โดยนัย ไม่ต้องพูดออกมา", ex:"There was a tacit understanding between the two sides." },
+  { id:"w824", word:"taciturn", pos:"adj", th:"พูดน้อยเงียบขรึม", ex:"The old fisherman was a taciturn man of few words." },
+  { id:"w825", word:"tally", pos:"v", th:"นับรวมยอด ตรงกัน", ex:"The final numbers tally with the initial estimate." },
+  { id:"w826", word:"tantamount", pos:"adj", th:"เท่ากับ เสมือนกับ", ex:"Ignoring the warning was tantamount to inviting disaster." },
+  { id:"w827", word:"tarnish", pos:"v", th:"ทำให้มัวหมอง เสื่อมเสีย", ex:"The scandal tarnished the company's reputation." },
+  { id:"w828", word:"tedium", pos:"n", th:"ความน่าเบื่อหน่ายซ้ำซาก", ex:"Music helped break the tedium of the long drive." },
+  { id:"w829", word:"temperate", pos:"adj", th:"พอประมาณ อากาศอบอุ่นพอดี", ex:"The region has a mild, temperate climate." },
+  { id:"w830", word:"tenacious", pos:"adj", th:"ยึดมั่นไม่ยอมแพ้", ex:"She is tenacious in pursuing her research goals." },
+  { id:"w831", word:"tenuous", pos:"adj", th:"บางเบาไม่มั่นคง", ex:"The link between the two events is tenuous at best." },
+  { id:"w832", word:"terse", pos:"adj", th:"สั้นห้วน", ex:"His reply was terse and gave no explanation." },
+  { id:"w833", word:"thrifty", pos:"adj", th:"ประหยัดรู้จักออม", ex:"Being thrifty helped them save for a house." },
+  { id:"w834", word:"thwart", pos:"v", th:"ขัดขวางไม่ให้สำเร็จ", ex:"Poor weather thwarted the rescue mission." },
+  { id:"w835", word:"timid", pos:"adj", th:"ขี้อายขี้กลัว", ex:"The timid new student rarely spoke in class." },
+  { id:"w836", word:"tirade", pos:"n", th:"คำพูดตำหนิยาวเหยียดด้วยความโกรธ", ex:"He launched into a tirade about the poor service." },
+  { id:"w837", word:"torment", pos:"v", th:"ทรมานทำให้ทุกข์ทรมาน", ex:"The uncertainty tormented her for weeks." },
+  { id:"w838", word:"tout", pos:"v", th:"โฆษณาชักชวนอย่างกระตือรือร้น", ex:"The company touted its product as revolutionary." },
+  { id:"w839", word:"tranquil", pos:"adj", th:"สงบเงียบ", ex:"The garden offers a tranquil escape from the city." },
+  { id:"w840", word:"transcend", pos:"v", th:"ก้าวข้ามเหนือขีดจำกัด", ex:"Great art can transcend cultural boundaries." },
+  { id:"w841", word:"transgress", pos:"v", th:"ฝ่าฝืนล่วงละเมิด", ex:"The player transgressed the rules of the competition." },
+  { id:"w842", word:"transpire", pos:"v", th:"เกิดขึ้น (มักใช้เมื่อเปิดเผยภายหลัง)", ex:"It later transpired that the report was inaccurate." },
+  { id:"w843", word:"trepidation", pos:"n", th:"ความหวาดหวั่นกังวลใจ", ex:"She entered the interview room with trepidation." },
+  { id:"w844", word:"trifling", pos:"adj", th:"เล็กน้อยไม่สำคัญ", ex:"They argued over a trifling matter of no real value." },
+  { id:"w845", word:"tumultuous", pos:"adj", th:"วุ่นวายปั่นป่วน", ex:"The country went through a tumultuous period of change." },
+  { id:"w846", word:"tyranny", pos:"n", th:"การปกครองแบบเผด็จการกดขี่", ex:"The novel depicts life under political tyranny." },
+  { id:"w847", word:"unanimous", pos:"adj", th:"เป็นเอกฉันท์", ex:"The committee reached a unanimous decision." },
+  { id:"w848", word:"unassuming", pos:"adj", th:"ถ่อมตัวไม่โอ้อวด", ex:"Despite his success, he remained unassuming." },
+  { id:"w849", word:"unbridled", pos:"adj", th:"ไม่ถูกควบคุมไร้ขอบเขต", ex:"The children ran with unbridled excitement." },
+  { id:"w850", word:"unequivocal", pos:"adj", th:"ชัดเจนไม่คลุมเครือ", ex:"The board gave an unequivocal answer to the proposal." },
+  { id:"w851", word:"unfathomable", pos:"adj", th:"ลึกซึ้งเกินจะเข้าใจ", ex:"The scale of the disaster was almost unfathomable." },
+  { id:"w852", word:"unfeasible", pos:"adj", th:"ทำไม่ได้จริง เป็นไปไม่ได้", ex:"The original plan turned out to be unfeasible." },
+  { id:"w853", word:"unflinching", pos:"adj", th:"ไม่หวั่นไหวเด็ดเดี่ยว", ex:"She gave an unflinching account of the events." },
+  { id:"w854", word:"ungainly", pos:"adj", th:"เก้งก้างไม่งดงาม", ex:"The young giraffe took its first ungainly steps." },
+  { id:"w855", word:"unify", pos:"v", th:"รวมให้เป็นหนึ่งเดียว", ex:"The new leader worked to unify the divided party." },
+  { id:"w856", word:"unobtrusive", pos:"adj", th:"ไม่โดดเด่นไม่รบกวน", ex:"The security cameras were small and unobtrusive." },
+  { id:"w857", word:"singular", pos:"adj", th:"โดดเด่นผิดปกติ เฉพาะตัว", ex:"Her singular talent set her apart from other dancers." },
+  { id:"w858", word:"unravel", pos:"v", th:"คลี่คลาย แก้ปมปัญหา", ex:"Detectives slowly unraveled the mystery." },
+  { id:"w859", word:"unrelenting", pos:"adj", th:"ไม่ผ่อนปรนต่อเนื่องไม่หยุด", ex:"The unrelenting heat lasted for weeks." },
+  { id:"w860", word:"unscrupulous", pos:"adj", th:"ไร้จริยธรรมเอาเปรียบผู้อื่น", ex:"Unscrupulous vendors sold fake products online." },
+  { id:"w861", word:"unwarranted", pos:"adj", th:"ไม่มีเหตุผลรองรับ ไม่สมควร", ex:"The criticism seemed unwarranted given the results." },
+  { id:"w862", word:"upheaval", pos:"n", th:"ความปั่นป่วนเปลี่ยนแปลงครั้งใหญ่", ex:"The country faced political upheaval after the election." },
+  { id:"w863", word:"uphold", pos:"v", th:"ยึดมั่นสนับสนุนรักษาไว้", ex:"The court upheld the earlier ruling." },
+  { id:"w864", word:"upright", pos:"adj", th:"ซื่อตรงมีคุณธรรม", ex:"He is known as an upright and honest official." },
+  { id:"w865", word:"uproot", pos:"v", th:"ถอนรากถอนโคน ทำให้ต้องย้ายถิ่น", ex:"The war uprooted thousands of families." },
+  { id:"w866", word:"usher", pos:"v", th:"นำเข้าสู่ ปูทางให้เกิดขึ้น", ex:"The new law ushered in a wave of reforms." },
+  { id:"w867", word:"utmost", pos:"adj", th:"สูงสุดที่สุด", ex:"Handle the documents with the utmost care." },
+  { id:"w868", word:"vacillate", pos:"v", th:"ลังเลใจไปมา", ex:"He continued to vacillate between the two job offers." },
+  { id:"w869", word:"vagrant", pos:"n", th:"คนเร่ร่อนไม่มีที่อยู่แน่นอน", ex:"The shelter provides meals for local vagrants." },
+  { id:"w870", word:"validate", pos:"v", th:"ยืนยันความถูกต้อง", ex:"The results were validated by an independent lab." },
+  { id:"w871", word:"vanquish", pos:"v", th:"เอาชนะปราบให้พ่ายแพ้", ex:"The story tells how the hero vanquished the dragon." },
+  { id:"w872", word:"vehement", pos:"adj", th:"รุนแรงหนักแน่นเชิงอารมณ์", ex:"She gave a vehement denial of the accusations." },
+  { id:"w873", word:"venerable", pos:"adj", th:"น่าเคารพนับถือด้วยอายุหรือประสบการณ์", ex:"The venerable professor has taught for forty years." },
+  { id:"w874", word:"venture", pos:"n", th:"กิจการที่มีความเสี่ยง การลงทุนใหม่", ex:"The startup is a risky but promising venture." },
+  { id:"w875", word:"veracity", pos:"n", th:"ความจริงความน่าเชื่อถือ", ex:"Reporters questioned the veracity of the claim." },
+  { id:"w876", word:"verbose", pos:"adj", th:"พูดหรือเขียนยืดยาวเกินจำเป็น", ex:"The report was too verbose and needed editing." },
+  { id:"w877", word:"vested", pos:"adj", th:"ที่มีผลประโยชน์เกี่ยวข้องโดยตรง", ex:"Investors have a vested interest in the company's success." },
+  { id:"w878", word:"vex", pos:"v", th:"ทำให้รำคาญใจ กวนใจ", ex:"The constant delays began to vex the passengers." },
+  { id:"w879", word:"vicarious", pos:"adj", th:"ได้รับความรู้สึกผ่านผู้อื่น (ไม่ได้ประสบเอง)", ex:"He felt a vicarious thrill watching the race." },
+  { id:"w880", word:"vigilant", pos:"adj", th:"ระมัดระวังเฝ้าสังเกต", ex:"Residents were asked to remain vigilant after the warning." },
+  { id:"w881", word:"vilify", pos:"v", th:"ใส่ร้ายป้ายสี", ex:"The media unfairly vilified the young athlete." },
+  { id:"w882", word:"vindicate", pos:"v", th:"พิสูจน์ความบริสุทธิ์หรือความถูกต้อง", ex:"New evidence eventually vindicated the accused man." },
+  { id:"w883", word:"virtuous", pos:"adj", th:"มีคุณธรรมสูงส่ง", ex:"She lived a quiet, virtuous life." },
+  { id:"w884", word:"visceral", pos:"adj", th:"ที่รู้สึกได้ลึกในสัญชาตญาณ", ex:"The film provoked a visceral reaction from the audience." },
+  { id:"w885", word:"vivid", pos:"adj", th:"ชัดเจนสดใสเหมือนจริง", ex:"She has a vivid memory of her first day at school." },
+  { id:"w886", word:"volition", pos:"n", th:"ความสมัครใจ เจตจำนงเสรี", ex:"He left the job of his own volition." },
+  { id:"w887", word:"voracious", pos:"adj", th:"กระหายอยากอย่างมาก (อ่านมาก/กินมาก)", ex:"She has always been a voracious reader." },
+  { id:"w888", word:"wane", pos:"v", th:"ค่อยๆ ลดลงเสื่อมถอย", ex:"Public interest in the show began to wane." },
+  { id:"w889", word:"wanton", pos:"adj", th:"ไร้เหตุผลจงใจทำร้าย ไม่ยั้งคิด", ex:"The area suffered wanton destruction during the storm." },
+  { id:"w890", word:"waver", pos:"v", th:"โลเลลังเลไม่แน่นอน", ex:"Her determination never wavered, even under pressure." },
+  { id:"w891", word:"whim", pos:"n", th:"อารมณ์ชั่ววูบ ความต้องการฉับพลัน", ex:"He bought the car on a sudden whim." },
+  { id:"w892", word:"whimsical", pos:"adj", th:"แปลกแหวกแนวเพี้ยนน่ารัก", ex:"The shop sells whimsical handmade toys." },
+  { id:"w893", word:"wholesome", pos:"adj", th:"มีประโยชน์ต่อสุขภาพและจิตใจ", ex:"The film has a simple, wholesome message." },
+  { id:"w894", word:"wield", pos:"v", th:"ใช้อำนาจหรืออาวุธ", ex:"The minister wields significant influence over policy." },
+  { id:"w895", word:"willful", pos:"adj", th:"ดื้อรั้นเอาแต่ใจตัวเอง", ex:"The willful child refused to follow instructions." },
+  { id:"w896", word:"wistful", pos:"adj", th:"อาลัยอาวรณ์ครุ่นคิดถึงอดีต", ex:"She gave a wistful smile at the old photographs." },
+  { id:"w897", word:"withstand", pos:"v", th:"ทนทานต้านทานได้", ex:"The building was designed to withstand earthquakes." },
+  { id:"w898", word:"woe", pos:"n", th:"ความทุกข์ยากลำบาก", ex:"The farmers shared tales of woe after the drought." },
+  { id:"w899", word:"zealot", pos:"n", th:"ผู้คลั่งไคล้สุดโต่งในความเชื่อ", ex:"He was seen as a zealot for the cause." },
+  { id:"w900", word:"zenith", pos:"n", th:"จุดสูงสุด จุดรุ่งเรืองที่สุด", ex:"The empire reached its zenith in the fifteenth century." },
+  { id:"w901", word:"algorithm", pos:"n", th:"ขั้นตอนวิธีการคำนวณ", ex:"The app uses an algorithm to recommend new songs." },
+  { id:"w902", word:"biodiversity", pos:"n", th:"ความหลากหลายทางชีวภาพ", ex:"The rainforest is known for its rich biodiversity." },
+  { id:"w903", word:"bandwidth", pos:"n", th:"แบนด์วิดท์ ความสามารถในการรับส่งข้อมูล", ex:"The office needs more bandwidth for video calls." },
+  { id:"w904", word:"cognition", pos:"n", th:"กระบวนการรับรู้และคิด", ex:"The study focuses on cognition in early childhood." },
+  { id:"w905", word:"correlation", pos:"n", th:"ความสัมพันธ์เชื่อมโยงกัน", ex:"There is a strong correlation between sleep and mood." },
+  { id:"w906", word:"demographic", pos:"n", th:"ข้อมูลประชากรตามลักษณะ", ex:"The product targets a younger demographic." },
+  { id:"w907", word:"ecosystem", pos:"n", th:"ระบบนิเวศ", ex:"Pollution can disrupt the entire local ecosystem." },
+  { id:"w908", word:"emission", pos:"n", th:"การปล่อยมลพิษหรือก๊าซ", ex:"The new law aims to reduce carbon emissions." },
+  { id:"w909", word:"encryption", pos:"n", th:"การเข้ารหัสข้อมูล", ex:"The app uses strong encryption to protect user data." },
+  { id:"w910", word:"epidemic", pos:"n", th:"โรคระบาด", ex:"Health officials worked quickly to contain the epidemic." },
+  { id:"w911", word:"gene", pos:"n", th:"ยีน หน่วยพันธุกรรม", ex:"Scientists identified the gene linked to the disease." },
+  { id:"w912", word:"habitat", pos:"n", th:"ถิ่นที่อยู่อาศัยตามธรรมชาติ", ex:"Deforestation destroys the habitat of many species." },
+  { id:"w913", word:"inequality", pos:"n", th:"ความไม่เท่าเทียมกัน", ex:"The report highlights growing income inequality." },
+  { id:"w914", word:"infrastructure", pos:"n", th:"โครงสร้างพื้นฐาน", ex:"The city needs to invest in better transport infrastructure." },
+  { id:"w915", word:"inflation", pos:"n", th:"ภาวะเงินเฟ้อ", ex:"Rising inflation has made goods more expensive." },
+  { id:"w916", word:"malnutrition", pos:"n", th:"ภาวะทุพโภชนาการ", ex:"The charity works to fight malnutrition in rural areas." },
+  { id:"w917", word:"metabolism", pos:"n", th:"ระบบเผาผลาญของร่างกาย", ex:"Exercise can help boost your metabolism." },
+  { id:"w918", word:"migration", pos:"n", th:"การอพยพย้ายถิ่น", ex:"The report studies patterns of human migration." },
+  { id:"w919", word:"motivation", pos:"n", th:"แรงจูงใจ", ex:"Lack of motivation made the project difficult to finish." },
+  { id:"w920", word:"perception", pos:"n", th:"การรับรู้ มุมมอง", ex:"Advertising can shape public perception of a brand." },
+  { id:"w921", word:"pesticide", pos:"n", th:"ยาฆ่าแมลง", ex:"Farmers were advised to reduce pesticide use." },
+  { id:"w922", word:"philanthropy", pos:"n", th:"การกุศล การบริจาคเพื่อสังคม", ex:"He is well known for his philanthropy in education." },
+  { id:"w923", word:"prototype", pos:"n", th:"ต้นแบบ", ex:"Engineers built a prototype before mass production." },
+  { id:"w924", word:"regulation", pos:"n", th:"กฎระเบียบข้อบังคับ", ex:"New regulation requires stricter safety checks." },
+  { id:"w925", word:"resilience", pos:"n", th:"ความยืดหยุ่นในการฟื้นตัว", ex:"The community showed great resilience after the flood." },
+  { id:"w926", word:"stereotype", pos:"n", th:"ภาพเหมารวมตายตัว", ex:"The film challenges common gender stereotypes." },
+  { id:"w927", word:"subsidize", pos:"v", th:"ให้เงินอุดหนุน", ex:"The government subsidizes public transportation." },
+  { id:"w928", word:"sustainability", pos:"n", th:"ความยั่งยืน", ex:"The company focuses on environmental sustainability." },
+  { id:"w929", word:"tariff", pos:"n", th:"ภาษีศุลกากร", ex:"New tariffs raised the price of imported goods." },
+  { id:"w930", word:"vaccine", pos:"n", th:"วัคซีน", ex:"The vaccine significantly reduced infection rates." },
+  { id:"w931", word:"anthology", pos:"n", th:"หนังสือรวมเรื่อง", ex:"The teacher assigned a short story from the anthology." },
+  { id:"w932", word:"archive", pos:"n", th:"คลังเก็บเอกสารประวัติศาสตร์", ex:"Old newspapers are kept in the city archive." },
+  { id:"w933", word:"census", pos:"n", th:"การสำรวจสำมะโนประชากร", ex:"The national census is conducted every ten years." },
+  { id:"w934", word:"chronicle", pos:"v", th:"บันทึกเหตุการณ์ตามลำดับ", ex:"The documentary chronicles the rise of the company." },
+  { id:"w935", word:"civic", pos:"adj", th:"เกี่ยวกับพลเมืองส่วนรวม", ex:"Voting is an important civic duty." },
+  { id:"w936", word:"clause", pos:"n", th:"อนุประโยค ข้อสัญญา", ex:"The contract includes a clause about cancellation fees." },
+  { id:"w937", word:"colloquial", pos:"adj", th:"ภาษาพูดแบบไม่เป็นทางการ", ex:"The book uses colloquial expressions from the region." },
+  { id:"w938", word:"commentary", pos:"n", th:"บทวิจารณ์ คำอธิบายประกอบ", ex:"The film includes a director's commentary track." },
+  { id:"w939", word:"compulsory", pos:"adj", th:"ภาคบังคับ", ex:"Attendance at the seminar is compulsory for all staff." },
+  { id:"w940", word:"consortium", pos:"n", th:"กลุ่มความร่วมมือขององค์กร", ex:"A consortium of universities funded the study." },
+  { id:"w941", word:"deficit", pos:"n", th:"การขาดดุล การขาดแคลน", ex:"The country is running a large budget deficit." },
+  { id:"w942", word:"diplomacy", pos:"n", th:"การทูต", ex:"The crisis was resolved through careful diplomacy." },
+  { id:"w943", word:"discourse", pos:"n", th:"บทสนทนาเชิงวิชาการหรือสังคม", ex:"The article contributes to the discourse on climate policy." },
+  { id:"w944", word:"dissertation", pos:"n", th:"วิทยานิพนธ์", ex:"She spent two years writing her doctoral dissertation." },
+  { id:"w945", word:"embargo", pos:"n", th:"การห้ามค้าขายกับประเทศอื่น", ex:"The trade embargo lasted for over a decade." },
+  { id:"w946", word:"endowment", pos:"n", th:"เงินบริจาคสนับสนุนถาวร", ex:"The university relies on a large endowment fund." },
+  { id:"w947", word:"epoch", pos:"n", th:"ยุคสมัยช่วงเวลาสำคัญ", ex:"The invention marked the start of a new epoch." },
+  { id:"w948", word:"ethical", pos:"adj", th:"เชิงจริยธรรม", ex:"The company faced questions about its ethical practices." },
+  { id:"w949", word:"exile", pos:"n", th:"การเนรเทศ การลี้ภัย", ex:"The writer spent twenty years living in exile." },
+  { id:"w950", word:"coalition", pos:"n", th:"กลุ่มพันธมิตรร่วมมือกัน", ex:"Several parties formed a coalition to win the election." },
+  { id:"w951", word:"forum", pos:"n", th:"เวทีแลกเปลี่ยนความคิดเห็น", ex:"The city held a public forum to discuss the new policy." },
+  { id:"w952", word:"franchise", pos:"n", th:"สิทธิ์แฟรนไชส์ สิทธิ์ในการดำเนินธุรกิจ", ex:"The company sold franchise rights to overseas partners." },
+  { id:"w953", word:"grant", pos:"n", th:"เงินทุนสนับสนุน", ex:"The researcher received a grant to fund the study." },
+  { id:"w954", word:"heritage", pos:"n", th:"มรดกทางวัฒนธรรม", ex:"The old temple is part of the city's cultural heritage." },
+  { id:"w955", word:"ideology", pos:"n", th:"อุดมการณ์", ex:"The two parties differ sharply in political ideology." },
+  { id:"w956", word:"jurisdiction", pos:"n", th:"เขตอำนาจศาลหรือหน่วยงาน", ex:"The case falls outside the court's jurisdiction." },
+  { id:"w957", word:"legislation", pos:"n", th:"กฎหมายที่ออกโดยสภา", ex:"New legislation was passed to protect consumers." },
+  { id:"w958", word:"litigation", pos:"n", th:"การฟ้องร้องคดีความ", ex:"The dispute may end up in lengthy litigation." },
+  { id:"w959", word:"manuscript", pos:"n", th:"ต้นฉบับงานเขียน", ex:"The editor reviewed the manuscript before publication." },
+  { id:"w960", word:"mediator", pos:"n", th:"ผู้ไกล่เกลี่ย", ex:"A neutral mediator helped settle the dispute." },
+  { id:"w961", word:"memoir", pos:"n", th:"บันทึกความทรงจำส่วนตัว", ex:"She published a memoir about her years abroad." },
+  { id:"w962", word:"mortgage", pos:"n", th:"สินเชื่อบ้าน จำนอง", ex:"They took out a mortgage to buy their first home." },
+  { id:"w963", word:"municipal", pos:"adj", th:"เกี่ยวกับเทศบาลท้องถิ่น", ex:"The municipal government approved the new park." },
+  { id:"w964", word:"nomadic", pos:"adj", th:"เร่ร่อนไม่มีถิ่นที่อยู่แน่นอน", ex:"Some communities still lead a nomadic lifestyle." },
+  { id:"w965", word:"norm", pos:"n", th:"บรรทัดฐาน แบบแผนปกติ", ex:"Remote work has become the norm in many industries." },
+  { id:"w966", word:"outlook", pos:"n", th:"มุมมองทัศนคติ แนวโน้มในอนาคต", ex:"The economic outlook for next year looks positive." },
+  { id:"w967", word:"parliament", pos:"n", th:"รัฐสภา", ex:"The bill was debated in parliament for weeks." },
+  { id:"w968", word:"pathogen", pos:"n", th:"เชื้อโรค", ex:"Scientists identified a new pathogen causing the outbreak." },
+  { id:"w969", word:"petition", pos:"n", th:"คำร้องเรียกร้อง", ex:"Thousands signed the petition to save the park." },
+  { id:"w970", word:"philosophy", pos:"n", th:"ปรัชญา", ex:"She studied philosophy before switching to law." },
+  { id:"w971", word:"portfolio", pos:"n", th:"แฟ้มผลงาน กลุ่มการลงทุน", ex:"He diversified his investment portfolio last year." },
+  { id:"w972", word:"proposition", pos:"n", th:"ข้อเสนอ ข้อความที่นำเสนอ", ex:"The committee reviewed a new business proposition." },
+  { id:"w973", word:"prosperity", pos:"n", th:"ความมั่งคั่งรุ่งเรือง", ex:"The region enjoyed decades of economic prosperity." },
+  { id:"w974", word:"quota", pos:"n", th:"โควตา จำนวนที่กำหนด", ex:"The country set a new import quota for steel." },
+  { id:"w975", word:"referendum", pos:"n", th:"การลงประชามติ", ex:"Citizens voted in a national referendum on the issue." },
+  { id:"w976", word:"repertoire", pos:"n", th:"ชุดผลงานหรือทักษะที่มี", ex:"The pianist has a wide repertoire of classical pieces." },
+  { id:"w977", word:"resolution", pos:"n", th:"มติ การแก้ไขปัญหา", ex:"The council passed a resolution to fund the project." },
+  { id:"w978", word:"proceeds", pos:"n", th:"รายได้จากการขายหรือกิจกรรม", ex:"All proceeds from the sale go to charity." },
+  { id:"w979", word:"reprisal", pos:"n", th:"การตอบโต้แก้แค้น", ex:"The village feared reprisal after reporting the crime." },
+  { id:"w980", word:"scholarship", pos:"n", th:"ทุนการศึกษา", ex:"She received a full scholarship to study abroad." },
+  { id:"w981", word:"secular", pos:"adj", th:"ทางโลก ไม่เกี่ยวกับศาสนา", ex:"The country has a secular education system." },
+  { id:"w982", word:"skepticism", pos:"n", th:"ความไม่เชื่อง่ายความสงสัย", ex:"The new policy was met with public skepticism." },
+  { id:"w983", word:"stimulus", pos:"n", th:"สิ่งกระตุ้น มาตรการกระตุ้นเศรษฐกิจ", ex:"The government announced a new economic stimulus package." },
+  { id:"w984", word:"subsidiary", pos:"n", th:"บริษัทในเครือ", ex:"The firm operates as a subsidiary of a larger corporation." },
+  { id:"w985", word:"summit", pos:"n", th:"การประชุมสุดยอด", ex:"Leaders gathered for the climate summit last week." },
+  { id:"w986", word:"surveillance", pos:"n", th:"การเฝ้าระวังตรวจตรา", ex:"The building is monitored by constant surveillance." },
+  { id:"w987", word:"syndrome", pos:"n", th:"กลุ่มอาการ", ex:"Doctors identified the symptoms of the syndrome early." },
+  { id:"w988", word:"tenure", pos:"n", th:"วาระการดำรงตำแหน่ง", ex:"During his tenure, the mayor built two new schools." },
+  { id:"w989", word:"endorsement", pos:"n", th:"การรับรองสนับสนุนอย่างเป็นทางการ", ex:"The product received a strong endorsement from experts." },
+  { id:"w990", word:"tribunal", pos:"n", th:"คณะตุลาการ ศาลพิเศษ", ex:"The case will be heard by an international tribunal." },
+  { id:"w991", word:"turnover", pos:"n", th:"อัตราการหมุนเวียน (พนักงาน/สินค้า)", ex:"The restaurant has a high staff turnover rate." },
+  { id:"w992", word:"utility", pos:"n", th:"สาธารณูปโภค ประโยชน์ใช้สอย", ex:"Utility bills tend to rise during the winter." },
+  { id:"w993", word:"vendor", pos:"n", th:"ผู้ขาย ผู้จำหน่าย", ex:"Street vendors sell fresh fruit near the market." },
+  { id:"w994", word:"veto", pos:"v", th:"ใช้สิทธิ์ยับยั้ง", ex:"The president threatened to veto the new bill." },
+  { id:"w995", word:"viewpoint", pos:"n", th:"มุมมอง ทัศนะ", ex:"The debate presented two very different viewpoints." },
+  { id:"w996", word:"welfare", pos:"n", th:"สวัสดิการ ความเป็นอยู่ที่ดี", ex:"The policy aims to improve child welfare nationwide." },
+  { id:"w997", word:"workforce", pos:"n", th:"กำลังแรงงาน", ex:"Automation has changed the manufacturing workforce." },
+  { id:"w998", word:"zoning", pos:"n", th:"การแบ่งเขตการใช้ที่ดิน", ex:"New zoning laws restrict commercial buildings downtown." },
+  { id:"w999", word:"advocacy", pos:"n", th:"การสนับสนุนรณรงค์เพื่อประเด็นใดประเด็นหนึ่ง", ex:"The group focuses on advocacy for renewable energy." },
+  { id:"w1000", word:"welfare state", pos:"n", th:"รัฐสวัสดิการ", ex:"Many European countries operate as a welfare state." }
+];
+
+/* ---------------- STATE ---------------- */
+
+var STATE = {
+  mode: "dashboard",
+  queue: [],
+  qIndex: 0,
+  sessionSize: 20,
+  status: {},
+  flipShown: false,
+  answers: {},
+  locked: {},
+  choicesCache: {},
+  writeChecked: false,
+  writeCorrect: null,
+  speakRep: 0
+};
+
+/* ---------------- PERSISTENCE ---------------- */
+
+function loadStatus(){
+  try{
+    var raw = localStorage.getItem("tegs_vocab_status_v1");
+    if(raw) STATE.status = JSON.parse(raw);
+  }catch(e){}
+}
+function saveStatus(){
+  try{ localStorage.setItem("tegs_vocab_status_v1", JSON.stringify(STATE.status)); }catch(e){}
+}
+function getStatus(id){ return STATE.status[id] || "new"; }
+function markResult(id, correct){
+  var cur = getStatus(id);
+  if(correct){
+    STATE.status[id] = cur === "known" ? "known" : (cur === "learning" ? "known" : "learning");
+  } else {
+    STATE.status[id] = "learning";
+  }
+  saveStatus();
+}
+
+/* ---------------- SPEECH ---------------- */
+
+var voices = [];
+function loadVoices(){
+  voices = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(function(v){ return /^en/i.test(v.lang); });
+  voices.sort(function(a,b){ return (b.localService?1:0) - (a.localService?1:0); });
+}
+if("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+var AVOID_RE = /\bdavid\b/i;
+function pickVoice(){
+  if(!voices.length) return null;
+  var ok = voices.find(function(v){ return !AVOID_RE.test(v.name); });
+  return ok || voices[0];
+}
+var speechGen = 0;
+function speakText(text, rate, onDone){
+  if(!("speechSynthesis" in window)){ onDone(); return; }
+  if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+  var myGen = ++speechGen;
+  var u = new SpeechSynthesisUtterance(text);
+  var v = pickVoice();
+  if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = "en-US"; }
+  u.rate = rate || 0.95; u.pitch = 1; u.volume = 1;
+  var settled = false;
+  var watchdog = setTimeout(function(){
+    if(settled || myGen !== speechGen) return;
+    settled = true; onDone();
+  }, voices.length ? 8000 : 3500);
+  u.onend = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); onDone(); };
+  u.onerror = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); onDone(); };
+  speechSynthesis.speak(u);
+}
+function stopSpeech(){ speechGen++; if("speechSynthesis" in window) speechSynthesis.cancel(); }
+
+/* ---------------- HELPERS ---------------- */
+
+function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function byId(id){ return VOCAB_BANK.find(function(w){ return w.id === id; }); }
+
+function counts(){
+  var c = { "new":0, "learning":0, "known":0 };
+  VOCAB_BANK.forEach(function(w){ c[getStatus(w.id)]++; });
+  return c;
+}
+
+function buildQueue(){
+  var learning = [], fresh = [], known = [];
+  VOCAB_BANK.forEach(function(w){
+    var s = getStatus(w.id);
+    if(s === "learning") learning.push(w.id);
+    else if(s === "new") fresh.push(w.id);
+    else known.push(w.id);
+  });
+  var pool = shuffle(learning).concat(shuffle(fresh)).concat(shuffle(known));
+  return pool.slice(0, STATE.sessionSize);
+}
+
+function distractorChoices(correctWord, field, n){
+  var pool = VOCAB_BANK.filter(function(w){ return w.id !== correctWord.id && w[field] !== correctWord[field]; });
+  var picks = shuffle(pool).slice(0, n).map(function(w){ return w[field]; });
+  var opts = picks.concat([correctWord[field]]);
+  return shuffle(opts);
+}
+
+/* ---------------- RENDER: DASHBOARD ---------------- */
+
+function renderDashboard(){
+  var c = counts();
+  var total = VOCAB_BANK.length;
+  var pct = total ? Math.round((c.known/total)*100) : 0;
+  var html = '<div class="card">';
+  html += '<p class="section-intro"><b>ภาพรวมความคืบหน้า</b> — ทั้งหมด ' + total + ' คำ</p>';
+  html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>';
+  html += '<div class="dash-grid">';
+  html += '<div class="dash-stat new"><div class="num">' + c["new"] + '</div><div class="lab">ยังไม่เรียน</div></div>';
+  html += '<div class="dash-stat learning"><div class="num">' + c["learning"] + '</div><div class="lab">กำลังจำ</div></div>';
+  html += '<div class="dash-stat known"><div class="num">' + c["known"] + '</div><div class="lab">จำได้แล้ว</div></div>';
+  html += "</div></div>";
+
+  html += '<div class="card"><p class="section-intro"><b>เลือกโหมดฝึก</b> — แต่ละรอบสุ่ม ' + STATE.sessionSize + ' คำ เน้นคำที่ยังไม่แม่นก่อน</p>';
+  html += '<div class="mode-grid">';
+  html += modeBtn("browse", "🗂️", "ทบทวนคำศัพท์", "พลิกการ์ด ดูความหมาย+ตัวอย่าง");
+  html += modeBtn("listen", "🎧", "ฟัง", "ฟังคำ+ประโยค แล้วเลือกความหมาย");
+  html += modeBtn("speak", "🗣️", "พูดตาม", "ฟังแล้วพูดตามออกเสียง");
+  html += modeBtn("read", "📖", "อ่าน", "เติมคำในประโยคจากบริบท");
+  html += modeBtn("write", "✍️", "เขียน", "พิมพ์คำศัพท์จากความหมายไทย");
+  html += "</div></div>";
+
+  html += '<div class="card"><div class="btnrow"><button class="btn ghost" data-action="reset-progress">ล้างความคืบหน้าทั้งหมด</button></div></div>';
+  return html;
+}
+function modeBtn(mode, icon, title, desc){
+  return '<button type="button" class="mode-btn" data-action="start-mode" data-mode="' + mode + '"><span class="ic">' + icon + '</span><span class="ti">' + esc(title) + '</span><span class="de">' + esc(desc) + '</span></button>';
+}
+
+/* ---------------- RENDER: BROWSE (flashcard) ---------------- */
+
+function renderBrowse(){
+  if(STATE.qIndex >= STATE.queue.length) return renderSessionDone();
+  var w = byId(STATE.queue[STATE.qIndex]);
+  var html = '<div class="card">';
+  html += '<p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<div class="flash">';
+  html += '<div class="pos">' + esc(w.pos) + '</div>';
+  html += '<div class="word">' + esc(w.word) + '</div>';
+  if(STATE.flipShown){
+    html += '<div class="th">' + esc(w.th) + '</div>';
+    html += '<div class="ex">' + esc(w.ex) + '</div>';
+  } else {
+    html += '<div class="hidden-hint">แตะเพื่อดูความหมาย</div>';
+  }
+  html += "</div>";
+  if(!STATE.flipShown){
+    html += '<div class="btnrow"><button class="btn" data-action="flip-card">พลิกดูความหมาย</button></div>';
+  } else {
+    html += '<div class="btnrow">';
+    html += '<button class="btn bad" data-action="browse-rate" data-ok="0">ยังไม่รู้</button>';
+    html += '<button class="btn good" data-action="browse-rate" data-ok="1">จำได้</button>';
+    html += "</div>";
+  }
+  html += "</div>";
+  return html;
+}
+
+/* ---------------- RENDER: LISTEN ---------------- */
+
+function renderListen(){
+  if(STATE.qIndex >= STATE.queue.length) return renderSessionDone();
+  var qid = STATE.queue[STATE.qIndex];
+  var w = byId(qid);
+  var locked = !!STATE.locked[qid];
+  if(!STATE.choicesCache[qid]) STATE.choicesCache[qid] = distractorChoices(w, "th", 3);
+  var choices = STATE.choicesCache[qid];
+  var selected = STATE.answers[qid];
+  var answerIdx = choices.indexOf(w.th);
+
+  var html = '<div class="card"><p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<div class="flash" style="padding:20px">';
+  html += '<button class="playbtn" data-action="vocab-play" data-qid="' + qid + '">▶</button>';
+  html += '<p class="hidden-hint">ฟังคำศัพท์แล้วเลือกความหมายที่ถูกต้อง</p>';
+  html += "</div>";
+  html += '<div class="choices">';
+  choices.forEach(function(c, i){
+    var cls = "choice";
+    if(selected === i && !locked) cls += " selected";
+    if(locked){ if(i === answerIdx) cls += " correct"; else if(i === selected) cls += " wrong"; }
+    html += '<button type="button" class="' + cls + '" data-action="vocab-pick" data-qid="' + qid + '" data-idx="' + i + '"' + (locked?" disabled":"") + '><span class="lab">' + String.fromCharCode(65+i) + '</span><span>' + esc(c) + '</span></button>';
+  });
+  html += "</div>";
+  if(locked){
+    html += '<div class="explain"><b>' + w.word + '</b> = ' + esc(w.th) + '<br>' + esc(w.ex) + '</div>';
+    html += '<div class="btnrow"><button class="btn" data-action="vocab-next">ถัดไป →</button></div>';
+  } else {
+    html += '<div class="btnrow"><button class="btn" data-action="vocab-submit" data-qid="' + qid + '" ' + (selected===undefined?"disabled":"") + '>ตรวจคำตอบ</button></div>';
+  }
+  html += "</div>";
+  return html;
+}
+
+/* ---------------- RENDER: SPEAK (shadowing) ---------------- */
+
+function renderSpeak(){
+  if(STATE.qIndex >= STATE.queue.length) return renderSessionDone();
+  var w = byId(STATE.queue[STATE.qIndex]);
+  var html = '<div class="card"><p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<div class="flash">';
+  html += '<div class="pos">' + esc(w.pos) + '</div>';
+  html += '<div class="word">' + esc(w.word) + '</div>';
+  html += '<div class="th">' + esc(w.th) + '</div>';
+  html += '<div class="ex">' + esc(w.ex) + '</div>';
+  html += '<div class="btnrow"><button class="playbtn" data-action="speak-play">▶</button></div>';
+  html += '<p class="hidden-hint">ฟังแล้วพูดตามออกเสียงดัง ๆ ' + STATE.speakRep + '/3 ครั้ง</p>';
+  html += '<div class="speak-rep">' + [0,1,2].map(function(i){ return '<span class="' + (i < STATE.speakRep ? "done" : "") + '"></span>'; }).join("") + '</div>';
+  html += "</div>";
+  html += '<div class="btnrow"><button class="btn ghost" data-action="speak-play">🔁 เล่นอีกครั้ง</button><button class="btn" data-action="vocab-next">ถัดไป →</button></div>';
+  html += "</div>";
+  return html;
+}
+
+/* ---------------- RENDER: READ (fill blank) ---------------- */
+
+function renderRead(){
+  if(STATE.qIndex >= STATE.queue.length) return renderSessionDone();
+  var qid = STATE.queue[STATE.qIndex];
+  var w = byId(qid);
+  var locked = !!STATE.locked[qid];
+  if(!STATE.choicesCache[qid]) STATE.choicesCache[qid] = distractorChoices(w, "word", 3);
+  var choices = STATE.choicesCache[qid];
+  var selected = STATE.answers[qid];
+  var answerIdx = choices.indexOf(w.word);
+  var blanked = w.ex.replace(new RegExp("\\b" + w.word + "\\b", "i"), '<span class="blank">_____</span>');
+
+  var html = '<div class="card"><p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<p class="section-intro">เลือกคำที่เติมในช่องว่างให้ถูกต้อง (' + esc(w.th) + ')</p>';
+  html += '<p style="font-size:1.05rem;line-height:1.9">' + blanked + '</p>';
+  html += '<div class="choices">';
+  choices.forEach(function(c, i){
+    var cls = "choice";
+    if(selected === i && !locked) cls += " selected";
+    if(locked){ if(i === answerIdx) cls += " correct"; else if(i === selected) cls += " wrong"; }
+    html += '<button type="button" class="' + cls + '" data-action="vocab-pick" data-qid="' + qid + '" data-idx="' + i + '"' + (locked?" disabled":"") + '><span class="lab">' + String.fromCharCode(65+i) + '</span><span>' + esc(c) + '</span></button>';
+  });
+  html += "</div>";
+  if(locked){
+    html += '<div class="explain"><b>' + w.word + '</b> = ' + esc(w.th) + '</div>';
+    html += '<div class="btnrow"><button class="btn" data-action="vocab-next">ถัดไป →</button></div>';
+  } else {
+    html += '<div class="btnrow"><button class="btn" data-action="vocab-submit" data-qid="' + qid + '" ' + (selected===undefined?"disabled":"") + '>ตรวจคำตอบ</button></div>';
+  }
+  html += "</div>";
+  return html;
+}
+
+/* ---------------- RENDER: WRITE ---------------- */
+
+function renderWrite(){
+  if(STATE.qIndex >= STATE.queue.length) return renderSessionDone();
+  var w = byId(STATE.queue[STATE.qIndex]);
+  var html = '<div class="card"><p class="progress-mini">คำที่ ' + (STATE.qIndex+1) + ' / ' + STATE.queue.length + '</p>';
+  html += '<div class="flash">';
+  html += '<div class="pos">' + esc(w.pos) + '</div>';
+  html += '<div class="th" style="font-size:1.3rem">' + esc(w.th) + '</div>';
+  html += '<div class="ex">' + esc(w.ex.replace(new RegExp("\\b" + w.word + "\\b", "i"), "_____")) + '</div>';
+  html += "</div>";
+  var inputCls = "write-input" + (STATE.writeChecked ? (STATE.writeCorrect ? " correct" : " wrong") : "");
+  html += '<input type="text" class="' + inputCls + '" id="writeBox" placeholder="พิมพ์คำศัพท์ภาษาอังกฤษ" ' + (STATE.writeChecked ? "disabled" : "") + ' autocomplete="off" spellcheck="false">';
+  if(STATE.writeChecked){
+    html += '<div class="explain" style="text-align:center"><b>เฉลย:</b> ' + esc(w.word) + '</div>';
+    html += '<div class="btnrow"><button class="btn" data-action="vocab-next">ถัดไป →</button></div>';
+  } else {
+    html += '<div class="btnrow"><button class="btn" data-action="write-check" data-word="' + esc(w.word) + '">ตรวจคำตอบ</button></div>';
+  }
+  html += "</div>";
+  return html;
+}
+
+function renderSessionDone(){
+  var c = counts();
+  return '<div class="card"><h3>จบรอบนี้แล้ว 🎉</h3><p class="section-intro">จำได้แล้ว ' + c.known + ' / ' + VOCAB_BANK.length + ' คำ (รวมทุกโหมด)</p>'
+    + '<div class="btnrow"><button class="btn" data-action="start-mode" data-mode="' + STATE.mode + '">ฝึกรอบใหม่ (โหมดเดิม)</button><button class="btn ghost" data-action="goto-dashboard">กลับหน้าหลัก</button></div></div>';
+}
+
+/* ---------------- MAIN RENDER ---------------- */
+
+var MODE_LABELS = { dashboard:"ภาพรวม", browse:"ทบทวน", listen:"ฟัง", speak:"พูดตาม", read:"อ่าน", write:"เขียน" };
+function render(){
+  var tabs = document.getElementById("tabs");
+  tabs.innerHTML = Object.keys(MODE_LABELS).map(function(m){
+    return '<button data-action="goto-mode" data-mode="' + m + '" class="' + (STATE.mode===m?"active":"") + '">' + MODE_LABELS[m] + "</button>";
+  }).join("");
+
+  var stage = document.getElementById("stage");
+  if(STATE.mode === "dashboard") stage.innerHTML = renderDashboard();
+  else if(STATE.mode === "browse") stage.innerHTML = renderBrowse();
+  else if(STATE.mode === "listen") stage.innerHTML = renderListen();
+  else if(STATE.mode === "speak") stage.innerHTML = renderSpeak();
+  else if(STATE.mode === "read") stage.innerHTML = renderRead();
+  else if(STATE.mode === "write") stage.innerHTML = renderWrite();
+
+  if(STATE.mode === "write" && !STATE.writeChecked){
+    var box = document.getElementById("writeBox");
+    if(box) box.focus();
+  }
+}
+
+/* ---------------- ACTIONS ---------------- */
+
+function startMode(mode){
+  stopSpeech();
+  STATE.mode = mode;
+  STATE.queue = buildQueue();
+  STATE.qIndex = 0;
+  STATE.flipShown = false;
+  STATE.answers = {}; STATE.locked = {}; STATE.choicesCache = {};
+  STATE.writeChecked = false; STATE.writeCorrect = null;
+  STATE.speakRep = 0;
+  render();
+}
+
+function nextItem(){
+  stopSpeech();
+  STATE.qIndex++;
+  STATE.flipShown = false;
+  STATE.writeChecked = false; STATE.writeCorrect = null;
+  STATE.speakRep = 0;
+  render();
+}
+
+document.addEventListener("click", function(e){
+  var t = e.target.closest("[data-action]");
+  if(!t) return;
+  var action = t.getAttribute("data-action");
+
+  if(action === "start-mode"){ startMode(t.getAttribute("data-mode")); return; }
+  if(action === "goto-mode"){
+    var m = t.getAttribute("data-mode");
+    if(m === "dashboard"){ stopSpeech(); STATE.mode = "dashboard"; render(); }
+    else startMode(m);
+    return;
+  }
+  if(action === "goto-dashboard"){ stopSpeech(); STATE.mode = "dashboard"; render(); return; }
+
+  if(action === "reset-progress"){
+    STATE.status = {}; saveStatus(); render(); return;
+  }
+
+  if(action === "flip-card"){ STATE.flipShown = true; render(); return; }
+  if(action === "browse-rate"){
+    var w = byId(STATE.queue[STATE.qIndex]);
+    markResult(w.id, t.getAttribute("data-ok") === "1");
+    nextItem();
+    return;
+  }
+
+  if(action === "vocab-play"){
+    var qid1 = t.getAttribute("data-qid");
+    var w1 = byId(qid1);
+    speakText(w1.word + ". " + w1.ex, 0.92, function(){});
+    return;
+  }
+  if(action === "speak-play"){
+    var w2 = byId(STATE.queue[STATE.qIndex]);
+    speakText(w2.word + ". " + w2.ex, 0.85, function(){
+      STATE.speakRep = Math.min(3, STATE.speakRep+1);
+      render();
+    });
+    return;
+  }
+
+  if(action === "vocab-pick"){
+    var qid2 = t.getAttribute("data-qid");
+    if(STATE.locked[qid2]) return;
+    STATE.answers[qid2] = parseInt(t.getAttribute("data-idx"),10);
+    render();
+    return;
+  }
+  if(action === "vocab-submit"){
+    var qid3 = t.getAttribute("data-qid");
+    if(STATE.answers[qid3] === undefined) return;
+    STATE.locked[qid3] = true;
+    var w3 = byId(qid3);
+    var field = STATE.mode === "read" ? "word" : "th";
+    var choices3 = STATE.choicesCache[qid3];
+    var correct = choices3[STATE.answers[qid3]] === w3[field];
+    markResult(w3.id, correct);
+    render();
+    return;
+  }
+  if(action === "vocab-next"){ nextItem(); return; }
+
+  if(action === "write-check"){
+    var box2 = document.getElementById("writeBox");
+    var val = box2 ? box2.value.trim().toLowerCase() : "";
+    var target = t.getAttribute("data-word").toLowerCase();
+    var ok = val === target;
+    var w4 = byId(STATE.queue[STATE.qIndex]);
+    markResult(w4.id, ok);
+    STATE.writeChecked = true;
+    STATE.writeCorrect = ok;
+    render();
+    return;
+  }
+});
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && STATE.mode === "write" && !STATE.writeChecked){
+    var box = document.getElementById("writeBox");
+    if(document.activeElement === box){
+      var w = byId(STATE.queue[STATE.qIndex]);
+      var ok = box.value.trim().toLowerCase() === w.word.toLowerCase();
+      markResult(w.id, ok);
+      STATE.writeChecked = true;
+      STATE.writeCorrect = ok;
+      render();
+    }
+  }
+});
+
+loadStatus();
+render();
+})();
+</script>

@@ -1,0 +1,1717 @@
+<title>ห้องซ้อมสอบ TEGS</title>
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
+    --ink:#20232a; --ink-muted:#5b5f6b; --ink-faint:#8a8e97;
+    --accent:#2f5d62; --accent-ink:#1d3b3f; --accent-soft:#dcebea;
+    --good:#2e7d4f; --good-soft:#e3f3e9;
+    --bad:#b3432f; --bad-soft:#fbe6df;
+    --rule:#e3e1d9;
+    --shadow:0 1px 2px rgba(30,30,20,.05), 0 8px 24px rgba(30,30,20,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+      --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+      --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+      --good:#5fbf86; --good-soft:#12331f;
+      --bad:#e8a688; --bad-soft:#3a2620;
+      --rule:#2a2e33;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#13161a; --surface:#1a1e23; --surface-2:#20252b;
+    --ink:#e9eae6; --ink-muted:#a3a8ae; --ink-faint:#767c84;
+    --accent:#7fc4c0; --accent-ink:#bfe6e3; --accent-soft:#1f3a3a;
+    --good:#5fbf86; --good-soft:#12331f;
+    --bad:#e8a688; --bad-soft:#3a2620;
+    --rule:#2a2e33;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .mono{ font-family:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace; font-variant-numeric:tabular-nums; }
+  button{ font-family:inherit; }
+  h1,h2,h3{ text-wrap:balance; margin:0; }
+  a{ color:var(--accent); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .wrap{ max-width:840px; margin:0 auto; padding:0 20px 90px; }
+
+  header.top{
+    position:sticky; top:0; z-index:10;
+    background:var(--bg);
+    border-bottom:1px solid var(--rule);
+    padding:16px 0 0;
+  }
+  .top-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-badge{
+    width:34px; height:34px; border-radius:9px; background:var(--accent);
+    color:var(--surface); display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex:none;
+  }
+  .brand h1{ font-size:1.08rem; }
+  .brand p{ margin:0; font-size:.76rem; color:var(--ink-faint); }
+
+  .mode-toggle{ display:flex; background:var(--surface-2); border-radius:10px; padding:3px; gap:2px; }
+  .mode-toggle button{
+    border:none; background:transparent; padding:7px 12px; border-radius:8px;
+    font-size:.82rem; color:var(--ink-muted); cursor:pointer;
+  }
+  .mode-toggle button.active{ background:var(--surface); color:var(--accent-ink); box-shadow:var(--shadow); font-weight:600; }
+
+  .set-switch{ display:flex; gap:6px; padding:10px 0 6px; flex-wrap:wrap; }
+  .set-switch button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:8px; padding:6px 12px; font-size:.8rem; cursor:pointer;
+  }
+  .set-switch button.active{ background:var(--accent-ink); border-color:var(--accent-ink); color:#fff; font-weight:600; }
+
+  nav.tabs{ display:flex; gap:4px; overflow-x:auto; padding-bottom:10px; }
+  nav.tabs button{
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    border-radius:999px; padding:7px 14px; font-size:.82rem; white-space:nowrap; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+  }
+  nav.tabs button.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  nav.tabs button .cnt{ font-size:.7rem; opacity:.8; }
+
+  main{ padding-top:26px; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius);
+    padding:22px 24px; margin-bottom:16px; box-shadow:var(--shadow);
+  }
+  .section-intro{ color:var(--ink-muted); font-size:.92rem; margin:0 0 18px; }
+  .section-intro b{ color:var(--ink); }
+
+  .timerbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--accent-soft); color:var(--accent-ink);
+    border-radius:12px; padding:10px 16px; margin-bottom:18px; font-size:.86rem;
+  }
+  .timerbar.urgent{ background:var(--bad-soft); color:var(--bad); }
+  .timerbar .t{ font-size:1.1rem; font-weight:700; }
+
+  /* listening player */
+  .player{
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:30px 20px;
+  }
+  .eq{ display:flex; align-items:flex-end; gap:4px; height:44px; margin-bottom:16px; }
+  .eq span{ width:5px; background:var(--accent); border-radius:3px; height:8px; opacity:.35; }
+  .eq.live span{ animation:bounce 900ms ease-in-out infinite; opacity:1; }
+  .eq span:nth-child(1){ animation-delay:0ms; } .eq span:nth-child(2){ animation-delay:120ms; }
+  .eq span:nth-child(3){ animation-delay:240ms; } .eq span:nth-child(4){ animation-delay:360ms; }
+  .eq span:nth-child(5){ animation-delay:480ms; } .eq span:nth-child(6){ animation-delay:600ms; }
+  .eq span:nth-child(7){ animation-delay:720ms; }
+  @keyframes bounce{ 0%,100%{ height:8px; } 50%{ height:40px; } }
+  @media (prefers-reduced-motion:reduce){ .eq.live span{ animation:none; height:24px; opacity:.8; } }
+
+  .playbtn{
+    border:none; background:var(--accent); color:#fff; border-radius:999px;
+    width:64px; height:64px; font-size:22px; cursor:pointer; box-shadow:var(--shadow);
+  }
+  .playbtn:disabled{ opacity:.5; cursor:default; }
+  .player-label{ margin-top:12px; font-size:.86rem; color:var(--ink-muted); }
+  .replay{
+    margin-top:10px; border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
+    padding:6px 14px; border-radius:999px; font-size:.8rem; cursor:pointer;
+  }
+
+  .qprompt{ font-size:1rem; margin:6px 0 14px; }
+  .choices{ display:flex; flex-direction:column; gap:8px; }
+  .choice{
+    display:flex; gap:10px; align-items:flex-start; text-align:left;
+    border:1px solid var(--rule); background:var(--surface); border-radius:10px;
+    padding:11px 14px; cursor:pointer; font-size:.94rem; color:var(--ink);
+  }
+  .choice .lab{
+    flex:none; width:22px; height:22px; border-radius:6px; background:var(--surface-2);
+    color:var(--ink-muted); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .choice.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .choice.selected .lab{ background:var(--accent); color:#fff; }
+  .choice.correct{ border-color:var(--good); background:var(--good-soft); }
+  .choice.correct .lab{ background:var(--good); color:#fff; }
+  .choice.wrong{ border-color:var(--bad); background:var(--bad-soft); }
+  .choice.wrong .lab{ background:var(--bad); color:#fff; }
+  .choice:disabled, .choice[data-locked="1"]{ cursor:default; }
+
+  .explain{
+    margin-top:10px; font-size:.86rem; color:var(--ink-muted);
+    background:var(--surface-2); border-radius:10px; padding:10px 14px;
+  }
+  .explain b{ color:var(--ink); }
+
+  .btnrow{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+  .btn{
+    border:none; border-radius:10px; padding:10px 18px; font-size:.88rem; cursor:pointer;
+    background:var(--accent); color:#fff; font-weight:600;
+  }
+  .btn.ghost{ background:var(--surface-2); color:var(--ink); }
+  .btn:disabled{ opacity:.45; cursor:default; }
+  .transcript-toggle{
+    background:none; border:1px dashed var(--rule); color:var(--ink-faint); border-radius:8px;
+    padding:6px 12px; font-size:.78rem; cursor:pointer; margin-top:10px;
+  }
+  .transcript{
+    margin-top:8px; font-size:.86rem; color:var(--ink-muted); background:var(--surface-2);
+    border-radius:10px; padding:10px 14px;
+  }
+  .transcript p{ margin:4px 0; }
+  .transcript b{ color:var(--accent-ink); }
+
+  /* error segments */
+  .sentence{ font-size:1.02rem; line-height:2.1; }
+  .seg{
+    border:none; background:none; cursor:pointer; font:inherit; color:var(--ink);
+    border-bottom:2px dashed var(--ink-faint); padding:1px 2px; position:relative;
+  }
+  .seg sup{ color:var(--accent); font-weight:700; margin-left:2px; }
+  .seg.selected{ background:var(--accent-soft); border-bottom-color:var(--accent); border-radius:4px; }
+  .seg.correct{ background:var(--good-soft); border-bottom-color:var(--good); border-radius:4px; }
+  .seg.wrong{ background:var(--bad-soft); border-bottom-color:var(--bad); border-radius:4px; }
+  .seg:disabled{ cursor:default; }
+
+  .passage{
+    font-size:.94rem; color:var(--ink-muted); background:var(--surface-2);
+    border-radius:10px; padding:14px 16px; margin-bottom:18px; line-height:1.85;
+  }
+  .blankmark{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:22px; height:20px; padding:0 4px; border-radius:6px;
+    background:var(--accent-soft); color:var(--accent-ink); font-size:.72rem; font-weight:700;
+    margin:0 2px;
+  }
+  .qgroup-title{ font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin:0 0 6px; }
+
+  .progress-mini{ font-size:.78rem; color:var(--ink-faint); margin-bottom:14px; }
+
+  /* results */
+  .score-hero{ text-align:center; padding:34px 20px; }
+  .score-hero .big{ font-size:3rem; font-weight:800; color:var(--accent-ink); }
+  .score-hero .big span{ font-size:1.4rem; color:var(--ink-faint); font-weight:600; }
+  .bars{ display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+  .bar-row{ display:grid; grid-template-columns:110px 1fr 60px; align-items:center; gap:10px; font-size:.86rem; }
+  .bar-track{ height:9px; background:var(--surface-2); border-radius:999px; overflow:hidden; }
+  .bar-fill{ height:100%; background:var(--accent); border-radius:999px; }
+  .review-item{ border-top:1px solid var(--rule); padding:12px 0; font-size:.88rem; }
+  .review-item:first-child{ border-top:none; }
+  .review-tag{ font-size:.7rem; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.05em; }
+  .pill-good{ color:var(--good); font-weight:700; }
+  .pill-bad{ color:var(--bad); font-weight:700; }
+
+  .notice{
+    background:var(--bad-soft); color:var(--bad); border-radius:10px; padding:10px 14px; font-size:.85rem; margin-bottom:16px;
+  }
+
+  footer.foot{ text-align:center; color:var(--ink-faint); font-size:.8rem; padding:30px 0 0; }
+
+  @media (max-width:560px){
+    .bar-row{ grid-template-columns:84px 1fr 44px; font-size:.78rem; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="top-row">
+      <div class="brand">
+        <div class="brand-badge">🎧</div>
+        <div>
+          <h1>ห้องซ้อมสอบ TEGS</h1>
+          <p>80 ข้อ · 150 นาที · Listening 20 / Structure 20 / Vocabulary 20 / Reading 20</p>
+        </div>
+      </div>
+      <div class="mode-toggle" id="modeToggle">
+        <button data-mode="practice" class="active">โหมดฝึกฝน</button>
+        <button data-mode="exam">โหมดสอบจริง</button>
+      </div>
+    </div>
+    <div class="set-switch" id="setSwitch"></div>
+    <nav class="tabs" id="tabs"></nav>
+  </header>
+
+  <main id="stage"></main>
+
+  <footer class="foot">โจทย์จำลองแต่งขึ้นตามแนวข้อสอบ CMU-TEGS · <a href="https://claude.ai/code/artifact/988fc8ab-a737-4211-a935-f5f0b8e24459" target="_blank" rel="noopener">ทบทวนไวยากรณ์ก่อนสอบ →</a></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- DATA ---------------- */
+
+var DIALOGS = [
+  { id:"d1", lines:[
+      {spk:"M", text:"Hi, I'd like to book a table for two this Friday evening."},
+      {spk:"W", text:"I'm sorry, we're fully booked for Friday, but we do have openings on Saturday."},
+      {spk:"M", text:"Hmm, Saturday could work. What time slots are available?"},
+      {spk:"W", text:"We have six PM or eight thirty PM open."}
+    ],
+    q:"What will the man probably do next?",
+    choices:["Cancel his plan to eat out","Choose a time on Saturday","Ask for a table on Friday again","Book a different restaurant"],
+    answer:1,
+    explain:"ผู้ชายถามช่วงเวลาที่ว่างวันเสาร์ต่อ แสดงว่ากำลังจะเลือกเวลาในวันเสาร์"
+  },
+  { id:"d2", lines:[
+      {spk:"W", text:"Do you happen to have a laptop charger I could borrow? Mine just died."},
+      {spk:"M", text:"I only brought mine, but there's a charging station in the library lobby."},
+      {spk:"W", text:"Oh, that's perfect. Thanks!"}
+    ],
+    q:"What does the man suggest the woman do?",
+    choices:["Buy a new charger","Use his charger","Go to the library lobby","Wait until tomorrow"],
+    answer:2,
+    explain:"ผู้ชายแนะนำจุดชาร์จที่ล็อบบี้ห้องสมุด ไม่ได้ให้ยืมที่ชาร์จของตัวเอง"
+  },
+  { id:"d3", lines:[
+      {spk:"M", text:"Did you manage to register for the Statistics class?"},
+      {spk:"W", text:"Not yet, the system keeps crashing whenever I try to submit."},
+      {spk:"M", text:"That happened to me too. It usually works better late at night."},
+      {spk:"W", text:"Good to know, I'll try again around midnight then."}
+    ],
+    q:"What does the woman plan to do?",
+    choices:["Drop the class","Try registering again later","Ask the professor for help","Switch to a different class"],
+    answer:1,
+    explain:"ผู้หญิงบอกว่าจะลองสมัครใหม่อีกครั้งตอนเที่ยงคืน"
+  },
+  { id:"d4", lines:[
+      {spk:"W", text:"Are you still up for the hike on Saturday?"},
+      {spk:"M", text:"Actually, the weather forecast says heavy rain all weekend."},
+      {spk:"W", text:"That's a shame. Maybe we should reschedule."},
+      {spk:"M", text:"Yeah, let's aim for the following weekend instead."}
+    ],
+    q:"What will they most likely do?",
+    choices:["Go hiking despite the rain","Cancel the hiking trip permanently","Postpone the hike to another weekend","Choose a different activity for Saturday"],
+    answer:2,
+    explain:"ทั้งคู่ตกลงเลื่อนไปสัปดาห์ถัดไป ไม่ใช่ยกเลิกถาวร"
+  },
+  { id:"d5", lines:[
+      {spk:"M", text:"Two tickets for the photography exhibit, please."},
+      {spk:"W", text:"I'm afraid that exhibit closed last week. We currently have the sculpture exhibit running."},
+      {spk:"M", text:"Oh, I didn't know that. We'll take two tickets for that one, then."}
+    ],
+    q:"What is true about the photography exhibit?",
+    choices:["It has not opened yet","It is temporarily closed for renovation","It has already ended","It requires a separate ticket"],
+    answer:2,
+    explain:"หญิงบอกว่านิทรรศการภาพถ่ายปิดไปแล้วตั้งแต่สัปดาห์ก่อน"
+  },
+  { id:"d6", lines:[
+      {spk:"W", text:"Could I get a medium iced latte with oat milk?"},
+      {spk:"M", text:"Sure, and would you like that sweetened?"},
+      {spk:"W", text:"Just a little, half the usual syrup please."}
+    ],
+    q:"What does the woman ask for?",
+    choices:["A hot latte with extra syrup","An iced latte with less sweetener","A latte with no milk","A plain black coffee"],
+    answer:1,
+    explain:"เธอขอไซรัปครึ่งเดียวจากปกติ = หวานน้อยลง"
+  },
+  { id:"d7", lines:[
+      {spk:"M", text:"Can we move our project meeting from Tuesday to Wednesday?"},
+      {spk:"W", text:"Wednesday's tight for me, but Thursday afternoon is free."},
+      {spk:"M", text:"Thursday afternoon works for me too. Let's do that."}
+    ],
+    q:"When will they most likely meet?",
+    choices:["Tuesday","Wednesday","Thursday afternoon","Thursday morning"],
+    answer:2,
+    explain:"ทั้งคู่ตกลงกันที่บ่ายวันพฤหัสบดี"
+  },
+  { id:"d8", lines:[
+      {spk:"W", text:"I think I left my umbrella in the lecture hall this morning."},
+      {spk:"M", text:"I can check the lost and found at the front desk for you."},
+      {spk:"W", text:"Would you? That'd be a huge help, thanks."}
+    ],
+    q:"What will the man probably do?",
+    choices:["Buy the woman a new umbrella","Go back to the lecture hall together","Check the lost and found","Tell the woman to check herself"],
+    answer:2,
+    explain:"ผู้ชายเสนอตัวไปเช็คจุดรับของหายที่โต๊ะประชาสัมพันธ์ให้"
+  },
+  { id:"d9", lines:[
+      {spk:"M", text:"I'd like to return this rental car a day early."},
+      {spk:"W", text:"No problem, since you're returning early you'll actually get a partial refund for the unused day."},
+      {spk:"M", text:"Great, I wasn't expecting that."}
+    ],
+    q:"What will most likely happen regarding payment?",
+    choices:["The man will be charged extra","The man will receive a partial refund","The man will pay for an extra day","The man will receive no refund"],
+    answer:1,
+    explain:"เขาคืนรถเร็วกว่ากำหนดจึงได้เงินคืนบางส่วน"
+  },
+  { id:"d10", lines:[
+      {spk:"W", text:"Which color do you think looks better for the living room, the light gray or the beige?"},
+      {spk:"M", text:"Honestly, the beige feels warmer. Let's go with that."},
+      {spk:"W", text:"Sounds good, I'll order the paint today."}
+    ],
+    q:"What color will they most likely use?",
+    choices:["Light gray","Beige","White","A different color entirely"],
+    answer:1,
+    explain:"ทั้งคู่เห็นตรงกันว่าเลือกสีเบจ"
+  }
+];
+
+var MONOLOGS = [
+  { id:"m1", title:"Monarch Butterfly Migration",
+    lines:[
+      {spk:"N", text:"Good afternoon, everyone."},
+      {spk:"N", text:"Today I'd like to talk about one of nature's most remarkable travelers: the monarch butterfly."},
+      {spk:"N", text:"Every autumn, millions of monarchs in North America begin an incredible journey, flying up to three thousand kilometers south to spend the winter in the warmer forests of central Mexico."},
+      {spk:"N", text:"What makes this migration especially strange is that no single butterfly completes the entire round trip."},
+      {spk:"N", text:"It actually takes three or four generations to finish one full migration cycle, meaning the butterflies that arrive in Mexico are the great-grandchildren of the ones that left the previous spring."},
+      {spk:"N", text:"Scientists still aren't entirely sure how each new generation knows exactly where to go, though many believe monarchs use a combination of the sun's position and the earth's magnetic field to navigate."},
+      {spk:"N", text:"Sadly, monarch populations have dropped sharply over the past two decades, largely due to the loss of milkweed plants, which are the only food source for monarch caterpillars."},
+      {spk:"N", text:"Conservation groups are now working to plant more milkweed along the migration route to help the species recover."}
+    ],
+    questions:[
+      { q:"What is the main topic of the talk?",
+        choices:["The diet of butterflies","The migration of monarch butterflies","The magnetic field of the earth","Conservation groups in Mexico"],
+        answer:1, explain:"หัวข้อหลักคือการอพยพของผีเสื้อโมนาร์ค" },
+      { q:"How is the migration completed, according to the speaker?",
+        choices:["In one continuous flight without stopping","By a single butterfly flying the whole distance","Over three or four generations of butterflies","By butterflies that fly only within Mexico"],
+        answer:2, explain:"ต้องใช้ 3-4 รุ่นผีเสื้อกว่าจะครบวงจรการอพยพ" },
+      { q:"What do scientists believe helps monarchs navigate?",
+        choices:["Following other migrating birds","Manmade tracking devices","Signals passed down from memory","The sun's position and the earth's magnetic field"],
+        answer:3, explain:"เชื่อว่าใช้ตำแหน่งดวงอาทิตย์ร่วมกับสนามแม่เหล็กโลก" },
+      { q:"Why have monarch populations declined?",
+        choices:["Loss of milkweed plants","Warmer forests in Mexico","Too much conservation work","Longer migration distances"],
+        answer:0, explain:"สาเหตุหลักคือการสูญเสียต้นมิลค์วีดซึ่งเป็นอาหารเดียวของหนอนผีเสื้อ" },
+      { q:"What is the main food source for monarch caterpillars, according to the speaker?",
+        choices:["Flower nectar","Milkweed plants","Tree leaves","Other insects"],
+        answer:1, explain:"มิลค์วีดเป็นอาหารเดียวของหนอนผีเสื้อโมนาร์ค" }
+    ]
+  },
+  { id:"m2", title:"Library Orientation",
+    lines:[
+      {spk:"N", text:"Welcome, everyone, and thank you for joining today's library orientation."},
+      {spk:"N", text:"My name is Alex, and I'll be walking you through everything you need to know as a new member."},
+      {spk:"N", text:"First, your student card also works as your library card, so there's no need to apply for a separate one."},
+      {spk:"N", text:"You can borrow up to eight books at a time, and the standard loan period is three weeks, with one renewal allowed online."},
+      {spk:"N", text:"If you need a book that's already checked out, you can place a hold through the library website, and we'll notify you by email once it's available."},
+      {spk:"N", text:"The quiet study rooms on the third floor can be reserved up to two days in advance, but please note that reservations are automatically canceled if you don't check in within ten minutes of the start time."},
+      {spk:"N", text:"Finally, if you ever have questions, the help desk on the first floor is staffed until nine PM on weekdays."},
+      {spk:"N", text:"Enjoy the library, and good luck this semester!"}
+    ],
+    questions:[
+      { q:"What serves as a library card for new members?",
+        choices:["A separate library ID","The student card","A mobile app","A physical key"],
+        answer:1, explain:"บัตรนักศึกษาใช้แทนบัตรห้องสมุดได้เลย" },
+      { q:"How many books can a member borrow at once?",
+        choices:["Three","Five","Eight","Ten"],
+        answer:2, explain:"ยืมได้สูงสุดครั้งละ 8 เล่ม" },
+      { q:"What happens if a student doesn't check in within ten minutes of a room reservation?",
+        choices:["The reservation is extended automatically","The student is charged a fee","The room stays reserved all day","The reservation is canceled automatically"],
+        answer:3, explain:"ถ้าไม่เช็คอินภายใน 10 นาที การจองจะถูกยกเลิกอัตโนมัติ" },
+      { q:"Until what time is the help desk staffed on weekdays?",
+        choices:["5 PM","7 PM","9 PM","Midnight"],
+        answer:2, explain:"โต๊ะช่วยเหลือเปิดถึง 3 ทุ่มในวันธรรมดา" },
+      { q:"How can students place a hold on a checked-out book?",
+        choices:["By calling the front desk only","Through the library website","By visiting in person only","They cannot place holds"],
+        answer:1, explain:"จองผ่านเว็บไซต์ห้องสมุดได้" }
+    ]
+  }
+];
+
+var ERRORS = [
+  { id:"e1", segs:[
+      {t:"Many students join clubs to "}, {t:"meet new people,",k:"A"}, {t:" "}, {t:"develop leadership skills,",k:"B"},
+      {t:" "}, {t:"exploring career interests,",k:"C"}, {t:" and "}, {t:"build lasting friendships.",k:"D"}
+    ], answer:"C", explain:"ต้องขนานกับ meet, develop, build (Vinf ทั้งหมด) → ใช้ explore ไม่ใช่ exploring (Parallel Structure)" },
+  { id:"e2", segs:[
+      {t:"The results "}, {t:"of the survey",k:"A"}, {t:" "}, {t:"shows",k:"B"}, {t:" that most residents "},
+      {t:"are satisfied with",k:"C"}, {t:" the "}, {t:"new policy.",k:"D"}
+    ], answer:"B", explain:"ประธานจริงคือ results (พหูพจน์) ไม่ใช่ survey → ต้องใช้ show (Subject-Verb Agreement)" },
+  { id:"e3", segs:[
+      {t:"While some visitors explore the old town on foot, "}, {t:"others",k:"A"}, {t:" prefer cycling, and "},
+      {t:"others tourists",k:"B"}, {t:" choose "}, {t:"a guided bus tour",k:"C"}, {t:" for "}, {t:"convenience.",k:"D"}
+    ], answer:"B", explain:"others เป็นสรรพนามอยู่แล้ว ห้ามมีนามตามหลัง ต้องแก้เป็น other tourists" },
+  { id:"e4", segs:[
+      {t:"The exam was "}, {t:"such",k:"A"}, {t:" "}, {t:"difficult",k:"B"}, {t:" "}, {t:"that",k:"C"}, {t:" "},
+      {t:"many students ran out of time.",k:"D"}
+    ], answer:"A", explain:"difficult เป็น adjective → ต้องใช้ so...that ไม่ใช่ such...that" },
+  { id:"e5", segs:[
+      {t:"Regular exercise can "}, {t:"help",k:"A"}, {t:" "}, {t:"improving",k:"B"}, {t:" your mood and "},
+      {t:"reduce",k:"C"}, {t:" "}, {t:"stress levels.",k:"D"}
+    ], answer:"B", explain:"help + Vinf (ไม่มี to) หรือ to Vinf เท่านั้น → ต้องใช้ improve" },
+  { id:"e6", segs:[
+      {t:"Because",k:"A"}, {t:" the sudden storm, the outdoor concert "}, {t:"was",k:"B"}, {t:" "},
+      {t:"postponed",k:"C"}, {t:" "}, {t:"until next week.",k:"D"}
+    ], answer:"A", explain:"ตามหลังด้วยนาม (the sudden storm) ต้องใช้ Because of ไม่ใช่ Because" },
+  { id:"e7", segs:[
+      {t:"The professor "}, {t:"who's",k:"A"}, {t:" research "}, {t:"focuses on",k:"B"}, {t:" climate change "},
+      {t:"will give",k:"C"}, {t:" "}, {t:"a talk next Monday.",k:"D"}
+    ], answer:"A", explain:"ต้องการแสดงความเป็นเจ้าของ (research ของ professor) ต้องใช้ whose ไม่ใช่ who's (= who is)" },
+  { id:"e8", segs:[
+      {t:"She "}, {t:"has lived",k:"A"}, {t:" "}, {t:"in this city",k:"B"}, {t:" "}, {t:"since",k:"C"}, {t:" "},
+      {t:"ten years.",k:"D"}
+    ], answer:"C", explain:"ตามหลังด้วยระยะเวลา (ten years) ต้องใช้ for ไม่ใช่ since (since ใช้กับจุดเวลาที่ระบุ)" },
+  { id:"e9", segs:[
+      {t:"Good leaders listen carefully, "}, {t:"communicate clearly,",k:"A"}, {t:" "}, {t:"delegating tasks effectively,",k:"B"},
+      {t:" and "}, {t:"inspire",k:"C"}, {t:" "}, {t:"their teams.",k:"D"}
+    ], answer:"B", explain:"ต้องขนานกับ listen, communicate, inspire (Vinf) → ใช้ delegate ไม่ใช่ delegating" },
+  { id:"e10", segs:[
+      {t:"The team spent "}, {t:"too much",k:"A"}, {t:" time collecting "}, {t:"many data",k:"B"}, {t:" "},
+      {t:"for the report",k:"C"}, {t:"",k:"D"}
+    ], answer:"B", explain:"data มักใช้เป็นนามนับไม่ได้ในบริบทนี้ → ต้องใช้ much data ไม่ใช่ many data" }
+];
+
+var CLOZE_PASSAGES = [
+  { id:"cp1", title:"Urban Beekeeping",
+    template:"Urban beekeeping has become increasingly popular in cities around the world. {{1}}, many people are surprised to learn how much a single rooftop hive can support local plant life. Beekeeping associations often provide starter kits for beginners, {{2}} include a hive box, protective gear, and basic tools. New beekeepers are encouraged to learn {{3}} their local climate affects hive activity before getting started. {{4}} its benefits, urban beekeeping does come with challenges, such as strict city regulations on hive placement. Still, city beekeepers continue to monitor hive health, adjust feeding schedules, and {{5}} new methods despite limited space.",
+    blanks:[
+      { n:1, choices:["However","In fact","Otherwise","Unless"], answer:1, explain:"In fact ใช้เสริมข้อเท็จจริงที่น่าแปลกใจต่อจากประโยคก่อนหน้า" },
+      { n:2, choices:["who","whom","which","whose"], answer:2, explain:"kits เป็นสิ่งของ ต้องใช้ which แทน" },
+      { n:3, choices:["how do","how","that do","what"], answer:1, explain:"question word เป็นตัวเชื่อมกลางประโยค ต้องเรียงแบบบอกเล่า how + S + V" },
+      { n:4, choices:["Although","Despite","However","Because"], answer:1, explain:"Despite + noun (its benefits) ส่วน Although ต้องตามด้วย S+V" },
+      { n:5, choices:["develop","developing","developed","to developing"], answer:0, explain:"ขนานกับ monitor, adjust (Vinf) ในโครงสร้าง continue to Vinf, Vinf, and Vinf" }
+    ]
+  },
+  { id:"cp2", title:"Remote Work Culture",
+    template:"Remote work has reshaped how companies communicate with employees. {{6}} was once handled face-to-face is now managed through video calls and messaging apps. Many companies have realized {{7}} employees value flexible schedules more than a higher salary. {{8}} remote work offers freedom, it can also lead to feelings of isolation. Managers are now trained {{9}} regular one-on-one check-ins with their team members. {{10}} improving communication, these check-ins also help employees feel supported.",
+    blanks:[
+      { n:6, choices:["That","What","Which","It"], answer:1, explain:"What ทำหน้าที่เป็นประธานของ noun clause แปลว่า สิ่งที่" },
+      { n:7, choices:["what","that","which","about"], answer:1, explain:"realize + that + S + V (noun clause ทำหน้าที่กรรม)" },
+      { n:8, choices:["Despite","While","Because of","Due to"], answer:1, explain:"While + S+V แสดงความขัดแย้ง (conj) ส่วน Despite ต้องตามด้วยนาม" },
+      { n:9, choices:["conduct","conducting","to conduct","conducted"], answer:2, explain:"be trained + to Vinf บอกจุดประสงค์" },
+      { n:10, choices:["Addition to","In addition to","Additionally","In addition that"], answer:1, explain:"In addition to + Ving/noun ทำหน้าที่เป็น preposition" }
+    ]
+  }
+];
+
+var VOCAB = [
+  { id:"v1", word:"meticulous (adj)", choices:["thorough","careless","rapid","generous"], answer:0, explain:"meticulous = ละเอียดรอบคอบ ใกล้เคียง thorough" },
+  { id:"v2", word:"reluctant (adj)", choices:["willing","confident","hesitant","eager"], answer:2, explain:"reluctant = ลังเล ไม่เต็มใจ ใกล้เคียง hesitant" },
+  { id:"v3", word:"plummet (v)", choices:["rise sharply","remain steady","expand slowly","drop sharply"], answer:3, explain:"plummet = ดิ่งลงอย่างรวดเร็ว ใกล้เคียง drop sharply" },
+  { id:"v4", word:"scarce (adj)", choices:["abundant","limited","common","expensive"], answer:1, explain:"scarce = ขาดแคลน หายาก ใกล้เคียง limited" },
+  { id:"v5", word:"candid (adj)", choices:["secretive","formal","honest","confused"], answer:2, explain:"candid = ตรงไปตรงมา จริงใจ ใกล้เคียง honest" },
+  { id:"v6", word:"hinder (v)", choices:["assist","accelerate","ignore","obstruct"], answer:3, explain:"hinder = ขัดขวาง ใกล้เคียง obstruct" },
+  { id:"v7", word:"resilient (adj)", choices:["fragile","adaptable","stubborn","exhausted"], answer:1, explain:"resilient = ฟื้นตัวไว ปรับตัวเก่ง ใกล้เคียง adaptable" },
+  { id:"v8", word:"ambiguous (adj)", choices:["clear","accurate","unclear","detailed"], answer:2, explain:"ambiguous = คลุมเครือ ตีความได้หลายแบบ ใกล้เคียง unclear" },
+  { id:"v9", word:"allocate (v)", choices:["waste","distribute","collect","forbid"], answer:1, explain:"allocate = จัดสรร แบ่งปัน ใกล้เคียง distribute" },
+  { id:"v10", word:"skeptical (adj)", choices:["trusting","doubtful","curious","optimistic"], answer:1, explain:"skeptical = ไม่เชื่อง่าย ระแวง ใกล้เคียง doubtful" },
+  { id:"v11", word:"eloquent (adj)", choices:["articulate","silent","confused","rude"], answer:0, explain:"eloquent = พูดจาไพเราะ คล่องแคล่ว" },
+  { id:"v12", word:"deteriorate (v)", choices:["improve","worsen","stabilize","repair"], answer:1, explain:"deteriorate = เสื่อมลง แย่ลง" },
+  { id:"v13", word:"abundant (adj)", choices:["scarce","plentiful","hidden","artificial"], answer:1, explain:"abundant = มากมาย อุดมสมบูรณ์" },
+  { id:"v14", word:"contemplate (v)", choices:["ignore","consider thoughtfully","reject immediately","forget"], answer:1, explain:"contemplate = ไตร่ตรอง พิจารณาอย่างถี่ถ้วน" },
+  { id:"v15", word:"inevitable (adj)", choices:["avoidable","unlikely","unavoidable","optional"], answer:2, explain:"inevitable = หลีกเลี่ยงไม่ได้" },
+  { id:"v16", word:"superficial (adj)", choices:["deep","shallow","genuine","complex"], answer:1, explain:"superficial = ผิวเผิน ไม่ลึกซึ้ง" },
+  { id:"v17", word:"persistent (adj)", choices:["temporary","weak","continuing firmly","random"], answer:2, explain:"persistent = ยืนหยัด ไม่ลดละ" },
+  { id:"v18", word:"obsolete (adj)", choices:["modern","outdated","popular","expensive"], answer:1, explain:"obsolete = ล้าสมัย เลิกใช้แล้ว" },
+  { id:"v19", word:"compelling (adj)", choices:["boring","convincing","confusing","short"], answer:1, explain:"compelling = น่าเชื่อถือ โน้มน้าวใจ" },
+  { id:"v20", word:"deplete (v)", choices:["fill up","use up","ignore","multiply"], answer:1, explain:"deplete = ใช้จนหมด ทำให้ลดลง" }
+];
+
+var READING = { passages:[
+  { title:"Coral Reefs and Ocean Acidification",
+  passage:"Coral reefs are often called the rainforests of the sea because they support an extraordinary variety of marine life despite covering less than one percent of the ocean floor. These delicate ecosystems are built by tiny animals called coral polyps, which secrete calcium carbonate to form hard, branching skeletons over hundreds of years. In recent decades, however, rising ocean temperatures and increasing carbon dioxide levels have placed enormous stress on coral reefs worldwide. When water becomes too warm, corals expel the colorful algae living inside their tissues, a process known as coral bleaching, which leaves the coral pale and vulnerable to disease. At the same time, higher carbon dioxide levels make seawater more acidic, making it harder for coral polyps to build their skeletons in the first place. Scientists estimate that if current trends continue, most of the world's coral reefs could disappear within this century. Conservationists are experimenting with several solutions, including breeding heat-resistant coral strains and establishing protected marine zones where fishing and pollution are strictly limited. While these efforts show promise, most researchers agree that reducing global carbon emissions remains the only long-term solution to saving coral reefs.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The diet of coral polyps","The threats facing coral reefs and efforts to protect them","The history of marine biology research","How to build an aquarium"], answer:1, explain:"เนื้อหาหลักคือภัยคุกคามต่อแนวปะการังและความพยายามอนุรักษ์" },
+    { q:"According to the passage, what causes coral bleaching?", choices:["Overfishing in reef areas","A lack of calcium carbonate","Water becoming too warm","Pollution from nearby cities"], answer:2, explain:"น้ำอุ่นเกินไปทำให้ปะการังขับสาหร่ายออก เกิดการฟอกขาว" },
+    { q:"The word \"expel\" in the passage is closest in meaning to", choices:["absorb","push out","protect","attract"], answer:1, explain:"expel = ขับออก ใกล้เคียง push out" },
+    { q:"How does higher carbon dioxide affect coral polyps?", choices:["It helps them grow faster","It makes seawater more acidic, hindering skeleton formation","It increases the algae living in their tissues","It has no effect on coral skeletons"], answer:1, explain:"CO2 สูงทำให้น้ำทะเลเป็นกรดมากขึ้น สร้างโครงกระดูกยากขึ้น" },
+    { q:"Which of the following is NOT mentioned as a conservation effort currently being tried?", choices:["Breeding heat-resistant coral","Establishing protected marine zones","Reducing global carbon emissions through new laws","Limiting fishing and pollution in reef zones"], answer:2, explain:"บทความบอกว่านักวิจัยเห็นพ้องว่าการลดคาร์บอนคือทางแก้ระยะยาว แต่ไม่ได้ระบุว่าเป็นความพยายามที่กำลังทดลองอยู่เหมือน 3 ข้อแรก" },
+    { q:"It can be inferred from the passage that", choices:["Coral reefs will fully recover on their own without intervention","Coral reefs cover most of the ocean floor","Long-term coral survival likely depends on reducing carbon emissions","Coral bleaching only affects reefs in one specific region"], answer:2, explain:"ย่อหน้าสรุปว่าทางแก้ระยะยาวที่แท้จริงคือการลดการปล่อยคาร์บอน" }
+  ]},
+  { title:"Sleep and Memory Consolidation",
+  passage:"Scientists have long known that sleep plays an essential role in physical recovery, but research over the past few decades has revealed an equally important function: memory consolidation. During the day, the brain absorbs enormous amounts of information, but only a fraction of it is considered important enough to store permanently. While we sleep, particularly during a stage known as slow-wave sleep, the brain replays and strengthens neural connections formed during waking hours, effectively transferring short-term memories into long-term storage. Studies using brain imaging have shown that participants who slept after learning a new skill, such as a sequence of finger movements or a list of vocabulary words, performed significantly better on recall tests the next day than participants who stayed awake for the same period. Interestingly, the type of memory being consolidated appears to depend on which stage of sleep dominates a person's night. Slow-wave sleep seems particularly important for factual and procedural memories, while REM sleep, the stage associated with vivid dreaming, appears to play a larger role in consolidating emotional memories and creative problem-solving. This research has practical implications: students who pull all-nighters before exams may be undermining their own performance, since cramming without adequate sleep prevents the brain from properly consolidating what was studied. Some researchers even suggest that short naps during the day can provide a similar, if smaller, consolidation benefit.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The physical benefits of sleep","The connection between sleep and memory formation","How dreams are created","Study techniques for exams"], answer:1, explain:"เนื้อหาหลักคือความเชื่อมโยงระหว่างการนอนกับการสร้างความจำ" },
+    { q:"According to the passage, what happens to memories during slow-wave sleep?", choices:["They are permanently erased","They are transferred into long-term storage","They become emotional memories","They are replaced by new information"], answer:1, explain:"ความจำถูกย้ายไปเก็บระยะยาวช่วงหลับลึก" },
+    { q:"In the study mentioned, how did sleep affect participants' performance?", choices:["Sleeping after learning improved recall the next day","Sleep had no measurable effect on recall","Staying awake improved recall more than sleeping","Only naps improved recall"], answer:0, explain:"ผู้ที่นอนหลับหลังเรียนรู้ทำข้อสอบความจำได้ดีกว่า" },
+    { q:"The word \"consolidation\" in the passage is closest in meaning to", choices:["destruction","strengthening","confusion","prevention"], answer:1, explain:"consolidation = การทำให้แข็งแกร่ง/มั่นคงขึ้น" },
+    { q:"According to the passage, REM sleep is particularly linked to", choices:["factual memory only","procedural skills only","emotional memories and creative problem-solving","physical recovery"], answer:2, explain:"REM sleep เกี่ยวข้องกับความจำด้านอารมณ์และการแก้ปัญหาเชิงสร้างสรรค์" },
+    { q:"Which of the following is NOT mentioned as being affected by sleep?", choices:["Recall of vocabulary words","Emotional memory processing","Digestion of food","Consolidation of finger-movement sequences"], answer:2, explain:"บทความไม่ได้พูดถึงเรื่องการย่อยอาหาร" },
+    { q:"It can be inferred from the passage that", choices:["Napping provides no benefit for memory","Studying without sleep may reduce how much information is retained","REM sleep is not important for learning","Long-term memories form only during waking hours"], answer:1, explain:"อดนอนอ่านหนังสือมากๆ อาจทำให้จำได้น้อยลง" }
+  ]},
+  { title:"The Domestication of Cats",
+  passage:"Unlike dogs, which were deliberately bred by humans for specific tasks such as hunting or guarding, cats are believed to have domesticated themselves. Around ten thousand years ago, as early farming communities in the Middle East began storing surplus grain, these stockpiles inevitably attracted rodents. Wildcats, drawn by this abundant and easy prey, began lingering near human settlements. Farmers likely tolerated, and eventually welcomed, the presence of these wildcats because they provided a natural form of pest control. Over many generations, the wildcats that were calmest around humans had greater access to food and safety, giving them a survival advantage and gradually shaping a population more comfortable living alongside people. This process, in which an animal essentially chooses to associate with humans rather than being selectively bred by them, is sometimes called self-domestication. Genetic studies support this theory, showing that the DNA of domestic cats differs from that of wildcats far less than domestic dogs differ from wolves, suggesting a much less intensive breeding process. This may also explain why domestic cats retain many independent, wild-like behaviors that domestic dogs generally do not, such as a strong hunting instinct and reduced reliance on human commands. Researchers note that this history makes cats a unique case study in the field of animal domestication, since it demonstrates that close relationships between humans and animals do not always require deliberate human intervention.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["How to train a wildcat","The unique way cats became domesticated","The differences between cats and dogs as pets","The diet of ancient farming communities"], answer:1, explain:"เนื้อหาหลักคือวิธีที่แมวถูกทำให้เชื่องอย่างเป็นเอกลักษณ์" },
+    { q:"Why were wildcats initially drawn to human settlements?", choices:["Farmers actively captured and bred them","Stored grain attracted rodents, which attracted wildcats","Wildcats were seeking shelter from predators","Humans offered them food directly"], answer:1, explain:"เมล็ดพืชที่เก็บไว้ดึงดูดหนู ซึ่งดึงดูดแมวป่าอีกที" },
+    { q:"The word \"lingering\" in the passage is closest in meaning to", choices:["leaving quickly","staying around","hunting aggressively","hiding"], answer:1, explain:"lingering = อยู่วนเวียนไม่ไปไหน" },
+    { q:"According to the passage, what gave calmer wildcats a survival advantage?", choices:["They were larger than other wildcats","They had greater access to food and safety near humans","They were immune to disease","They reproduced faster than other animals"], answer:1, explain:"แมวที่นิ่งกว่าเข้าถึงอาหารและความปลอดภัยได้มากกว่า" },
+    { q:"What does genetic evidence suggest about cat domestication?", choices:["It required more selective breeding than dog domestication","It happened through a less intensive process than dog domestication","It occurred at the same time as dog domestication","It has not been studied by scientists"], answer:1, explain:"DNA ของแมวบ้านต่างจากแมวป่าน้อยกว่าสุนัขบ้านต่างจากหมาป่า" },
+    { q:"Which of the following is NOT mentioned as a trait retained by domestic cats?", choices:["A strong hunting instinct","Reduced reliance on human commands","An enhanced ability to swim","Independent, wild-like behavior"], answer:2, explain:"บทความไม่ได้พูดถึงความสามารถในการว่ายน้ำ" },
+    { q:"It can be inferred from the passage that", choices:["All domesticated animals were deliberately bred by humans","Cats' relationship with humans developed without deliberate breeding","Cats are less independent than dogs","Farmers disliked having wildcats near their grain stores"], answer:1, explain:"แมวเชื่องขึ้นเองโดยไม่ได้ถูกมนุษย์คัดสายพันธุ์อย่างตั้งใจ" }
+  ]}
+]};
+
+/* ================= SET 2 ================= */
+
+var SET2_DIALOGS = [
+  { id:"s2d1", lines:[
+      {spk:"M", text:"Hi, I'd like to sign up for a monthly membership."},
+      {spk:"W", text:"Sure, would you like the basic plan or the plan with group classes included?"},
+      {spk:"M", text:"What's the price difference?"},
+      {spk:"W", text:"The class plan is fifteen dollars more per month."}
+    ], q:"What does the woman ask the man?",
+    choices:["Whether he wants a yearly plan","Whether he wants classes included","Whether he has a student ID","Whether he wants a personal trainer"],
+    answer:1, explain:"หญิงถามว่าอยากได้แพ็กเกจที่รวมคลาสกลุ่มไหม" },
+  { id:"s2d2", lines:[
+      {spk:"W", text:"This unit has one bedroom and a small balcony. Any questions?"},
+      {spk:"M", text:"Is parking included in the rent?"},
+      {spk:"W", text:"No, parking is an extra fifty dollars a month."},
+      {spk:"M", text:"I see, I'll think about it."}
+    ], q:"What does the man want to know?",
+    choices:["Whether pets are allowed","Whether parking costs extra","Whether the lease is one year","Whether utilities are included"],
+    answer:1, explain:"ผู้ชายถามว่าที่จอดรถรวมอยู่ในค่าเช่าหรือไม่" },
+  { id:"s2d3", lines:[
+      {spk:"M", text:"I'd like to reschedule my appointment for next Tuesday."},
+      {spk:"W", text:"Let me check... Tuesday's fully booked, but Wednesday morning is open."},
+      {spk:"M", text:"Wednesday morning works for me."}
+    ], q:"When will the man's appointment be?",
+    choices:["Tuesday afternoon","Wednesday morning","Wednesday afternoon","Thursday morning"],
+    answer:1, explain:"ทั้งคู่ตกลงกันที่เช้าวันพุธ" },
+  { id:"s2d4", lines:[
+      {spk:"W", text:"Hi, I received a text saying my package is out for delivery, but it never came."},
+      {spk:"M", text:"Let me check the tracking number... it looks like it was delivered to your neighbor by mistake."},
+      {spk:"W", text:"Oh, I'll go check with them then."}
+    ], q:"What most likely happened to the package?",
+    choices:["It was returned to the sender","It was delivered to the wrong address","It is still at the warehouse","It was lost in transit"],
+    answer:1, explain:"พัสดุถูกส่งผิดไปที่บ้านเพื่อนบ้านโดยไม่ได้ตั้งใจ" },
+  { id:"s2d5", lines:[
+      {spk:"M", text:"Are we still meeting at the library at four?"},
+      {spk:"W", text:"Actually, the library's closed for renovations. Let's meet at the coffee shop instead."},
+      {spk:"M", text:"Sounds good, see you there."}
+    ], q:"Where will they meet?",
+    choices:["At the library","At the coffee shop","At the man's house","Online"],
+    answer:1, explain:"ห้องสมุดปิดปรับปรุง เลยเปลี่ยนไปนัดที่ร้านกาแฟแทน" },
+  { id:"s2d6", lines:[
+      {spk:"W", text:"The mechanic said the brakes need to be replaced."},
+      {spk:"M", text:"How much will that cost?"},
+      {spk:"W", text:"About two hundred dollars, and it'll be ready by Friday."}
+    ], q:"When will the car be ready?",
+    choices:["Today","Tomorrow","Friday","Next week"],
+    answer:2, explain:"ช่างบอกว่ารถจะเสร็จวันศุกร์" },
+  { id:"s2d7", lines:[
+      {spk:"M", text:"Attention passengers, flight two twenty has been delayed by two hours due to weather."},
+      {spk:"W", text:"That's frustrating, I have a connecting flight."},
+      {spk:"M", text:"You may want to speak with the gate agent about rebooking."}
+    ], q:"What does the man suggest the woman do?",
+    choices:["Wait at the gate","Talk to the gate agent","Cancel her trip","Book a hotel"],
+    answer:1, explain:"ผู้ชายแนะนำให้ไปคุยกับเจ้าหน้าที่ประตูขึ้นเครื่องเรื่องจองใหม่" },
+  { id:"s2d8", lines:[
+      {spk:"W", text:"What do you think about getting him a watch for his birthday?"},
+      {spk:"M", text:"He already has a couple, maybe a book would be better."},
+      {spk:"W", text:"Good idea, he did mention wanting to read more."}
+    ], q:"What will they most likely buy?",
+    choices:["A watch","A book","A wallet","Concert tickets"],
+    answer:1, explain:"ทั้งคู่เห็นตรงกันว่าซื้อหนังสือดีกว่า" },
+  { id:"s2d9", lines:[
+      {spk:"M", text:"Do you know if the printer on the third floor is working again?"},
+      {spk:"W", text:"I heard it's still broken. People are using the one in the basement instead."},
+      {spk:"M", text:"Thanks, I'll head down there then."}
+    ], q:"What will the man most likely do?",
+    choices:["Wait for the printer to be fixed","Go print in the basement","Print somewhere off campus","Ask someone else to print for him"],
+    answer:1, explain:"เขาจะไปใช้เครื่องพิมพ์ที่ชั้นใต้ดินแทน" },
+  { id:"s2d10", lines:[
+      {spk:"W", text:"Could you water my plants while I'm away next week?"},
+      {spk:"M", text:"Sure, how often do they need watering?"},
+      {spk:"W", text:"Just twice, maybe Tuesday and Friday."}
+    ], q:"How often will the man water the plants?",
+    choices:["Every day","Once","Twice","Three times"],
+    answer:2, explain:"เธอขอให้รดน้ำแค่สองครั้ง วันอังคารกับวันศุกร์" }
+];
+
+var SET2_MONOLOGS = [
+  { id:"s2m1", title:"Bioluminescent Creatures",
+    lines:[
+      {spk:"N", text:"Hello everyone, today we're going to explore one of the ocean's most fascinating phenomena: bioluminescence."},
+      {spk:"N", text:"Bioluminescence is the ability of living organisms to produce their own light through a chemical reaction inside their bodies."},
+      {spk:"N", text:"It's estimated that more than seventy-five percent of deep-sea creatures, including certain jellyfish, squid, and fish, are capable of producing light in some form."},
+      {spk:"N", text:"Scientists believe organisms use this light for several different purposes, such as attracting prey, communicating with others of the same species, or startling potential predators."},
+      {spk:"N", text:"One well-known example is the anglerfish, which dangles a glowing lure above its head to attract smaller fish close enough to catch."},
+      {spk:"N", text:"Unlike a light bulb, bioluminescent light produces almost no heat, making it one of the most energy-efficient forms of light in nature."},
+      {spk:"N", text:"Researchers are now studying these chemical reactions to develop new technologies, including more efficient lighting and medical imaging tools."},
+      {spk:"N", text:"So the next time you think of glowing creatures, remember that this light plays a real survival role deep beneath the waves."}
+    ],
+    questions:[
+      { q:"What is the talk mainly about?", choices:["The invention of the light bulb","Medical imaging technology","How organisms produce their own light","The diet of deep-sea fish"], answer:2, explain:"หัวข้อหลักคือการที่สิ่งมีชีวิตสร้างแสงได้เอง" },
+      { q:"According to the speaker, what percentage of deep-sea creatures can produce light?", choices:["Nearly one hundred percent","More than seventy-five percent","About fifty percent","About twenty-five percent"], answer:1, explain:"มากกว่า 75% ของสัตว์ทะเลลึกสามารถสร้างแสงได้" },
+      { q:"How does the anglerfish use its light?", choices:["To warm its body in cold water","To communicate with its offspring","To scare away larger predators","To attract prey close enough to catch"], answer:3, explain:"ใช้แสงล่อเหยื่อให้เข้ามาใกล้" },
+      { q:"What is one practical application researchers hope to develop from studying bioluminescence?", choices:["Faster ocean currents","Stronger fishing nets","New species of jellyfish","More efficient lighting technology"], answer:3, explain:"นักวิจัยศึกษาเพื่อพัฒนาเทคโนโลยีแสงสว่างที่มีประสิทธิภาพมากขึ้น" },
+      { q:"Why does bioluminescent light use so little energy compared to a light bulb?", choices:["It produces almost no heat","It only lasts a few seconds","It requires sunlight to work","It is produced by bacteria only"], answer:0, explain:"แสงชนิดนี้แทบไม่ปล่อยความร้อนออกมาเลย จึงประหยัดพลังงาน" }
+    ]
+  },
+  { id:"s2m2", title:"Campus Shuttle Bus Orientation",
+    lines:[
+      {spk:"N", text:"Hi everyone, welcome to the orientation for the campus shuttle service."},
+      {spk:"N", text:"My name is Priya, and I'll walk you through how the shuttle system works this semester."},
+      {spk:"N", text:"The shuttle runs every fifteen minutes on weekdays between seven AM and nine PM, and every thirty minutes on weekends."},
+      {spk:"N", text:"You can track the shuttle's live location using the campus app, so you don't have to guess when it will arrive."},
+      {spk:"N", text:"All students ride for free simply by tapping their student ID card when boarding."},
+      {spk:"N", text:"There are four main stops: the main library, the science building, the dormitories, and the sports center."},
+      {spk:"N", text:"If the shuttle is full, please wait for the next one rather than standing in the aisle, since that isn't allowed for safety reasons."},
+      {spk:"N", text:"Lastly, lost items can be picked up at the transportation office next to the main gate."}
+    ],
+    questions:[
+      { q:"What is the main purpose of this talk?", choices:["To explain how to pay campus tuition","To introduce the campus shuttle service","To describe dormitory rules","To announce a new library policy"], answer:1, explain:"จุดประสงค์หลักคือแนะนำบริการรถรับส่งในมหาวิทยาลัย" },
+      { q:"How often does the shuttle run on weekdays?", choices:["Every ten minutes","Every fifteen minutes","Every twenty minutes","Every thirty minutes"], answer:1, explain:"วันธรรมดารถวิ่งทุก 15 นาที" },
+      { q:"How do students pay for the shuttle?", choices:["They don't pay; it's free with a student ID","They pay in cash","They buy a monthly pass","They pay through the campus app"], answer:0, explain:"นักศึกษาขึ้นฟรีด้วยการแตะบัตรนักศึกษา" },
+      { q:"Where can students pick up lost items?", choices:["At the main library","At the sports center","At the transportation office","At the dormitories"], answer:2, explain:"ของหายไปรับได้ที่สำนักงานขนส่งใกล้ประตูหลัก" },
+      { q:"What happens if the shuttle is already full?", choices:["Passengers must stand in the aisle","Riders should wait for the next shuttle","The driver adds an extra shuttle","Students must walk instead"], answer:1, explain:"ถ้ารถเต็มให้รอคันถัดไป ห้ามยืนในทางเดินเพราะเรื่องความปลอดภัย" }
+    ]
+  }
+];
+
+var SET2_ERRORS = [
+  { id:"e1", segs:[
+      {t:"Volunteers at the shelter help feed the animals, "}, {t:"clean the cages,",k:"A"}, {t:" "}, {t:"walking the dogs,",k:"B"},
+      {t:" and "}, {t:"organize supplies.",k:"C"}, {t:"",k:"D"}
+    ], answer:"B", explain:"ต้องขนานกับ feed, clean, organize (Vinf) → ใช้ walk ไม่ใช่ walking" },
+  { id:"e2", segs:[
+      {t:"The list "}, {t:"of the winners",k:"A"}, {t:" "}, {t:"were",k:"B"}, {t:" posted on the "}, {t:"notice",k:"C"}, {t:" board "}, {t:"this morning.",k:"D"}
+    ], answer:"B", explain:"ประธานจริงคือ list (เอกพจน์) ไม่ใช่ winners → ต้องใช้ was" },
+  { id:"e3", segs:[
+      {t:"Some visitors "}, {t:"prefer",k:"A"}, {t:" the morning tour, while "}, {t:"others tourists",k:"B"}, {t:" "}, {t:"choose",k:"C"}, {t:" "}, {t:"the evening one.",k:"D"}
+    ], answer:"B", explain:"others เป็นสรรพนามอยู่แล้ว ห้ามมีนามตามหลัง ต้องแก้เป็น other tourists" },
+  { id:"e4", segs:[
+      {t:"The traffic downtown was "}, {t:"such",k:"A"}, {t:" "}, {t:"heavy",k:"B"}, {t:" "}, {t:"that",k:"C"}, {t:" "}, {t:"we missed the movie.",k:"D"}
+    ], answer:"A", explain:"heavy เป็น adjective → ต้องใช้ so...that ไม่ใช่ such...that" },
+  { id:"e5", segs:[
+      {t:"This app can "}, {t:"help",k:"A"}, {t:" "}, {t:"tracking",k:"B"}, {t:" your expenses and "}, {t:"save",k:"C"}, {t:" "}, {t:"you money.",k:"D"}
+    ], answer:"B", explain:"help + Vinf (ไม่มี to) หรือ to Vinf เท่านั้น → ต้องใช้ track" },
+  { id:"e6", segs:[
+      {t:"Because",k:"A"}, {t:" the heavy rainfall, the outdoor wedding "}, {t:"was",k:"B"}, {t:" "}, {t:"moved",k:"C"}, {t:" "}, {t:"indoors.",k:"D"}
+    ], answer:"A", explain:"ตามหลังด้วยนาม (the heavy rainfall) ต้องใช้ Because of ไม่ใช่ Because" },
+  { id:"e7", segs:[
+      {t:"The employee "}, {t:"who's",k:"A"}, {t:" proposal was "}, {t:"approved",k:"B"}, {t:" "}, {t:"will present",k:"C"}, {t:" it "}, {t:"on Friday.",k:"D"}
+    ], answer:"A", explain:"ต้องการแสดงความเป็นเจ้าของ (proposal ของ employee) ต้องใช้ whose ไม่ใช่ who's" },
+  { id:"e8", segs:[
+      {t:"They "}, {t:"have worked",k:"A"}, {t:" "}, {t:"at this company",k:"B"}, {t:" "}, {t:"since",k:"C"}, {t:" "}, {t:"five years.",k:"D"}
+    ], answer:"C", explain:"ตามหลังด้วยระยะเวลา (five years) ต้องใช้ for ไม่ใช่ since" },
+  { id:"e9", segs:[
+      {t:"The recipe asks you to chop the onions, "}, {t:"heat the oil,",k:"A"}, {t:" "}, {t:"adding the garlic,",k:"B"},
+      {t:" and "}, {t:"simmer",k:"C"}, {t:" "}, {t:"the sauce.",k:"D"}
+    ], answer:"B", explain:"ต้องขนานกับ chop, heat, simmer (Vinf) → ใช้ add ไม่ใช่ adding" },
+  { id:"e10", segs:[
+      {t:"The committee "}, {t:"of teachers",k:"A"}, {t:" "}, {t:"were",k:"B"}, {t:" "}, {t:"asked to review",k:"C"}, {t:" "}, {t:"the new policy.",k:"D"}
+    ], answer:"B", explain:"ประธานจริงคือ committee (เอกพจน์) ไม่ใช่ teachers → ต้องใช้ was" }
+];
+
+var SET2_CLOZE = [
+  { id:"cp1", title:"Community Gardens",
+    template:"Community gardens have grown popular in cities where green space is limited. {{1}}, many residents use these gardens as a way to grow their own vegetables while meeting their neighbors. Local governments often provide small plots of land, {{2}} residents can rent for a low monthly fee. New gardeners are advised to learn {{3}} much sunlight their plot receives before choosing what to plant. {{4}} the benefits, community gardens require ongoing maintenance, such as watering and weeding. Even so, members continue to share tools, exchange seeds, and {{5}} new gardening techniques with one another.",
+    blanks:[
+      { n:1, choices:["However","In fact","Otherwise","Unless"], answer:1, explain:"In fact ใช้เสริมข้อเท็จจริงที่น่าสนใจต่อจากประโยคก่อนหน้า" },
+      { n:2, choices:["who","whom","which","whose"], answer:2, explain:"plots เป็นสิ่งของ ต้องใช้ which แทน" },
+      { n:3, choices:["how do","how","that do","what"], answer:1, explain:"question word เป็นตัวเชื่อมกลางประโยค ต้องเรียงแบบบอกเล่า how + S + V" },
+      { n:4, choices:["Although","Despite","However","Because"], answer:1, explain:"Despite + noun (the benefits) ส่วน Although ต้องตามด้วย S+V" },
+      { n:5, choices:["learn","learning","learned","to learning"], answer:0, explain:"ขนานกับ share, exchange (Vinf)" }
+    ]
+  },
+  { id:"cp2", title:"Freelance Work Trends",
+    template:"Freelancing has become a common career path for many young professionals. {{6}} appeals to them most is the flexibility to choose their own working hours. Many companies have realized {{7}} freelancers often produce higher-quality work when given creative freedom. {{8}} freelancing offers independence, it can also come with unpredictable income. Freelancers are now encouraged {{9}} a stable financial cushion before leaving full-time jobs. {{10}} managing their own schedules, freelancers also handle their own taxes and contracts.",
+    blanks:[
+      { n:6, choices:["That","What","Which","It"], answer:1, explain:"What ทำหน้าที่เป็นประธานของ noun clause แปลว่า สิ่งที่" },
+      { n:7, choices:["what","that","which","about"], answer:1, explain:"realize + that + S + V (noun clause ทำหน้าที่กรรม)" },
+      { n:8, choices:["Despite","While","Because of","Due to"], answer:1, explain:"While + S+V แสดงความขัดแย้ง ส่วน Despite ต้องตามด้วยนาม" },
+      { n:9, choices:["build","building","to build","built"], answer:2, explain:"encouraged + to Vinf บอกจุดประสงค์" },
+      { n:10, choices:["Addition to","In addition to","Additionally","In addition that"], answer:1, explain:"In addition to + Ving/noun ทำหน้าที่เป็น preposition" }
+    ]
+  }
+];
+
+var SET2_VOCAB = [
+  { id:"v1", word:"diligent (adj)", choices:["hardworking","careless","lazy","shy"], answer:0, explain:"diligent = ขยัน ตั้งใจ ใกล้เคียง hardworking" },
+  { id:"v2", word:"dwindle (v)", choices:["increase suddenly","remain constant","decrease gradually","expand quickly"], answer:2, explain:"dwindle = ค่อยๆ ลดลง" },
+  { id:"v3", word:"lucrative (adj)", choices:["risky","unprofitable","temporary","profitable"], answer:3, explain:"lucrative = ทำกำไรได้ดี" },
+  { id:"v4", word:"reluctantly (adv)", choices:["eagerly","unwillingly","quickly","calmly"], answer:1, explain:"reluctantly = อย่างไม่เต็มใจ" },
+  { id:"v5", word:"meager (adj)", choices:["abundant","generous","insufficient","excessive"], answer:2, explain:"meager = น้อยนิด ไม่เพียงพอ" },
+  { id:"v6", word:"novice (n)", choices:["expert","beginner","veteran","master"], answer:1, explain:"novice = มือใหม่" },
+  { id:"v7", word:"tedious (adj)", choices:["exciting","brief","boring","simple"], answer:2, explain:"tedious = น่าเบื่อ ซ้ำซาก" },
+  { id:"v8", word:"versatile (adj)", choices:["rigid","adaptable","fragile","outdated"], answer:1, explain:"versatile = ปรับตัวได้หลากหลาย" },
+  { id:"v9", word:"withstand (v)", choices:["collapse under","avoid","endure","ignore"], answer:2, explain:"withstand = ทนทานต่อ" },
+  { id:"v10", word:"genuine (adj)", choices:["fake","doubtful","hidden","authentic"], answer:3, explain:"genuine = แท้จริง" },
+  { id:"v11", word:"ample (adj)", choices:["insufficient","plentiful","tiny","forbidden"], answer:1, explain:"ample = เพียงพออย่างมาก มากมาย" },
+  { id:"v12", word:"conceal (v)", choices:["reveal","hide","destroy","announce"], answer:1, explain:"conceal = ซ่อน ปิดบัง" },
+  { id:"v13", word:"diminish (v)", choices:["increase","reduce","repeat","protect"], answer:1, explain:"diminish = ลดลง ทำให้น้อยลง" },
+  { id:"v14", word:"feasible (adj)", choices:["impossible","doable","dangerous","expensive"], answer:1, explain:"feasible = ทำได้จริง เป็นไปได้" },
+  { id:"v15", word:"hostile (adj)", choices:["friendly","unfriendly","calm","curious"], answer:1, explain:"hostile = ไม่เป็นมิตร มีท่าทีเป็นศัตรู" },
+  { id:"v16", word:"integrate (v)", choices:["separate","combine","remove","postpone"], answer:1, explain:"integrate = รวมเข้าด้วยกัน" },
+  { id:"v17", word:"notable (adj)", choices:["ordinary","noteworthy","hidden","boring"], answer:1, explain:"notable = น่าสังเกต โดดเด่น" },
+  { id:"v18", word:"prevalent (adj)", choices:["rare","widespread","forbidden","secret"], answer:1, explain:"prevalent = แพร่หลาย พบได้ทั่วไป" },
+  { id:"v19", word:"reluctance (n)", choices:["eagerness","unwillingness","confidence","curiosity"], answer:1, explain:"reluctance = ความไม่เต็มใจ" },
+  { id:"v20", word:"substantial (adj)", choices:["minor","considerable","fake","temporary"], answer:1, explain:"substantial = มาก/สำคัญพอสมควร" }
+];
+
+var SET2_READING = { passages:[
+  { title:"Urban Heat Islands",
+  passage:"Cities are often several degrees warmer than the surrounding countryside, a phenomenon known as the urban heat island effect. This happens because materials like asphalt and concrete absorb and retain heat far more effectively than natural surfaces such as grass, soil, or trees. During the day, these materials soak up solar radiation, and at night, they slowly release that stored heat back into the air, preventing cities from cooling down the way rural areas do. Tall buildings can make the problem worse by blocking wind that would otherwise help disperse the trapped heat. The effects of urban heat islands go beyond simple discomfort; they can increase energy consumption as more people rely on air conditioning, raise air pollution levels, and pose serious health risks during extreme heat waves, particularly for the elderly. To address this issue, many cities have begun installing green roofs covered in vegetation, planting more street trees, and using lighter-colored materials that reflect sunlight rather than absorbing it. Some urban planners are also redesigning streets to allow better airflow between buildings. While these solutions require significant investment, experts argue that the long-term savings in energy costs and public health benefits make the effort worthwhile.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The history of city planning","The causes and solutions to urban heat islands","How air conditioning works","The benefits of tall buildings"], answer:1, explain:"เนื้อหาหลักคือสาเหตุและทางแก้ของปรากฏการณ์เกาะความร้อนในเมือง" },
+    { q:"According to the passage, why do cities stay warm at night?", choices:["Tall buildings generate heat directly","Materials like concrete release stored heat slowly","Air conditioning units release heat outdoors","Trees absorb and release heat quickly"], answer:1, explain:"วัสดุอย่างคอนกรีตค่อยๆ ปล่อยความร้อนที่สะสมไว้ออกมาตอนกลางคืน" },
+    { q:"The word \"disperse\" in the passage is closest in meaning to", choices:["trap","scatter","create","measure"], answer:1, explain:"disperse = กระจายออกไป ใกล้เคียง scatter" },
+    { q:"How can tall buildings worsen the urban heat island effect?", choices:["By absorbing more sunlight than roads","By blocking wind that would help cool the area","By increasing rainfall in cities","By reducing the number of residents"], answer:1, explain:"ตึกสูงบังลมที่จะช่วยพัดความร้อนออกไป" },
+    { q:"Which of the following is NOT mentioned as a solution to urban heat islands?", choices:["Installing green roofs","Planting more street trees","Banning all vehicle traffic downtown","Using lighter-colored building materials"], answer:2, explain:"บทความไม่ได้พูดถึงการห้ามรถวิ่งในเมือง" },
+    { q:"It can be inferred from the passage that", choices:["Urban heat islands have no effect on public health","Addressing urban heat islands could reduce long-term energy costs","Rural areas are usually warmer than cities","Green roofs are more expensive than they are worth"], answer:1, explain:"ผู้เชี่ยวชาญเห็นว่าการแก้ปัญหาน่าจะคุ้มค่าในระยะยาวด้านพลังงานและสุขภาพ" }
+  ]},
+  { title:"The Invention of the Printing Press",
+  passage:"Before the mid-1400s, books in Europe were copied entirely by hand, a slow and expensive process that meant only wealthy institutions, such as churches and universities, could afford to own them. This changed dramatically around 1440, when a German goldsmith named Johannes Gutenberg developed a printing press that used movable metal type. Unlike earlier printing methods used in parts of Asia, which typically required carving an entire page of text onto a single wooden block, Gutenberg's system used individual, reusable letters that could be arranged and rearranged to print any text needed. This innovation allowed printers to produce books far more quickly and cheaply than hand-copying ever could. Gutenberg's most famous work, a printed edition of the Bible completed around 1455, demonstrated the technology's potential, and within decades, printing presses had spread across much of Europe. The consequences extended well beyond literature. As books became more affordable, literacy rates gradually rose among the middle class, and ideas could spread across regions far faster than before, since a single new work could be reproduced hundreds of times rather than laboriously copied one by one. Historians often credit the printing press with accelerating the spread of the Renaissance and, later, the Reformation, as pamphlets and translated religious texts reached ordinary readers who previously had no access to such material. Some scholars argue that no single invention did more to reshape the flow of information in human history until the rise of the internet centuries later.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The life of Johannes Gutenberg","The invention and impact of the printing press","The history of the Bible","Printing methods used in Asia"], answer:1, explain:"เนื้อหาหลักคือการประดิษฐ์และผลกระทบของแท่นพิมพ์" },
+    { q:"How was Gutenberg's printing method different from earlier Asian methods?", choices:["It used a single carved wooden block per page","It used individual, reusable metal letters","It did not use any type of press","It only printed religious texts"], answer:1, explain:"ใช้ตัวอักษรโลหะแยกชิ้นนำมาจัดเรียงใหม่ได้" },
+    { q:"The word \"laboriously\" in the passage is closest in meaning to", choices:["quickly","carelessly","with great effort","secretly"], answer:2, explain:"laboriously = อย่างยากลำบาก ใช้ความพยายามมาก" },
+    { q:"What was one immediate effect of books becoming more affordable?", choices:["Literacy rates gradually rose among the middle class","Handwritten books became more valuable","Universities stopped collecting books","The Bible was banned in Europe"], answer:0, explain:"อัตราการรู้หนังสือของชนชั้นกลางค่อยๆ เพิ่มขึ้น" },
+    { q:"According to the passage, what did the printing press help accelerate?", choices:["The decline of the middle class","The spread of the Renaissance and the Reformation","The invention of the internet","The construction of universities"], answer:1, explain:"ช่วยเร่งการแพร่กระจายของยุคเรอเนซองส์และการปฏิรูปศาสนา" },
+    { q:"Which of the following is NOT mentioned in the passage?", choices:["Gutenberg printed a famous edition of the Bible","Books were originally copied by hand","The printing press was invented in France","Printing presses spread across Europe within decades"], answer:2, explain:"บทความบอกว่ากูเทนเบิร์กเป็นชาวเยอรมัน ไม่ใช่ฝรั่งเศส" },
+    { q:"It can be inferred from the passage that", choices:["The printing press had little effect on literacy","Access to information changed significantly after the printing press spread","The Reformation occurred before the printing press was invented","Only religious texts were printed after Gutenberg's invention"], answer:1, explain:"การเข้าถึงข้อมูลเปลี่ยนไปอย่างมากหลังแท่นพิมพ์แพร่หลาย" }
+  ]},
+  { title:"Why Leaves Change Color in Autumn",
+  passage:"Every autumn, deciduous trees in temperate regions put on a colorful display as their leaves shift from green to shades of yellow, orange, and red before falling to the ground. This transformation is driven by changes in daylight and temperature as the seasons shift. Throughout spring and summer, leaves appear green because of chlorophyll, a pigment that absorbs sunlight and allows trees to convert it into energy through photosynthesis. As autumn approaches and days grow shorter, trees begin preparing for winter by breaking down and reabsorbing the chlorophyll in their leaves, since maintaining it would waste valuable nutrients during a season when sunlight is limited. As the green chlorophyll fades, other pigments that were present in the leaf all along, but previously masked by the dominant green, become visible. Yellow and orange colors come from pigments called carotenoids, the same class of pigments that give carrots their color. Red and purple hues, on the other hand, are usually produced by a different pigment called anthocyanin, which is actually created fresh in autumn, often in response to bright sunny days combined with cool nights. This is why the most vivid red displays tend to occur in years with a particular combination of weather conditions, rather than every autumn being equally colorful. Eventually, a layer of cells forms at the base of each leaf stem, cutting it off from the tree's nutrient supply and causing it to fall, a process that helps the tree conserve energy and avoid damage from winter ice and snow.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["How trees survive winter storms","Why leaves change color in autumn","The process of photosynthesis in summer","How carotenoids are used in food"], answer:1, explain:"เนื้อหาหลักคือสาเหตุที่ใบไม้เปลี่ยนสีในฤดูใบไม้ร่วง" },
+    { q:"Why do trees break down chlorophyll in autumn?", choices:["To attract more sunlight","Because maintaining it would waste nutrients when sunlight is limited","To prevent leaves from falling","To produce more oxygen"], answer:1, explain:"การรักษาคลอโรฟิลล์ไว้จะสิ้นเปลืองสารอาหารช่วงแสงแดดน้อย" },
+    { q:"The word \"masked\" in the passage is closest in meaning to", choices:["revealed","hidden","destroyed","multiplied"], answer:1, explain:"masked = ถูกบดบัง ซ่อนไว้" },
+    { q:"According to the passage, what pigment is responsible for red and purple leaf colors?", choices:["Chlorophyll","Carotenoids","Anthocyanin","Melanin"], answer:2, explain:"anthocyanin ทำให้เกิดสีแดงและม่วง" },
+    { q:"What weather conditions tend to produce the most vivid red leaves?", choices:["Cold, rainy days","Bright sunny days combined with cool nights","Constant cloud cover","Warm, humid nights"], answer:1, explain:"แดดจัดกลางวันร่วมกับอากาศเย็นกลางคืนทำให้สีแดงสดที่สุด" },
+    { q:"Which of the following is NOT mentioned as part of the leaf-color process?", choices:["Formation of a cell layer at the base of the leaf stem","Breakdown of chlorophyll","Production of anthocyanin in autumn","Growth of new leaves in winter"], answer:3, explain:"บทความไม่ได้พูดถึงการงอกใบใหม่ในหน้าหนาว" },
+    { q:"It can be inferred from the passage that", choices:["Every autumn produces equally vivid red leaves","Weather conditions can influence how vivid autumn colors appear","Carotenoids are only present in autumn","Trees produce chlorophyll throughout winter"], answer:1, explain:"สภาพอากาศมีผลต่อความสดของสีใบไม้ในแต่ละปี" }
+  ]}
+]};
+
+/* ================= SET 3 ================= */
+
+var SET3_DIALOGS = [
+  { id:"s3d1", lines:[
+      {spk:"W", text:"Hi, I have a reservation under the name Tanaka for two nights."},
+      {spk:"M", text:"Let me check... I see a reservation for three nights, actually."},
+      {spk:"W", text:"Oh, I must have made a mistake when booking. Actually, let's keep it as three."}
+    ], q:"What will the woman most likely do?",
+    choices:["Cancel the reservation","Shorten her stay to two nights","Keep the three-night reservation","Book an additional room"],
+    answer:2, explain:"เธอตัดสินใจคงการจอง 3 คืนไว้ตามเดิม" },
+  { id:"s3d2", lines:[
+      {spk:"M", text:"I'd like to return this jacket, it doesn't fit."},
+      {spk:"W", text:"Do you have the receipt? Without it, I can only offer store credit."},
+      {spk:"M", text:"I don't have it with me, so store credit works."}
+    ], q:"What will the man receive?",
+    choices:["A cash refund","Store credit","A replacement jacket","Nothing, since he lacks a receipt"],
+    answer:1, explain:"เขาไม่มีใบเสร็จ จึงรับเครดิตร้านแทน" },
+  { id:"s3d3", lines:[
+      {spk:"W", text:"We'd like to schedule your interview for next Monday at ten AM."},
+      {spk:"M", text:"I actually have a conflict that day. Would Tuesday work instead?"},
+      {spk:"W", text:"Let me check... yes, Tuesday at the same time is available."}
+    ], q:"When will the interview take place?",
+    choices:["Monday at ten AM","Tuesday at ten AM","Tuesday afternoon","Wednesday morning"],
+    answer:1, explain:"เลื่อนมาเป็นวันอังคารเวลาเดิม" },
+  { id:"s3d4", lines:[
+      {spk:"M", text:"Excuse me, do you have this cereal in a smaller box?"},
+      {spk:"W", text:"We're out of the small size, but the large one is on sale today."},
+      {spk:"M", text:"I'll just take the large one then."}
+    ], q:"What will the man most likely buy?",
+    choices:["The small box at full price","The large box on sale","A different brand of cereal","Nothing, since it's sold out"],
+    answer:1, explain:"เขาตัดสินใจซื้อกล่องใหญ่ที่กำลังลดราคา" },
+  { id:"s3d5", lines:[
+      {spk:"W", text:"Is the outdoor concert still happening tonight?"},
+      {spk:"M", text:"They just announced it's been moved indoors because of the storm warning."},
+      {spk:"W", text:"Good thing I checked before heading out."}
+    ], q:"What happened to the concert?",
+    choices:["It was canceled","It was moved indoors","It was postponed a week","It was moved to another park"],
+    answer:1, explain:"คอนเสิร์ตย้ายเข้าไปจัดในร่มเพราะพายุ" },
+  { id:"s3d6", lines:[
+      {spk:"M", text:"I got a notice saying I owe five dollars in late fees."},
+      {spk:"W", text:"That's correct, for the book you returned last week. You can pay online or at the counter."},
+      {spk:"M", text:"I'll just pay online now."}
+    ], q:"How will the man pay the fee?",
+    choices:["In person at the counter","By mail","Online","He won't pay it"],
+    answer:2, explain:"เขาเลือกจ่ายออนไลน์" },
+  { id:"s3d7", lines:[
+      {spk:"W", text:"I'd like to change my reservation from four people to six."},
+      {spk:"M", text:"Sure, I'll just need to move you to a bigger table. Same time works?"},
+      {spk:"W", text:"Yes, that's perfect."}
+    ], q:"What does the woman change about her reservation?",
+    choices:["The time","The number of guests","The date","The restaurant location"],
+    answer:1, explain:"เธอเปลี่ยนจำนวนแขกจาก 4 เป็น 6 คน" },
+  { id:"s3d8", lines:[
+      {spk:"M", text:"My internet has been really slow since yesterday."},
+      {spk:"W", text:"I see an outage reported in your area. It should be fixed by this evening."},
+      {spk:"M", text:"Alright, I'll just wait then."}
+    ], q:"What is the cause of the man's problem?",
+    choices:["His router is broken","A service outage in his area","He hasn't paid his bill","His plan needs an upgrade"],
+    answer:1, explain:"เกิดจากไฟดับ/ระบบขัดข้องในพื้นที่ ไม่ใช่ปัญหาอุปกรณ์ของเขา" },
+  { id:"s3d9", lines:[
+      {spk:"W", text:"Do you want to split a large pizza, or should we each get our own?"},
+      {spk:"M", text:"Let's split one, I'm not that hungry today."},
+      {spk:"W", text:"Sounds good, I'll order a large pepperoni then."}
+    ], q:"What will they most likely do?",
+    choices:["Order two small pizzas","Share one large pizza","Skip ordering pizza","Order two large pizzas"],
+    answer:1, explain:"ทั้งคู่ตกลงแชร์พิซซ่าถาดใหญ่ถาดเดียว" },
+  { id:"s3d10", lines:[
+      {spk:"M", text:"Excuse me, does this bus go to the central station?"},
+      {spk:"W", text:"No, you'll need the number twelve bus across the street."},
+      {spk:"M", text:"Thanks, I'll head over there now."}
+    ], q:"What will the man most likely do?",
+    choices:["Stay on the current bus","Walk to the central station","Take a different bus across the street","Wait for a taxi"],
+    answer:2, explain:"เขาจะไปขึ้นรถเมล์สาย 12 ฝั่งตรงข้ามแทน" }
+];
+
+var SET3_MONOLOGS = [
+  { id:"s3m1", title:"The History of the Bicycle",
+    lines:[
+      {spk:"N", text:"Good morning, class. Today we're tracing the surprising history of one of the world's most common machines: the bicycle."},
+      {spk:"N", text:"The earliest version, invented in Germany around eighteen seventeen, had no pedals at all; riders pushed themselves along the ground with their feet, much like a modern balance bike for children."},
+      {spk:"N", text:"It wasn't until the eighteen sixties that pedals were added directly to the front wheel, creating a design known as the velocipede, though it was better known by its nickname, the boneshaker, because of its rough ride on cobblestone streets."},
+      {spk:"N", text:"In the eighteen seventies, manufacturers began building bicycles with an enormous front wheel and a tiny rear wheel, allowing for higher speeds, but these were notoriously difficult to balance and dangerous to ride."},
+      {spk:"N", text:"The modern bicycle design, with two equally sized wheels and a chain-driven rear wheel, finally appeared in the eighteen eighties and quickly became known as the safety bicycle."},
+      {spk:"N", text:"This new design made cycling accessible to far more people, including women, and it played a surprisingly important role in fashion, since it encouraged more practical clothing."},
+      {spk:"N", text:"By the early nineteen hundreds, bicycles had become an affordable and popular form of transportation across much of the world."},
+      {spk:"N", text:"Today, over a century later, the basic safety bicycle design remains largely unchanged, a testament to how well the original engineers solved the problem."}
+    ],
+    questions:[
+      { q:"What is the main topic of the talk?", choices:["Modern bicycle racing","The history of the bicycle's design","How to repair a bicycle","The invention of the automobile"], answer:1, explain:"หัวข้อหลักคือประวัติศาสตร์การออกแบบจักรยาน" },
+      { q:"What was unusual about the earliest bicycle design?", choices:["It had no pedals","It had three wheels","It was made of plastic","It could not be steered"], answer:0, explain:"จักรยานรุ่นแรกไม่มีบันไดถีบเลย" },
+      { q:"Why was the large front-wheel design considered dangerous?", choices:["It was too heavy to move","It had no brakes at all","It had no seat","It was difficult to balance"], answer:3, explain:"ทรงตัวยากเพราะล้อหน้าใหญ่มาก" },
+      { q:"According to the speaker, what impact did the safety bicycle have on society?", choices:["It ended all bicycle production","It was only used for racing","It made cycling accessible to more people, including women","It made cycling more dangerous"], answer:2, explain:"ทำให้คนเข้าถึงการปั่นจักรยานได้มากขึ้น รวมถึงผู้หญิง" },
+      { q:"When did the modern two-equal-wheel bicycle design first appear, according to the speaker?", choices:["The 1810s","The 1860s","The 1870s","The 1880s"], answer:3, explain:"จักรยานแบบล้อเท่ากันสมัยใหม่ปรากฏขึ้นในช่วงทศวรรษ 1880" }
+    ]
+  },
+  { id:"s3m2", title:"Campus Health Center Orientation",
+    lines:[
+      {spk:"N", text:"Hi everyone, welcome to this quick overview of the campus health center."},
+      {spk:"N", text:"My name is Marcus, and I'm one of the student health coordinators here."},
+      {spk:"N", text:"The health center is open Monday through Friday from eight AM to six PM, and it's closed on weekends except for the emergency hotline."},
+      {spk:"N", text:"All full-time students receive free basic consultations, though prescriptions and lab tests may come with a small additional fee."},
+      {spk:"N", text:"You can book an appointment either through the campus app or by calling the front desk directly."},
+      {spk:"N", text:"If you're dealing with a mental health concern, the center also offers free confidential counseling sessions, and you don't need a referral to book one."},
+      {spk:"N", text:"Walk-ins are accepted for urgent issues, but appointments are strongly recommended to avoid long wait times."},
+      {spk:"N", text:"Lastly, remember to bring your student ID to every visit, since it's used to verify your enrollment and coverage."}
+    ],
+    questions:[
+      { q:"What is the main purpose of this talk?", choices:["To explain campus parking rules","To introduce the campus health center's services","To describe dormitory policies","To announce a new tuition fee"], answer:1, explain:"จุดประสงค์หลักคือแนะนำบริการของศูนย์สุขภาพในมหาวิทยาลัย" },
+      { q:"What hours is the health center open?", choices:["Monday to Friday, 8 AM to 6 PM","Monday to Sunday, 24 hours","Weekends only","Monday to Friday, 9 AM to 5 PM"], answer:0, explain:"เปิดจันทร์-ศุกร์ 8 โมงเช้าถึง 6 โมงเย็น" },
+      { q:"What is true about counseling sessions?", choices:["They require a doctor's referral","They are not free","They don't require a referral","They are only offered on weekends"], answer:2, explain:"ไม่ต้องมีใบส่งตัวก็จองปรึกษาได้" },
+      { q:"What must students bring to every visit?", choices:["A parent's signature","Their student ID","A referral letter","Payment in cash"], answer:1, explain:"ต้องพกบัตรนักศึกษาไปทุกครั้ง" },
+      { q:"What is recommended for urgent health issues?", choices:["Only phone consultations are allowed","Walk-ins are accepted, though appointments are preferred","Students must go to a hospital instead","Urgent issues are handled only by email"], answer:1, explain:"รับ walk-in ได้สำหรับเคสเร่งด่วน แต่แนะนำให้นัดล่วงหน้า" }
+    ]
+  }
+];
+
+var SET3_ERRORS = [
+  { id:"e1", segs:[
+      {t:"The workshop teaches participants to write clear emails, "}, {t:"organize their schedules,",k:"A"}, {t:" "}, {t:"managing deadlines,",k:"B"},
+      {t:" and "}, {t:"present ideas",k:"C"}, {t:" "}, {t:"confidently.",k:"D"}
+    ], answer:"B", explain:"ต้องขนานกับ write, organize, present (Vinf) → ใช้ manage ไม่ใช่ managing" },
+  { id:"e2", segs:[
+      {t:"A number "}, {t:"of applicants",k:"A"}, {t:" "}, {t:"has",k:"B"}, {t:" "}, {t:"applied for",k:"C"}, {t:" "}, {t:"the position.",k:"D"}
+    ], answer:"B", explain:"a number of + นามพหูพจน์ ต้องใช้ verb พหูพจน์ → ใช้ have ไม่ใช่ has" },
+  { id:"e3", segs:[
+      {t:"Some students study best in the morning, while "}, {t:"others",k:"A"}, {t:" prefer late at night, and "},
+      {t:"others students",k:"B"}, {t:" "}, {t:"need",k:"C"}, {t:" "}, {t:"complete silence.",k:"D"}
+    ], answer:"B", explain:"others เป็นสรรพนามอยู่แล้ว ห้ามมีนามตามหลัง ต้องแก้เป็น other students" },
+  { id:"e4", segs:[
+      {t:"The instructions were "}, {t:"such",k:"A"}, {t:" "}, {t:"confusing",k:"B"}, {t:" "}, {t:"that",k:"C"}, {t:" "}, {t:"nobody understood the assignment.",k:"D"}
+    ], answer:"A", explain:"confusing เป็น adjective → ต้องใช้ so...that ไม่ใช่ such...that" },
+  { id:"e5", segs:[
+      {t:"A good mentor can "}, {t:"help",k:"A"}, {t:" "}, {t:"building",k:"B"}, {t:" your confidence and "}, {t:"guide",k:"C"}, {t:" "}, {t:"your career.",k:"D"}
+    ], answer:"B", explain:"help + Vinf (ไม่มี to) หรือ to Vinf เท่านั้น → ต้องใช้ build" },
+  { id:"e6", segs:[
+      {t:"Because",k:"A"}, {t:" the strong wind, all ferry services "}, {t:"were",k:"B"}, {t:" "}, {t:"temporarily",k:"C"}, {t:" "}, {t:"suspended.",k:"D"}
+    ], answer:"A", explain:"ตามหลังด้วยนาม (the strong wind) ต้องใช้ Because of ไม่ใช่ Because" },
+  { id:"e7", segs:[
+      {t:"The scientist "}, {t:"who's",k:"A"}, {t:" research changed the field "}, {t:"received",k:"B"}, {t:" "}, {t:"an award",k:"C"}, {t:"",k:"D"}
+    ], answer:"A", explain:"ต้องการแสดงความเป็นเจ้าของ (research ของ scientist) ต้องใช้ whose ไม่ใช่ who's" },
+  { id:"e8", segs:[
+      {t:"She "}, {t:"has taught",k:"A"}, {t:" "}, {t:"at this university",k:"B"}, {t:" "}, {t:"since",k:"C"}, {t:" "}, {t:"eight years.",k:"D"}
+    ], answer:"C", explain:"ตามหลังด้วยระยะเวลา (eight years) ต้องใช้ for ไม่ใช่ since" },
+  { id:"e9", segs:[
+      {t:"The tour guide showed us the old temple, "}, {t:"explained its history,",k:"A"}, {t:" "}, {t:"answering our questions,",k:"B"},
+      {t:" and "}, {t:"recommended",k:"C"}, {t:" "}, {t:"a nearby restaurant.",k:"D"}
+    ], answer:"B", explain:"ต้องขนานกับ showed, explained, recommended (V2) → ใช้ answered ไม่ใช่ answering" },
+  { id:"e10", segs:[
+      {t:"Doctors recommend that patients "}, {t:"avoid",k:"A"}, {t:" "}, {t:"to eat",k:"B"}, {t:" "}, {t:"heavy meals",k:"C"}, {t:" "}, {t:"late at night.",k:"D"}
+    ], answer:"B", explain:"avoid + Ving เท่านั้น (ไม่ใช่ to Vinf) → ต้องใช้ eating ไม่ใช่ to eat" }
+];
+
+var SET3_CLOZE = [
+  { id:"cp1", title:"Electric Vehicles",
+    template:"Electric vehicles have become increasingly common on roads around the world. {{1}}, many drivers are surprised by how quickly the technology has improved in just a few years. Automakers now offer charging stations, {{2}} allow drivers to recharge their vehicles in under an hour. New owners are advised to learn {{3}} much range their vehicle has before planning a long trip. {{4}} their environmental benefits, electric vehicles still face challenges, such as limited charging infrastructure in rural areas. Even so, manufacturers continue to lower prices, improve battery life, and {{5}} new charging technology each year.",
+    blanks:[
+      { n:1, choices:["However","In fact","Otherwise","Unless"], answer:1, explain:"In fact ใช้เสริมข้อเท็จจริงที่น่าสนใจต่อจากประโยคก่อนหน้า" },
+      { n:2, choices:["who","whom","which","whose"], answer:2, explain:"charging stations เป็นสิ่งของ ต้องใช้ which แทน" },
+      { n:3, choices:["how do","how","that do","what"], answer:1, explain:"question word เป็นตัวเชื่อมกลางประโยค ต้องเรียงแบบบอกเล่า how + S + V" },
+      { n:4, choices:["Although","Despite","However","Because"], answer:1, explain:"Despite + noun (their environmental benefits)" },
+      { n:5, choices:["develop","developing","developed","to developing"], answer:0, explain:"ขนานกับ lower, improve (Vinf)" }
+    ]
+  },
+  { id:"cp2", title:"The Rise of Podcasts",
+    template:"Podcasts have transformed how people consume news and entertainment. {{6}} makes podcasts appealing is the ability to listen anywhere, whether commuting or exercising. Many advertisers have realized {{7}} podcast listeners tend to be more loyal than television viewers. {{8}} podcasts offer flexibility, creating a successful show still requires consistent effort. Hosts are often encouraged {{9}} a regular release schedule to keep their audience engaged. {{10}} building an audience, a consistent schedule also helps hosts secure sponsorships.",
+    blanks:[
+      { n:6, choices:["That","What","Which","It"], answer:1, explain:"What ทำหน้าที่เป็นประธานของ noun clause แปลว่า สิ่งที่" },
+      { n:7, choices:["what","that","which","about"], answer:1, explain:"realize + that + S + V (noun clause ทำหน้าที่กรรม)" },
+      { n:8, choices:["Despite","While","Because of","Due to"], answer:1, explain:"While + S+V แสดงความขัดแย้ง ส่วน Despite ต้องตามด้วยนาม" },
+      { n:9, choices:["maintain","maintaining","to maintain","maintained"], answer:2, explain:"encouraged + to Vinf บอกจุดประสงค์" },
+      { n:10, choices:["Addition to","In addition to","Additionally","In addition that"], answer:1, explain:"In addition to + Ving/noun ทำหน้าที่เป็น preposition" }
+    ]
+  }
+];
+
+var SET3_VOCAB = [
+  { id:"v1", word:"concise (adj)", choices:["brief","lengthy","vague","complex"], answer:0, explain:"concise = กระชับ สั้นได้ใจความ" },
+  { id:"v2", word:"hamper (v)", choices:["assist","hinder","ignore","accelerate"], answer:1, explain:"hamper = ขัดขวาง" },
+  { id:"v3", word:"plausible (adj)", choices:["unlikely","confusing","believable","false"], answer:2, explain:"plausible = ดูมีเหตุผล น่าเชื่อถือ" },
+  { id:"v4", word:"thrifty (adj)", choices:["wasteful","generous","careless","economical"], answer:3, explain:"thrifty = ประหยัด" },
+  { id:"v5", word:"innate (adj)", choices:["learned","inborn","temporary","artificial"], answer:1, explain:"innate = ติดตัวมาแต่กำเนิด" },
+  { id:"v6", word:"relentless (adj)", choices:["occasional","persistent","weak","brief"], answer:1, explain:"relentless = ไม่ลดละ ต่อเนื่องไม่หยุด" },
+  { id:"v7", word:"scrutinize (v)", choices:["ignore","examine closely","summarize","approve"], answer:1, explain:"scrutinize = ตรวจสอบอย่างละเอียด" },
+  { id:"v8", word:"viable (adj)", choices:["impossible","risky","feasible","outdated"], answer:2, explain:"viable = เป็นไปได้จริง ทำได้จริง" },
+  { id:"v9", word:"wary (adj)", choices:["careless","cautious","confident","relaxed"], answer:1, explain:"wary = ระมัดระวัง ระแวง" },
+  { id:"v10", word:"augment (v)", choices:["decrease","maintain","increase","remove"], answer:2, explain:"augment = เพิ่มพูน ทำให้มากขึ้น" },
+  { id:"v11", word:"candor (n)", choices:["dishonesty","frankness","confusion","secrecy"], answer:1, explain:"candor = ความตรงไปตรงมา" },
+  { id:"v12", word:"defer (v)", choices:["proceed immediately","postpone","cancel","approve"], answer:1, explain:"defer = เลื่อนออกไป ผัดวันประกันพรุ่ง" },
+  { id:"v13", word:"exemplary (adj)", choices:["poor","outstanding","average","typical"], answer:1, explain:"exemplary = เป็นแบบอย่างที่ดีเยี่ยม" },
+  { id:"v14", word:"fabricate (v)", choices:["repair","invent falsely","discover","confirm"], answer:1, explain:"fabricate = กุขึ้น สร้างเรื่องเท็จ" },
+  { id:"v15", word:"gullible (adj)", choices:["skeptical","easily deceived","clever","cautious"], answer:1, explain:"gullible = หลงเชื่อคนง่าย" },
+  { id:"v16", word:"impartial (adj)", choices:["biased","fair","emotional","confused"], answer:1, explain:"impartial = เป็นกลาง ไม่ลำเอียง" },
+  { id:"v17", word:"jeopardize (v)", choices:["protect","endanger","improve","ignore"], answer:1, explain:"jeopardize = ทำให้เสี่ยงอันตราย/เสียหาย" },
+  { id:"v18", word:"lenient (adj)", choices:["strict","tolerant","harsh","rigid"], answer:1, explain:"lenient = ผ่อนปรน ใจดี ไม่เข้มงวด" },
+  { id:"v19", word:"meticulousness (n)", choices:["carelessness","thoroughness","laziness","confusion"], answer:1, explain:"meticulousness = ความละเอียดรอบคอบ" },
+  { id:"v20", word:"nurture (v)", choices:["neglect","nourish and support","destroy","ignore"], answer:1, explain:"nurture = บ่มเพาะ เลี้ยงดูให้เติบโต" }
+];
+
+var SET3_READING = { passages:[
+  { title:"The Discovery of Penicillin",
+  passage:"In 1928, Scottish scientist Alexander Fleming made one of the most important accidental discoveries in medical history. After returning from a summer vacation, Fleming noticed that a petri dish of Staphylococcus bacteria he had left in his laboratory had become contaminated with a strain of mold. Instead of discarding the contaminated dish, he examined it more closely and observed something remarkable: the bacteria surrounding the mold had been destroyed, while colonies farther away remained unaffected. Fleming identified the mold as Penicillium notatum and named the bacteria-killing substance it produced penicillin. Although Fleming published his findings, he lacked the resources to purify the compound into a usable medicine, and his discovery received little attention for over a decade. It was not until the early 1940s that a team of scientists at Oxford University, led by Howard Florey and Ernst Chain, successfully purified penicillin and demonstrated its effectiveness in treating bacterial infections in humans. Their timing proved critical, as the drug became widely available just as World War II created an urgent need to treat infected wounds among soldiers. Penicillin is credited with saving millions of lives and marked the beginning of the modern antibiotic era, fundamentally changing how doctors treat infections that had previously been fatal.",
+  questions:[
+    { q:"What is the primary purpose of the passage?", choices:["To describe the symptoms of bacterial infections","To explain how penicillin was discovered and developed","To compare Fleming and Florey's personalities","To argue against the use of antibiotics"], answer:1, explain:"เนื้อหาหลักคือการค้นพบและพัฒนายาเพนิซิลิน" },
+    { q:"What did Fleming notice about the contaminated petri dish?", choices:["All the bacteria had multiplied rapidly","The mold had disappeared completely","Bacteria near the mold had been destroyed","The dish had cracked during his vacation"], answer:2, explain:"แบคทีเรียรอบเชื้อราถูกทำลาย" },
+    { q:"The word \"purify\" in the passage is closest in meaning to", choices:["contaminate","refine","discover","multiply"], answer:1, explain:"purify = ทำให้บริสุทธิ์ ใกล้เคียง refine" },
+    { q:"Why did penicillin become widely available in the early 1940s?", choices:["Fleming finally secured funding on his own","A team at Oxford successfully purified the compound","The mold became more common in nature","Doctors demanded a new painkiller"], answer:1, explain:"ทีมจาก Oxford สกัดสารให้บริสุทธิ์และใช้ได้จริงสำเร็จ" },
+    { q:"Which of the following is NOT mentioned in the passage?", choices:["Fleming's discovery was accidental","Florey and Chain worked at Oxford University","Penicillin was first tested on animals before humans","World War II increased the need for the drug"], answer:2, explain:"บทความไม่ได้กล่าวถึงการทดลองกับสัตว์ก่อนมนุษย์" },
+    { q:"It can be inferred from the passage that", choices:["Fleming alone was responsible for making penicillin available to the public","Without further research by Florey and Chain, Fleming's discovery may have remained unused","Penicillin was ineffective against bacterial infections","World War II delayed the development of penicillin"], answer:1, explain:"ถ้าไม่มีทีม Florey และ Chain มาทำต่อ การค้นพบของ Fleming อาจไม่ถูกนำมาใช้จริง" }
+  ]},
+  { title:"The Origins of Chess",
+  passage:"Chess is often assumed to have originated in Europe, but historians generally trace its roots to a game called chaturanga, which was played in India as early as the sixth century. Chaturanga featured pieces that represented four divisions of an ancient Indian army: infantry, cavalry, elephants, and chariots, elements that would later evolve into the pawns, knights, bishops, and rooks used in modern chess. As trade routes carried the game westward, it was adopted and adapted by Persian traders, who renamed it shatranj and introduced new rules, including the practice of announcing \"check\" when a king was under threat. When Muslim conquests spread across the Middle East and North Africa, shatranj traveled along with them, eventually reaching Europe through Spain and Italy around the tenth century. European players gradually modified the game further, most notably around the late fifteenth century, when the queen and bishop were given significantly more powerful movements than they had in earlier versions, dramatically increasing the game's pace and strategic depth. This transformation was so significant that historians sometimes refer to it as the birth of \"modern chess.\" Interestingly, despite these numerous changes across cultures and centuries, the fundamental objective, capturing the opposing king, has remained essentially unchanged since chaturanga was first played over a thousand years ago. Today, chess is recognized worldwide as both a competitive sport and a tool used to study strategic thinking, memory, and problem-solving in cognitive science research.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The rules of modern chess tournaments","The historical origins and evolution of chess","How to play chaturanga","The use of chess in cognitive science"], answer:1, explain:"เนื้อหาหลักคือประวัติศาสตร์และวิวัฒนาการของหมากรุก" },
+    { q:"According to the passage, where did chess originate?", choices:["Persia","Spain","India","Italy"], answer:2, explain:"หมากรุกมีต้นกำเนิดในอินเดีย" },
+    { q:"The word \"adapted\" in the passage is closest in meaning to", choices:["destroyed","modified","ignored","translated literally"], answer:1, explain:"adapted = ดัดแปลง ปรับให้เข้ากับ" },
+    { q:"What change occurred to the queen and bishop in the late fifteenth century?", choices:["They were removed from the game","They were given more powerful movements","They were renamed","They became less important pieces"], answer:1, explain:"ราชินีและบิชอปเคลื่อนที่ได้ทรงพลังขึ้นมาก" },
+    { q:"How did shatranj reach Europe?", choices:["Directly from India by sea","Through Spain and Italy following Muslim conquests","Through trade with East Asia","It was invented independently in Europe"], answer:1, explain:"เข้าสู่ยุโรปผ่านสเปนและอิตาลีตามการขยายอำนาจของชาวมุสลิม" },
+    { q:"Which of the following is NOT mentioned as part of chess's history?", choices:["The game began as chaturanga in India","Persian traders renamed the game shatranj","The game was banned in Europe for a century","The queen's movement became more powerful over time"], answer:2, explain:"บทความไม่ได้พูดถึงการถูกแบนในยุโรป" },
+    { q:"It can be inferred from the passage that", choices:["The core objective of chess has remained constant despite many changes","Chaturanga and modern chess have completely different objectives","Chess was never played outside of India","The queen was always the most powerful piece in chess"], answer:0, explain:"เป้าหมายหลักของเกม (รุกฆาตราชา) ไม่เคยเปลี่ยนแม้กติกาจะเปลี่ยนไปมาก" }
+  ]},
+  { title:"How Vaccines Train the Immune System",
+  passage:"Vaccines work by taking advantage of the immune system's remarkable ability to remember past threats. When a harmful pathogen, such as a virus or bacterium, enters the body for the first time, the immune system needs time, often several days, to recognize the invader and produce specialized proteins called antibodies capable of fighting it off. During this delay, a person can become seriously ill, since the pathogen has time to multiply before the immune response fully activates. Vaccines solve this problem by introducing a harmless version of the pathogen, or sometimes just a distinctive piece of it, into the body without causing the actual disease. This might be a weakened form of the virus, an inactivated version that cannot replicate, or, in the case of newer mRNA vaccines, genetic instructions that teach cells to briefly produce a single harmless protein from the pathogen. In each case, the immune system responds by producing antibodies and, crucially, by creating memory cells that persist long after the vaccine has been cleared from the body. If the real pathogen is later encountered, these memory cells allow the immune system to recognize the threat immediately and mount a rapid, powerful response, often preventing illness entirely or significantly reducing its severity. This is fundamentally the same process that occurs after naturally recovering from an infection, except that vaccination achieves it without the risks associated with the actual disease. Public health officials emphasize that when enough people in a community are vaccinated, a phenomenon known as herd immunity can also help protect individuals who cannot be vaccinated themselves, such as newborns or people with certain medical conditions.",
+  questions:[
+    { q:"What is the passage mainly about?", choices:["The history of the first vaccine","How vaccines prepare the immune system to fight disease","The side effects of vaccination","How viruses multiply inside the body"], answer:1, explain:"เนื้อหาหลักคือวิธีที่วัคซีนเตรียมระบบภูมิคุ้มกันให้พร้อมสู้โรค" },
+    { q:"Why can a person become seriously ill before their immune system fully responds to a new pathogen?", choices:["The pathogen destroys memory cells immediately","The immune system needs time to recognize and respond, during which the pathogen multiplies","Antibodies are produced too quickly","The body cannot produce antibodies at all"], answer:1, explain:"ระบบภูมิคุ้มกันต้องใช้เวลาจดจำเชื้อโรค ระหว่างนั้นเชื้อจะเพิ่มจำนวน" },
+    { q:"The word \"mount\" in the passage is closest in meaning to", choices:["climb","organize and launch","weaken","delay"], answer:1, explain:"mount = ระดม/จัดการตอบโต้" },
+    { q:"According to the passage, what do mRNA vaccines do?", choices:["Introduce a live, active virus into the body","Give cells genetic instructions to produce a harmless protein","Remove antibodies from the bloodstream","Prevent memory cells from forming"], answer:1, explain:"วัคซีน mRNA ให้คำสั่งพันธุกรรมแก่เซลล์เพื่อสร้างโปรตีนที่ไม่เป็นอันตราย" },
+    { q:"What is the role of memory cells, according to the passage?", choices:["They allow rapid immune response upon future exposure to the same pathogen","They destroy vaccines before they take effect","They cause the original disease symptoms","They are only created after natural infection, never after vaccination"], answer:0, explain:"เซลล์ความจำช่วยให้ตอบสนองได้เร็วเมื่อเจอเชื้อเดิมอีกครั้ง" },
+    { q:"Which of the following is NOT mentioned as a type of vaccine?", choices:["Weakened virus vaccines","Inactivated virus vaccines","mRNA vaccines","Antibiotic-based vaccines"], answer:3, explain:"บทความไม่ได้พูดถึงวัคซีนชนิดใช้ยาปฏิชีวนะ (ซึ่งไม่มีอยู่จริง)" },
+    { q:"It can be inferred from the passage that", choices:["Vaccination and natural infection can lead to similar immune memory, but vaccination avoids the risks of the disease","Herd immunity only protects vaccinated individuals","mRNA vaccines cannot create memory cells","Antibodies are produced only after a person recovers from illness"], answer:0, explain:"การฉีดวัคซีนให้ผลคล้ายการติดเชื้อธรรมชาติ แต่ไม่ต้องเสี่ยงเป็นโรคจริง" }
+  ]}
+]};
+
+/* ================= EXAM SET REGISTRY ================= */
+
+var EXAM_SETS = [
+  { id:"set1", label:"ชุดที่ 1", dialogs:DIALOGS, monologs:MONOLOGS, errors:ERRORS, cloze:CLOZE_PASSAGES, vocab:VOCAB, reading:READING },
+  { id:"set2", label:"ชุดที่ 2", dialogs:SET2_DIALOGS, monologs:SET2_MONOLOGS, errors:SET2_ERRORS, cloze:SET2_CLOZE, vocab:SET2_VOCAB, reading:SET2_READING },
+  { id:"set3", label:"ชุดที่ 3", dialogs:SET3_DIALOGS, monologs:SET3_MONOLOGS, errors:SET3_ERRORS, cloze:SET3_CLOZE, vocab:SET3_VOCAB, reading:SET3_READING }
+];
+
+function loadSet(idx){
+  var s = EXAM_SETS[idx];
+  DIALOGS = s.dialogs; MONOLOGS = s.monologs; ERRORS = s.errors; CLOZE_PASSAGES = s.cloze; VOCAB = s.vocab; READING = s.reading;
+  LISTEN_ITEMS = DIALOGS.map(function(d){ return {type:"dialog", data:d}; })
+    .concat(MONOLOGS.map(function(m){ return {type:"monolog", data:m}; }));
+}
+
+var SECTION_DEFS = [
+  { key:"listening", label:"Listening", time:null },
+  { key:"error", label:"Structure", time:1200 },
+  { key:"cloze", label:"Cloze", time:1200 },
+  { key:"vocab", label:"Vocabulary", time:1200 },
+  { key:"reading", label:"Reading", time:2700 },
+  { key:"results", label:"สรุปผล", time:null }
+];
+
+/* ---------------- STATE ---------------- */
+
+var STATE = {
+  mode:"practice",
+  section:"listening",
+  setIndex:0,
+  answers:{},
+  locked:{},
+  showTranscript:{},
+  listen:{ idx:0, phase:"idle", timerId:null, timeLeft:0 },
+  secTimer:{ error:{running:false,left:1200,id:null}, cloze:{running:false,left:1200,id:null}, vocab:{running:false,left:1200,id:null}, reading:{running:false,left:2700,id:null} },
+  secSubmitted:{ error:false, cloze:false, vocab:false, reading:false }
+};
+
+var LISTEN_ITEMS;
+loadSet(0);
+
+/* ---------------- SPEECH ---------------- */
+
+var DEBUG = { voicesCount:0 };
+
+var voices = [];
+function loadVoices(){
+  voices = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(function(v){ return /^en/i.test(v.lang); });
+  voices.sort(function(a,b){ return (b.localService?1:0) - (a.localService?1:0); });
+  DEBUG.voicesCount = voices.length;
+}
+if("speechSynthesis" in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+var VOICE_AVOID_RE = /david/i;
+var VOICE_RANK_A_RE = /zira|jenny|aria|susan|samantha|hazel|catherine|michelle|emma|ava|sara|sonia|libby|olivia|natasha|elizabeth|amber|ashley|nancy|cora|maisie/i;
+var VOICE_RANK_B_RE = /mark|guy|daniel|christopher|eric|ryan|andrew|brian|roger|steffan|jacob|jason|tony|william|davis|brandon|thomas/i;
+function pickVoice(spk){
+  if(!voices.length) return null;
+  var pool = voices.filter(function(v){ return !VOICE_AVOID_RE.test(v.name); });
+  if(!pool.length) pool = voices.slice();
+  pool = pool.slice().sort(function(x, y){
+    var xq = /natural|neural|online/i.test(x.name) ? 0 : 1;
+    var yq = /natural|neural|online/i.test(y.name) ? 0 : 1;
+    return xq - yq;
+  });
+  var a = pool.find(function(v){ return VOICE_RANK_A_RE.test(v.name); }) || pool[0];
+  var b = pool.find(function(v){ return VOICE_RANK_B_RE.test(v.name) && v !== a; });
+  if(!b) b = pool.find(function(v){ return v !== a; }) || a;
+  return spk === "M" ? a : b;
+}
+var speaking = false;
+var speechGen = 0;
+
+function speakLines(lines, onDone){
+  if(!("speechSynthesis" in window)){ onDone(); return; }
+  if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+  var myGen = ++speechGen;
+  var i = 0;
+  speaking = true;
+  function finish(){
+    if(myGen !== speechGen) return;
+    speaking = false;
+    onDone();
+  }
+  function next(){
+    if(myGen !== speechGen) return;
+    if(i >= lines.length){ finish(); return; }
+    var line = lines[i++];
+    var u = new SpeechSynthesisUtterance(line.text);
+    u.rate = 0.96; u.pitch = (line.spk === "M" ? 1.35 : 1.02); u.volume = 1;
+    var v = pickVoice(line.spk);
+    if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = "en-US"; }
+    var settled = false;
+    var watchdogMs = voices.length ? 9000 : 4000;
+    var watchdog = setTimeout(function(){
+      if(settled || myGen !== speechGen) return;
+      settled = true;
+      next();
+    }, watchdogMs);
+    u.onend = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); next(); };
+    u.onerror = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); next(); };
+    speechSynthesis.speak(u);
+  }
+  next();
+}
+function stopSpeech(){ speechGen++; if("speechSynthesis" in window) speechSynthesis.cancel(); speaking = false; }
+
+/* ---------------- HELPERS ---------------- */
+
+function fmtTime(s){
+  s = Math.max(0, s|0);
+  var m = Math.floor(s/60), r = s%60;
+  return m + ":" + (r<10?"0":"") + r;
+}
+function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+function clearListenTimer(){ if(STATE.listen.timerId){ clearInterval(STATE.listen.timerId); STATE.listen.timerId = null; } }
+
+/* ---------------- GENERIC QUESTION RENDER ---------------- */
+
+function renderMCQ(qid, promptHtml, choices, answerIdx, explain, opts){
+  opts = opts || {};
+  var locked = !!STATE.locked[qid];
+  var selected = STATE.answers[qid];
+  var examHide = STATE.mode === "exam" && !locked;
+  var html = "";
+  if(promptHtml) html += '<p class="qprompt">' + promptHtml + "</p>";
+  html += '<div class="choices">';
+  choices.forEach(function(c, i){
+    var cls = "choice";
+    if(selected === i && !locked) cls += " selected";
+    if(locked){
+      if(i === answerIdx) cls += " correct";
+      else if(i === selected) cls += " wrong";
+    }
+    html += '<button type="button" class="' + cls + '" data-action="pick" data-qid="' + qid + '" data-idx="' + i + '"' + (locked?' disabled':'') + '>'
+      + '<span class="lab">' + String.fromCharCode(65+i) + '</span><span>' + esc(c) + '</span></button>';
+  });
+  html += "</div>";
+  if(locked && !examHide){
+    html += '<div class="explain"><b>' + (selected===answerIdx?"ถูกต้อง! ":"ไม่ถูกต้อง — ") + '</b>' + esc(explain) + "</div>";
+  }
+  if(STATE.mode === "practice" && !locked){
+    html += '<div class="btnrow"><button class="btn" data-action="submit-one" data-qid="' + qid + '" ' + (selected===undefined?'disabled':'') + '>ตรวจคำตอบ</button></div>';
+  }
+  return html;
+}
+
+/* ---------------- LISTENING RENDER ---------------- */
+
+function renderListening(){
+  var st = STATE.listen;
+  if(st.idx >= LISTEN_ITEMS.length){
+    return renderListenDone();
+  }
+  var item = LISTEN_ITEMS[st.idx];
+  var total = LISTEN_ITEMS.length;
+  var noTTS = !("speechSynthesis" in window);
+  var html = '<div class="card">';
+  html += '<p class="progress-mini">รายการฟังที่ ' + (st.idx+1) + ' / ' + total + (item.type==="monolog" ? " (บทพูดยาว " + item.data.questions.length + " คำถาม)" : "") + '</p>';
+
+  if(noTTS){
+    html += '<div class="notice">เบราว์เซอร์นี้ไม่รองรับการอ่านออกเสียง — แสดงบทสนทนาเป็นข้อความแทนด้านล่าง</div>';
+  } else if(DEBUG.voicesCount === 0 && st.phase !== "idle"){
+    html += '<div class="notice">ไม่พบเสียงพูดภาษาอังกฤษที่ติดตั้งในเครื่อง/เบราว์เซอร์นี้ — ถ้าไม่ได้ยินเสียงภายในไม่กี่วินาที ระบบจะข้ามให้อัตโนมัติ ลองตรวจสอบ Text-to-speech voices ในการตั้งค่าเครื่อง หรือเปลี่ยนเบราว์เซอร์ (เช่น Chrome/Edge บน Windows)</div>';
+  }
+
+  html += '<div class="player">';
+  html += '<div class="eq' + (st.phase==="playing"?" live":"") + '">' + '<span></span>'.repeat(7) + '</div>';
+  if(st.phase === "idle"){
+    html += '<button class="playbtn" data-action="listen-play">▶</button>';
+    html += '<p class="player-label">' + (item.type==="monolog" ? "กดฟังบทพูด แล้วตอบคำถามทั้ง 4 ข้อ" : "กดฟังบทสนทนาสั้น ๆ") + '</p>';
+  } else if(st.phase === "playing"){
+    if(st.autoplayBlocked){
+      html += '<button class="playbtn" data-action="listen-play">▶</button>';
+      html += '<p class="player-label">เบราว์เซอร์บล็อกการเล่นเสียงอัตโนมัติ กดฟังอีกครั้ง</p>';
+    } else {
+      html += '<button class="playbtn" disabled>♪</button><p class="player-label">กำลังเล่นเสียง...</p>';
+    }
+  } else if(st.phase === "answering" || st.phase === "done"){
+    html += '<button class="playbtn" disabled>✓</button><p class="player-label">ฟังจบแล้ว</p>';
+    if(STATE.mode === "practice"){
+      html += '<button class="replay" data-action="listen-replay">🔁 ฟังซ้ำ</button>';
+    }
+  }
+  html += "</div>";
+
+  if(STATE.mode === "exam" && st.phase === "answering" && st.timeLeft !== undefined){
+    var urgent = st.timeLeft <= 5;
+    html += '<div class="timerbar' + (urgent?" urgent":"") + '"><span>เวลาตอบคำถามที่เหลือ</span><span class="t mono">' + fmtTime(st.timeLeft) + '</span></div>';
+  }
+
+  if(st.phase === "answering" || st.phase === "done"){
+    if(noTTS){
+      html += transcriptBlock(item, true);
+    }
+    if(item.type === "dialog"){
+      var qid = "listen-" + item.data.id;
+      html += renderMCQ(qid, esc(item.data.q), item.data.choices, item.data.answer, item.data.explain, {});
+    } else {
+      item.data.questions.forEach(function(qq, i){
+        var qid = "listen-" + item.data.id + "-" + i;
+        html += '<div style="margin-top:' + (i? '18px':'0') + '"><p class="qgroup-title">คำถามที่ ' + (i+1) + '/' + item.data.questions.length + '</p>';
+        html += renderMCQ(qid, esc(qq.q), qq.choices, qq.answer, qq.explain, {});
+        html += "</div>";
+      });
+    }
+    var allLocked = item.type === "dialog"
+      ? STATE.locked["listen-"+item.data.id]
+      : item.data.questions.every(function(_,i){ return STATE.locked["listen-"+item.data.id+"-"+i]; });
+
+    if(STATE.mode === "practice"){
+      html += '<div class="btnrow"><button class="btn ghost" data-action="listen-next" ' + (allLocked?'':'disabled') + '>ข้อถัดไป →</button></div>';
+      if(allLocked && !noTTS){
+        html += transcriptBlock(item, false);
+      }
+    }
+  }
+
+  html += "</div>";
+  return html;
+}
+
+function transcriptBlock(item, forceOpen){
+  var id = "t-" + item.data.id;
+  var shown = forceOpen || STATE.showTranscript[id];
+  var html = "";
+  if(!forceOpen){
+    html += '<button class="transcript-toggle" data-action="toggle-transcript" data-tid="' + id + '">' + (shown?"ซ่อนบทสนทนา":"👁 ดูบทสนทนา (Transcript)") + '</button>';
+  }
+  if(shown){
+    html += '<div class="transcript">';
+    item.data.lines.forEach(function(l){
+      html += '<p><b>' + (l.spk==="M"?"Man":l.spk==="W"?"Woman":"Speaker") + ':</b> ' + esc(l.text) + '</p>';
+    });
+    html += "</div>";
+  }
+  return html;
+}
+
+function renderListenDone(){
+  var total = LISTEN_ITEMS.reduce(function(n,it){ return n + (it.type==="dialog"?1:it.data.questions.length); }, 0);
+  var correct = 0;
+  LISTEN_ITEMS.forEach(function(it){
+    if(it.type==="dialog"){ var qid="listen-"+it.data.id; if(STATE.answers[qid]===it.data.answer) correct++; }
+    else { it.data.questions.forEach(function(qq,i){ var qid="listen-"+it.data.id+"-"+i; if(STATE.answers[qid]===qq.answer) correct++; }); }
+  });
+  return '<div class="card"><h3>จบส่วน Listening แล้ว 🎧</h3><p class="section-intro">ทำถูก <b>' + correct + ' / ' + total + '</b> ข้อ</p>'
+    + '<div class="btnrow"><button class="btn" data-action="goto-section" data-section="error">ไปทำ Structure ต่อ →</button> <button class="btn ghost" data-action="listen-restart">เริ่ม Listening ใหม่</button></div></div>';
+}
+
+function startListenPlay(){
+  var st = STATE.listen;
+  var item = LISTEN_ITEMS[st.idx];
+  st.phase = "playing";
+  st.autoplayBlocked = false;
+  render();
+  var started = false;
+  var fallbackTimer = setTimeout(function(){
+    if(!started && !speaking){
+      st.autoplayBlocked = true;
+      render();
+    }
+  }, 1800);
+  speakLines(item.data.lines, function(){
+    started = true;
+    clearTimeout(fallbackTimer);
+    st.autoplayBlocked = false;
+    st.phase = "answering";
+    if(STATE.mode === "exam"){
+      var secs = item.type === "monolog" ? 60 : 15;
+      st.timeLeft = secs;
+      clearListenTimer();
+      st.timerId = setInterval(function(){
+        st.timeLeft--;
+        if(st.timeLeft <= 0){
+          clearListenTimer();
+          autoLockCurrentListen();
+          advanceListen();
+          return;
+        }
+        render();
+      }, 1000);
+    }
+    render();
+  });
+}
+
+function autoLockCurrentListen(){
+  var item = LISTEN_ITEMS[STATE.listen.idx];
+  if(item.type === "dialog"){
+    var qid = "listen-" + item.data.id;
+    STATE.locked[qid] = true;
+  } else {
+    item.data.questions.forEach(function(_, i){
+      STATE.locked["listen-" + item.data.id + "-" + i] = true;
+    });
+  }
+}
+
+function advanceListen(){
+  stopSpeech();
+  clearListenTimer();
+  STATE.listen.idx++;
+  STATE.listen.phase = "idle";
+  STATE.listen.timeLeft = 0;
+  if(STATE.mode === "exam" && STATE.listen.idx < LISTEN_ITEMS.length){
+    render();
+    setTimeout(function(){ startListenPlay(); }, 900);
+  } else {
+    render();
+  }
+}
+
+/* ---------------- ERROR SECTION ---------------- */
+
+function renderErrorSection(){
+  var html = '<div class="card"><p class="section-intro"><b>Structure &amp; Written Expression</b> — แตะส่วนที่คิดว่าผิดไวยากรณ์ในแต่ละประโยค</p>';
+  html += sectionTimerHtml("error");
+  html += "</div>";
+  ERRORS.forEach(function(item, idx){
+    var qid = "error-" + item.id;
+    var locked = !!STATE.locked[qid];
+    var selected = STATE.answers[qid];
+    html += '<div class="card"><p class="progress-mini">ข้อ ' + (idx+1) + ' / ' + ERRORS.length + '</p><p class="sentence">';
+    item.segs.forEach(function(s){
+      if(!s.k){ html += esc(s.t); return; }
+      var cls = "seg";
+      if(selected === s.k && !locked) cls += " selected";
+      if(locked){
+        if(s.k === item.answer) cls += " correct";
+        else if(s.k === selected) cls += " wrong";
+      }
+      html += '<button type="button" class="' + cls + '" data-action="pick-seg" data-qid="' + qid + '" data-k="' + s.k + '"' + (locked?' disabled':'') + '>' + esc(s.t) + '<sup>' + s.k + '</sup></button>';
+    });
+    html += "</p>";
+    if(locked){
+      html += '<div class="explain"><b>' + (selected===item.answer?"ถูกต้อง! ":"ไม่ถูกต้อง — ") + '</b>' + esc(item.explain) + "</div>";
+    }
+    if(STATE.mode === "practice" && !locked){
+      html += '<div class="btnrow"><button class="btn" data-action="submit-one" data-qid="' + qid + '" ' + (selected===undefined?'disabled':'') + '>ตรวจคำตอบ</button></div>';
+    }
+    html += "</div>";
+  });
+  html += sectionFooter("error", ERRORS.map(function(e){ return "error-"+e.id; }));
+  return html;
+}
+
+/* ---------------- CLOZE SECTION ---------------- */
+
+function renderClozeSection(){
+  var html = '<div class="card"><p class="section-intro"><b>Cloze Test</b> — อ่านย่อหน้า แล้วเลือกคำที่เหมาะกับช่องว่างแต่ละช่อง</p>';
+  html += sectionTimerHtml("cloze");
+  html += "</div>";
+  CLOZE_PASSAGES.forEach(function(p){
+    html += '<div class="card"><h3>' + esc(p.title) + '</h3><div class="passage">';
+    var text = p.template.replace(/\{\{(\d+)\}\}/g, function(_, n){ return '<span class="blankmark">(' + n + ')</span>'; });
+    html += text + "</div>";
+    p.blanks.forEach(function(b){
+      var qid = "cloze-" + b.n;
+      html += '<div style="margin-top:14px"><p class="qgroup-title">ช่องว่างที่ (' + b.n + ')</p>';
+      html += renderMCQ(qid, "", b.choices, b.answer, b.explain, {});
+      html += "</div>";
+    });
+    html += "</div>";
+  });
+  var allIds = [];
+  CLOZE_PASSAGES.forEach(function(p){ p.blanks.forEach(function(b){ allIds.push("cloze-"+b.n); }); });
+  html += sectionFooter("cloze", allIds);
+  return html;
+}
+
+/* ---------------- VOCAB SECTION ---------------- */
+
+function renderVocabSection(){
+  var html = '<div class="card"><p class="section-intro"><b>Vocabulary</b> — เลือกคำที่ความหมายใกล้เคียงที่สุด</p>';
+  html += sectionTimerHtml("vocab");
+  html += "</div>";
+  VOCAB.forEach(function(item, idx){
+    var qid = "vocab-" + item.id;
+    html += '<div class="card"><p class="progress-mini">ข้อ ' + (idx+1) + ' / ' + VOCAB.length + '</p>';
+    html += renderMCQ(qid, '<b>' + esc(item.word) + '</b>', item.choices, item.answer, item.explain, {});
+    html += "</div>";
+  });
+  html += sectionFooter("vocab", VOCAB.map(function(v){ return "vocab-"+v.id; }));
+  return html;
+}
+
+/* ---------------- READING SECTION ---------------- */
+
+function readingFlat(){
+  var out = [];
+  READING.passages.forEach(function(p){ p.questions.forEach(function(q){ out.push(q); }); });
+  return out;
+}
+
+function renderReadingSection(){
+  var html = '<div class="card"><p class="section-intro"><b>Reading Comprehension</b></p>';
+  html += sectionTimerHtml("reading");
+  html += "</div>";
+  var total = readingFlat().length;
+  var idx = 0;
+  READING.passages.forEach(function(p){
+    html += '<div class="card"><h3>' + esc(p.title) + '</h3><div class="passage">' + esc(p.passage) + '</div></div>';
+    p.questions.forEach(function(item){
+      var qid = "reading-" + idx;
+      html += '<div class="card"><p class="progress-mini">ข้อ ' + (idx+1) + ' / ' + total + '</p>';
+      html += renderMCQ(qid, esc(item.q), item.choices, item.answer, item.explain, {});
+      html += "</div>";
+      idx++;
+    });
+  });
+  html += sectionFooter("reading", readingFlat().map(function(_,i){ return "reading-"+i; }));
+  return html;
+}
+
+/* ---------------- TIMER + FOOTER HELPERS ---------------- */
+
+function sectionTimerHtml(key){
+  if(STATE.mode !== "exam") return "";
+  var t = STATE.secTimer[key];
+  var urgent = t.left <= 30;
+  var submitted = STATE.secSubmitted[key];
+  if(submitted) return '<div class="timerbar"><span>ส่งคำตอบแล้ว</span><span class="t mono">หมดเวลา/ส่งแล้ว</span></div>';
+  return '<div class="timerbar' + (urgent?" urgent":"") + '"><span>เวลาที่เหลือในส่วนนี้</span><span class="t mono">' + fmtTime(t.left) + '</span></div>';
+}
+
+function sectionFooter(key, qids){
+  var html = "";
+  if(STATE.mode === "exam"){
+    var submitted = STATE.secSubmitted[key];
+    var answeredCount = qids.filter(function(q){ return STATE.answers[q] !== undefined; }).length;
+    if(!submitted){
+      html += '<div class="btnrow"><button class="btn" data-action="submit-section" data-section="' + key + '">ส่งคำตอบทั้งหมด (' + answeredCount + '/' + qids.length + ')</button></div>';
+    } else {
+      var correct = qids.filter(function(q){ return isCorrect(q); }).length;
+      html += '<div class="card"><p><b>สรุปส่วนนี้:</b> ทำถูก ' + correct + ' / ' + qids.length + ' ข้อ</p></div>';
+    }
+  }
+  return html;
+}
+
+function isCorrect(qid){
+  var parts = qid.split("-");
+  var section = parts[0];
+  if(section === "error"){
+    var e = ERRORS.find(function(x){ return "error-"+x.id === qid; });
+    return e && STATE.answers[qid] === e.answer;
+  }
+  if(section === "cloze"){
+    var n = parseInt(parts[1],10);
+    var b = null;
+    CLOZE_PASSAGES.forEach(function(p){ p.blanks.forEach(function(x){ if(x.n===n) b = x; }); });
+    return b && STATE.answers[qid] === b.answer;
+  }
+  if(section === "vocab"){
+    var v = VOCAB.find(function(x){ return "vocab-"+x.id === qid; });
+    return v && STATE.answers[qid] === v.answer;
+  }
+  if(section === "reading"){
+    var idx = parseInt(parts[1],10);
+    var rf = readingFlat();
+    return rf[idx] && STATE.answers[qid] === rf[idx].answer;
+  }
+  return false;
+}
+
+/* ---------------- RESULTS ---------------- */
+
+function renderResults(){
+  var groups = [
+    { key:"listening", label:"Listening", ids: LISTEN_ITEMS.reduce(function(a,it){ if(it.type==="dialog") a.push("listen-"+it.data.id); else it.data.questions.forEach(function(_,i){ a.push("listen-"+it.data.id+"-"+i); }); return a; }, []) },
+    { key:"error", label:"Structure", ids: ERRORS.map(function(e){ return "error-"+e.id; }) },
+    { key:"cloze", label:"Cloze", ids: (function(){ var a=[]; CLOZE_PASSAGES.forEach(function(p){ p.blanks.forEach(function(b){ a.push("cloze-"+b.n); }); }); return a; })() },
+    { key:"vocab", label:"Vocabulary", ids: VOCAB.map(function(v){ return "vocab-"+v.id; }) },
+    { key:"reading", label:"Reading", ids: readingFlat().map(function(_,i){ return "reading-"+i; }) }
+  ];
+  var totalQ = 0, totalCorrect = 0;
+  var bars = "";
+  groups.forEach(function(g){
+    var answered = g.ids.filter(function(id){ return STATE.locked[id] || STATE.answers[id]!==undefined && STATE.secSubmitted[g.key]; });
+    var correct = 0;
+    g.ids.forEach(function(id){
+      var locked = STATE.locked[id] || STATE.secSubmitted[g.key];
+      if(g.key === "listening"){ locked = STATE.locked[id]; }
+      if(locked && checkAnswerAny(id)) correct++;
+    });
+    totalQ += g.ids.length;
+    totalCorrect += correct;
+    var pct = g.ids.length ? Math.round(correct / g.ids.length * 100) : 0;
+    bars += '<div class="bar-row"><span>' + g.label + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div><span class="mono">' + correct + '/' + g.ids.length + '</span></div>';
+  });
+
+  var html = '<div class="card score-hero"><div class="big">' + totalCorrect + ' <span>/ ' + totalQ + '</span></div><p class="section-intro">คะแนนรวมทุกส่วน (นับเฉพาะข้อที่ตรวจ/ส่งแล้ว)</p></div>';
+  html += '<div class="card"><div class="bars">' + bars + '</div></div>';
+  html += '<div class="card"><div class="btnrow"><button class="btn" data-action="reset-all">เริ่มทำใหม่ทั้งหมด</button></div></div>';
+  return html;
+}
+
+function checkAnswerAny(qid){
+  if(qid.indexOf("listen-") === 0){
+    var rest = qid.slice(7);
+    var d = DIALOGS.find(function(x){ return x.id === rest; });
+    if(d) return STATE.answers[qid] === d.answer;
+    var lastDash = rest.lastIndexOf("-");
+    var mid = rest.slice(0, lastDash), qi = parseInt(rest.slice(lastDash+1),10);
+    var m = MONOLOGS.find(function(x){ return x.id === mid; });
+    if(m) return STATE.answers[qid] === m.questions[qi].answer;
+    return false;
+  }
+  return isCorrect(qid);
+}
+
+/* ---------------- MAIN RENDER ---------------- */
+
+function render(){
+  var setSwitch = document.getElementById("setSwitch");
+  setSwitch.innerHTML = EXAM_SETS.map(function(s, i){
+    return '<button data-action="switch-set" data-idx="' + i + '" class="' + (STATE.setIndex===i?"active":"") + '">' + esc(s.label) + "</button>";
+  }).join("");
+
+  var tabs = document.getElementById("tabs");
+  tabs.innerHTML = SECTION_DEFS.map(function(s){
+    return '<button data-action="goto-section" data-section="' + s.key + '" class="' + (STATE.section===s.key?"active":"") + '">' + s.label + "</button>";
+  }).join("");
+
+  var modeToggle = document.getElementById("modeToggle");
+  Array.prototype.forEach.call(modeToggle.querySelectorAll("button"), function(b){
+    b.classList.toggle("active", b.getAttribute("data-mode")===STATE.mode);
+  });
+
+  var stage = document.getElementById("stage");
+  if(STATE.section === "listening") stage.innerHTML = renderListening();
+  else if(STATE.section === "error") stage.innerHTML = renderErrorSection();
+  else if(STATE.section === "cloze") stage.innerHTML = renderClozeSection();
+  else if(STATE.section === "vocab") stage.innerHTML = renderVocabSection();
+  else if(STATE.section === "reading") stage.innerHTML = renderReadingSection();
+  else if(STATE.section === "results") stage.innerHTML = renderResults();
+}
+
+/* ---------------- SECTION TIMER CONTROL ---------------- */
+
+function ensureSectionTimer(key){
+  var def = SECTION_DEFS.find(function(s){ return s.key===key; });
+  if(!def || !def.time) return;
+  var t = STATE.secTimer[key];
+  if(STATE.mode !== "exam" || STATE.secSubmitted[key]){
+    if(t.id){ clearInterval(t.id); t.id = null; t.running = false; }
+    return;
+  }
+  if(t.running) return;
+  t.running = true;
+  t.id = setInterval(function(){
+    t.left--;
+    if(t.left <= 0){
+      clearInterval(t.id); t.id = null; t.running = false;
+      submitSection(key);
+      return;
+    }
+    if(STATE.section === key) render();
+  }, 1000);
+}
+function stopAllSectionTimers(){
+  Object.keys(STATE.secTimer).forEach(function(k){
+    var t = STATE.secTimer[k];
+    if(t.id){ clearInterval(t.id); t.id = null; }
+    t.running = false;
+  });
+}
+function submitSection(key){
+  STATE.secSubmitted[key] = true;
+  var t = STATE.secTimer[key];
+  if(t && t.id){ clearInterval(t.id); t.id = null; t.running = false; }
+  var idsMap = { error: ERRORS.map(function(e){return "error-"+e.id;}),
+    cloze: (function(){ var a=[]; CLOZE_PASSAGES.forEach(function(p){p.blanks.forEach(function(b){a.push("cloze-"+b.n);});}); return a; })(),
+    vocab: VOCAB.map(function(v){return "vocab-"+v.id;}),
+    reading: readingFlat().map(function(_,i){return "reading-"+i;}) };
+  (idsMap[key]||[]).forEach(function(id){ STATE.locked[id] = true; });
+  render();
+}
+
+/* ---------------- EVENTS ---------------- */
+
+document.getElementById("modeToggle").addEventListener("click", function(e){
+  var btn = e.target.closest("button[data-mode]");
+  if(!btn) return;
+  STATE.mode = btn.getAttribute("data-mode");
+  stopSpeech(); clearListenTimer(); stopAllSectionTimers();
+  STATE.listen = { idx:0, phase:"idle", timerId:null, timeLeft:0 };
+  render();
+});
+
+document.addEventListener("click", function(e){
+  var t = e.target.closest("[data-action]");
+  if(!t) return;
+  var action = t.getAttribute("data-action");
+
+  if(action === "goto-section"){
+    stopSpeech(); clearListenTimer();
+    STATE.section = t.getAttribute("data-section");
+    if(["error","cloze","vocab","reading"].indexOf(STATE.section) !== -1) ensureSectionTimer(STATE.section);
+    render();
+    return;
+  }
+
+  if(action === "pick"){
+    var qid = t.getAttribute("data-qid");
+    if(STATE.locked[qid]) return;
+    STATE.answers[qid] = parseInt(t.getAttribute("data-idx"),10);
+    if(STATE.mode === "exam"){
+      // exam mode: selection recorded silently, no reveal
+    }
+    render();
+    return;
+  }
+
+  if(action === "pick-seg"){
+    var qid2 = t.getAttribute("data-qid");
+    if(STATE.locked[qid2]) return;
+    STATE.answers[qid2] = t.getAttribute("data-k");
+    render();
+    return;
+  }
+
+  if(action === "submit-one"){
+    var qid3 = t.getAttribute("data-qid");
+    if(STATE.answers[qid3] === undefined) return;
+    STATE.locked[qid3] = true;
+    render();
+    return;
+  }
+
+  if(action === "submit-section"){
+    var key = t.getAttribute("data-section");
+    submitSection(key);
+    return;
+  }
+
+  if(action === "toggle-transcript"){
+    var tid = t.getAttribute("data-tid");
+    STATE.showTranscript[tid] = !STATE.showTranscript[tid];
+    render();
+    return;
+  }
+
+  if(action === "listen-play"){
+    startListenPlay();
+    return;
+  }
+
+  if(action === "listen-replay"){
+    var item = LISTEN_ITEMS[STATE.listen.idx];
+    STATE.listen.phase = "playing";
+    render();
+    speakLines(item.data.lines, function(){
+      STATE.listen.phase = "answering";
+      render();
+    });
+    return;
+  }
+
+  if(action === "listen-next"){
+    advanceListen();
+    return;
+  }
+
+  if(action === "listen-restart"){
+    stopSpeech(); clearListenTimer();
+    STATE.listen = { idx:0, phase:"idle", timerId:null, timeLeft:0 };
+    LISTEN_ITEMS.forEach(function(it){
+      if(it.type==="dialog"){ delete STATE.locked["listen-"+it.data.id]; delete STATE.answers["listen-"+it.data.id]; }
+      else it.data.questions.forEach(function(_,i){ delete STATE.locked["listen-"+it.data.id+"-"+i]; delete STATE.answers["listen-"+it.data.id+"-"+i]; });
+    });
+    render();
+    return;
+  }
+
+  if(action === "switch-set"){
+    var newIdx = parseInt(t.getAttribute("data-idx"),10);
+    stopSpeech(); clearListenTimer(); stopAllSectionTimers();
+    loadSet(newIdx);
+    STATE.setIndex = newIdx;
+    STATE.answers = {}; STATE.locked = {}; STATE.showTranscript = {};
+    STATE.listen = { idx:0, phase:"idle", timerId:null, timeLeft:0 };
+    STATE.secTimer = { error:{running:false,left:1200,id:null}, cloze:{running:false,left:1200,id:null}, vocab:{running:false,left:1200,id:null}, reading:{running:false,left:2700,id:null} };
+    STATE.secSubmitted = { error:false, cloze:false, vocab:false, reading:false };
+    STATE.section = "listening";
+    render();
+    return;
+  }
+
+  if(action === "reset-all"){
+    stopSpeech(); clearListenTimer(); stopAllSectionTimers();
+    STATE.answers = {}; STATE.locked = {}; STATE.showTranscript = {};
+    STATE.listen = { idx:0, phase:"idle", timerId:null, timeLeft:0 };
+    STATE.secTimer = { error:{running:false,left:1200,id:null}, cloze:{running:false,left:1200,id:null}, vocab:{running:false,left:1200,id:null}, reading:{running:false,left:2700,id:null} };
+    STATE.secSubmitted = { error:false, cloze:false, vocab:false, reading:false };
+    STATE.section = "listening";
+    render();
+    return;
+  }
+});
+
+render();
+})();
+</script>

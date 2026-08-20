@@ -1,0 +1,758 @@
+<title>คู่มือไวยากรณ์ TEGS</title>
+<style>
+  :root{
+    --bg:#f6f5f1;
+    --surface:#ffffff;
+    --surface-2:#f0eee7;
+    --ink:#22242a;
+    --ink-muted:#5b5f6b;
+    --ink-faint:#8a8e97;
+    --accent:#2f5d62;
+    --accent-ink:#1d3b3f;
+    --accent-soft:#dcebea;
+    --mark:#f5c84c;
+    --mark-soft:#fff4cc;
+    --mark-ink:#5a4400;
+    --rule:#e3e1d9;
+    --warn-soft:#fbe6df;
+    --warn-ink:#8a3d1f;
+    --shadow: 0 1px 2px rgba(30,30,20,.04), 0 8px 24px rgba(30,30,20,.05);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171a;
+      --surface:#1b1f23;
+      --surface-2:#20252a;
+      --ink:#e9eae6;
+      --ink-muted:#a3a8ae;
+      --ink-faint:#767c84;
+      --accent:#7fc4c0;
+      --accent-ink:#bfe6e3;
+      --accent-soft:#1f3a3a;
+      --mark:#e8b93a;
+      --mark-soft:#3a331a;
+      --mark-ink:#f5dc94;
+      --rule:#2a2e33;
+      --warn-soft:#3a2620;
+      --warn-ink:#e8a688;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171a;
+    --surface:#1b1f23;
+    --surface-2:#20252a;
+    --ink:#e9eae6;
+    --ink-muted:#a3a8ae;
+    --ink-faint:#767c84;
+    --accent:#7fc4c0;
+    --accent-ink:#bfe6e3;
+    --accent-soft:#1f3a3a;
+    --mark:#e8b93a;
+    --mark-soft:#3a331a;
+    --mark-ink:#f5dc94;
+    --rule:#2a2e33;
+    --warn-soft:#3a2620;
+    --warn-ink:#e8a688;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family: "Sarabun","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",-apple-system,"Segoe UI",system-ui,sans-serif;
+    line-height:1.65;
+  }
+  .mono{
+    font-family: ui-monospace,"Cascadia Code","SF Mono",Consolas,"Roboto Mono",monospace;
+  }
+  h1,h2,h3{ text-wrap:balance; }
+  a{ color:var(--accent); }
+
+  .layout{
+    display:grid;
+    grid-template-columns: 260px minmax(0,1fr);
+    gap:0;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:32px 20px 32px 28px;
+    border-right:1px solid var(--rule);
+  }
+  .toc-title{
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 14px;
+  }
+  .toc-group{ margin-bottom:18px; }
+  .toc a{
+    display:block;
+    padding:5px 10px;
+    margin:1px 0;
+    border-radius:8px;
+    color:var(--ink-muted);
+    text-decoration:none;
+    font-size:.88rem;
+  }
+  .toc a:hover{ background:var(--surface-2); color:var(--ink); }
+
+  main{ min-width:0; padding:0 28px 100px; }
+
+  .hero{
+    padding:56px 0 36px;
+    border-bottom:1px solid var(--rule);
+    margin-bottom:40px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.74rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--accent-ink);
+    background:var(--accent-soft);
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(1.9rem,4vw,2.6rem);
+    margin:0 0 12px;
+    letter-spacing:-.01em;
+  }
+  .hero p{
+    max-width:62ch;
+    color:var(--ink-muted);
+    font-size:1.02rem;
+    margin:0;
+  }
+
+  section.chapter{
+    padding-top:36px;
+    margin-top:8px;
+    scroll-margin-top:24px;
+  }
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .chapter-num{
+    font-family: ui-monospace,"Cascadia Code",Consolas,monospace;
+    font-size:.85rem;
+    color:var(--accent);
+    font-weight:600;
+  }
+  .chapter-head h2{
+    font-size:1.5rem;
+    margin:0;
+  }
+  .chapter-intro{
+    color:var(--ink-muted);
+    max-width:66ch;
+    margin:10px 0 24px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{
+    margin:0 0 10px;
+    font-size:1.08rem;
+  }
+  .card p{ margin:8px 0; }
+  .card p.thai-note{ color:var(--ink-muted); font-size:.95rem; }
+
+  .formula{
+    display:block;
+    font-family: ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+    font-size:.92rem;
+    background:var(--surface-2);
+    border:1px dashed var(--rule);
+    border-radius:10px;
+    padding:12px 16px;
+    margin:12px 0;
+    color:var(--accent-ink);
+    overflow-x:auto;
+    white-space:pre;
+  }
+
+  .ex-list{ margin:12px 0 4px; padding:0; list-style:none; }
+  .ex-list li{
+    padding:9px 0;
+    border-top:1px solid var(--rule);
+    font-size:.96rem;
+  }
+  .ex-list li:first-child{ border-top:none; }
+  .ex-tag{
+    display:inline-block;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-right:8px;
+  }
+  .wrong{ color:var(--warn-ink); text-decoration:line-through; text-decoration-thickness:1.5px; }
+  mark{
+    background:var(--mark-soft);
+    color:var(--mark-ink);
+    border-radius:4px;
+    padding:0 3px;
+    font-weight:600;
+    text-decoration:none;
+  }
+
+  .pitfall{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    background:var(--warn-soft);
+    color:var(--warn-ink);
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:.9rem;
+    margin-top:14px;
+  }
+  .pitfall b{ white-space:nowrap; }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.92rem;
+  }
+  th,td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  th{
+    color:var(--ink-faint);
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  td.mono, th.mono{ font-family: ui-monospace,"Cascadia Code",Consolas,monospace; }
+  .table-wrap{ overflow-x:auto; border-radius:10px; }
+
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .chip{
+    background:var(--accent-soft);
+    color:var(--accent-ink);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:.88rem;
+  }
+  .chip b{ display:block; font-family: ui-monospace,Consolas,monospace; margin-bottom:3px; }
+
+  .foot{
+    margin-top:64px;
+    padding-top:24px;
+    border-top:1px solid var(--rule);
+    color:var(--ink-faint);
+    font-size:.85rem;
+  }
+
+  @media (max-width:860px){
+    .layout{ grid-template-columns:1fr; }
+    .toc{
+      position:sticky;
+      height:auto;
+      display:flex;
+      gap:6px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding:12px 16px;
+      border-right:none;
+      border-bottom:1px solid var(--rule);
+      background:var(--bg);
+      z-index:5;
+    }
+    .toc-title{ display:none; }
+    .toc-group{ display:flex; gap:6px; margin:0; }
+    .toc a{ white-space:nowrap; }
+    main{ padding:0 18px 80px; }
+    .grid-2, .grid-3{ grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="layout">
+  <nav class="toc">
+    <p class="toc-title">สารบัญ</p>
+    <div class="toc-group">
+      <a href="#overview">0. แผนที่ประโยค</a>
+      <a href="#nouns">1. คำนาม</a>
+      <a href="#pronouns">2. สรรพนาม</a>
+      <a href="#tenses">3. Tense</a>
+      <a href="#verbpatterns">4. รูปกริยา</a>
+      <a href="#sva">5. ประธาน-กริยา</a>
+      <a href="#conjprep">6. สันธาน/บุพบท</a>
+      <a href="#parallel">7. โครงสร้างขนาน</a>
+      <a href="#clauses">8. อนุประโยค</a>
+      <a href="#passive">9. Passive</a>
+      <a href="#connectors">10. คำเชื่อมความ</a>
+      <a href="#cheatsheet">11. สรุปสูตร</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <span class="eyebrow">CMU · TEGS · Grammar</span>
+      <h1>คู่มือไวยากรณ์ TEGS</h1>
+      <p>รวบรวมจุดไวยากรณ์ที่ออกสอบซ้ำในข้อสอบ Error Identification และ Cloze Test ของ CMU-TEGS ย้อนหลัง อธิบายทีละเรื่องตั้งแต่รากฐานเป็นภาษาไทย พร้อมสูตร เหตุผลว่าทำไมต้องใช้แบบนั้น และตัวอย่างจริงจากข้อสอบ — <mark>คำที่ถูกไฮไลต์</mark> คือรูปที่ถูกต้อง เหมือนปากกาเน้นข้อความในเฉลยจริง</p>
+      <p style="margin-top:14px"><a href="https://claude.ai/code/artifact/69e207a4-f84c-490b-8e35-880bd4575982" target="_blank" rel="noopener">📚 ฝึกคำศัพท์ 500 คำ (ฟัง/พูดตาม/อ่าน/เขียน) →</a> &nbsp;·&nbsp; <a href="https://claude.ai/code/artifact/59e6e4b4-6765-445c-b6ab-9844732e7fdb" target="_blank" rel="noopener">🎧 ห้องซ้อมสอบ TEGS →</a></p>
+    </header>
+
+    <!-- 0 -->
+    <section class="chapter" id="overview">
+      <div class="chapter-head"><span class="chapter-num">00</span><h2>แผนที่ประโยคภาษาอังกฤษ</h2></div>
+      <p class="chapter-intro">ก่อนแก้ไวยากรณ์ได้ ต้องมองออกก่อนว่าแต่ละคำในประโยคทำหน้าที่อะไร นี่คือ 8 ชนิดคำที่ทุกกฎด้านล่างอ้างอิงถึง</p>
+      <div class="card">
+        <p class="thai-note">ภาษาอังกฤษเป็นภาษาที่ "ตำแหน่งคำ" กำหนดหน้าที่ชัดเจน ต่างจากภาษาไทยที่ยืดหยุ่นกว่า เช่นคำว่า <code class="mono">light</code> เป็นได้ทั้งนาม (แสงไฟ) คุณศัพท์ (เบา) หรือกริยา (จุดไฟ) — วิธีเดียวที่จะรู้ว่ามันทำหน้าที่อะไรในแต่ละประโยค คือดูตำแหน่งและคำรอบข้าง นี่คือเหตุผลที่ต้องท่องชนิดคำให้ขึ้นใจก่อน เพราะทุกกฎไวยากรณ์ในคู่มือนี้อ้างอิงกลับมาที่ 8 ชนิดคำนี้เสมอ</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ชนิดคำ</th><th>หน้าที่</th><th>ตัวอย่าง</th></tr></thead>
+            <tbody>
+              <tr><td>Noun (คำนาม)</td><td>คน สัตว์ สิ่งของ ความคิด</td><td>student, freedom, Chiang Mai</td></tr>
+              <tr><td>Pronoun (สรรพนาม)</td><td>แทนคำนามที่พูดถึงแล้ว</td><td>it, they, their, those</td></tr>
+              <tr><td>Verb (คำกริยา)</td><td>การกระทำ/สภาพ</td><td>run, is, has been</td></tr>
+              <tr><td>Adjective (คุณศัพท์)</td><td>ขยายนาม</td><td>a <b>hugely</b> effective way → a <mark>huge</mark> effective way(ขยาย adj ต้องใช้ adv)</td></tr>
+              <tr><td>Adverb (กริยาวิเศษณ์)</td><td>ขยายกริยา/adj/adv อื่น</td><td>work <mark>hard</mark>, <mark>highly</mark> effective</td></tr>
+              <tr><td>Preposition (บุพบท)</td><td>นำหน้านาม บอกความสัมพันธ์</td><td>in, on, of, due to</td></tr>
+              <tr><td>Conjunction (สันธาน)</td><td>เชื่อมประโยคกับประโยค</td><td>and, but, because, that</td></tr>
+              <tr><td>Interjection (อุทาน)</td><td>อารมณ์ (ไม่ค่อยออกสอบ)</td><td>Wow!, Oh!</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pitfall"><b>หลักคิดเดียวที่ใช้ได้ทุกข้อ:</b> เจอจุดขีดเส้นใต้ในข้อ Error ให้ถามก่อนว่า “คำนี้ทำหน้าที่อะไร แล้วรูปที่ใช้ตรงกับหน้าที่นั้นไหม” ไวยากรณ์ 90% ของ TEGS แก้ด้วยคำถามนี้ข้อเดียว</div>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="chapter" id="nouns">
+      <div class="chapter-head"><span class="chapter-num">01</span><h2>คำนาม: นับได้ นับไม่ได้ กับ Article</h2></div>
+      <p class="chapter-intro">ข้อสอบชอบเทสต์ตรงรอยต่อ “นามเอกพจน์ vs พหูพจน์” ทุก error-set มีข้อแบบนี้อย่างน้อย 1 ข้อเสมอ</p>
+
+      <div class="card">
+        <h3>นามนับได้ / นับไม่ได้</h3>
+        <p class="thai-note">นามนับไม่ได้ไม่มีรูปพหูพจน์ ห้ามเติม s และห้ามใช้ a/an นำหน้า</p>
+        <div class="grid-2">
+          <div class="chip"><b>นับไม่ได้ (พบบ่อยในข้อสอบ)</b>caffeine, information, research, evidence, homework, furniture, advice, news</div>
+          <div class="chip"><b>ตัวกำหนดที่ตามด้วยนามนับไม่ได้</b>much, a little, less, a great deal of</div>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrap"><span class="wrong">too many caffeine</span></span></li>
+          <li><span class="ex-tag">ถูก</span>too <mark>much</mark> caffeine <span class="thai-note">(caffeine นับไม่ได้)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>a / an + นามเอกพจน์เท่านั้น</h3>
+        <div class="formula">a / an (= 1)  +  นามเอกพจน์</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrong">a bigger varieties</span></li>
+          <li><span class="ex-tag">ถูก</span>a bigger <mark>variety</mark></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>other / another / others — ตัวที่งงที่สุด</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th class="mono">รูป</th><th>ใช้กับ</th><th>ตัวอย่าง</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">another</td><td>+ นามเอกพจน์ (อีกหนึ่ง)</td><td>another book</td></tr>
+              <tr><td class="mono">other</td><td>+ นามพหูพจน์ (ห้ามเติม s ที่ other)</td><td><mark>other</mark> people, other cognitive thoughts</td></tr>
+              <tr><td class="mono">others</td><td>เป็นสรรพนาม — <b>ห้ามมีนามตามหลัง</b></td><td>some fail and <mark>others</mark> succeed</td></tr>
+              <tr><td class="mono">the other(s)</td><td>ที่เหลือทั้งหมด/ที่ระบุแล้ว</td><td>the other students</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrong">others cognitive thoughts</span> / <span class="wrong">others people</span></li>
+          <li><span class="ex-tag">ถูก</span><mark>other</mark> cognitive thoughts <span class="thai-note">(มีนามพหูพจน์ตามหลัง → ต้องใช้ other ไม่เติม s)</span></li>
+          <li><span class="ex-tag">ถูก</span>I don't like this shirt; show me <mark>another</mark> one. <span class="thai-note">(another = อีกหนึ่ง ตามด้วยนามเอกพจน์)</span></li>
+          <li><span class="ex-tag">ถูก</span>I tried one plan, and when it failed, I tried <mark>the other</mark>. <span class="thai-note">(the other = ตัวที่เหลืออีกตัวหนึ่งที่รู้กันแล้วว่ามีแค่ 2 ตัวเลือก)</span></li>
+        </ul>
+        <div class="pitfall"><b>เช็คไว</b>&nbsp;มีนามตามหลังไหม? มี → other • ไม่มี (ตัวมันเองทำหน้าที่นาม) → others • พูดถึง "อีกหนึ่ง" ที่ไม่เจาะจง → another • พูดถึง "ตัวที่เหลือ" ที่รู้จำนวนแน่นอนแล้ว → the other(s)</div>
+      </div>
+
+      <div class="card">
+        <h3>many / much / a number of + นามพหูพจน์</h3>
+        <div class="formula">many, several, various, a number of, several types of  +  N-s/es
+much, a little, less                                    +  นามนับไม่ได้</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrong">various type of cancer</span></li>
+          <li><span class="ex-tag">ถูก</span>various <mark>types</mark> of cancer</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Compound adjective: ตัวเลข-นามเอกพจน์</h3>
+        <p class="thai-note">เมื่อตัวเลข/จำนวนมาขยายนามแบบขีดกลาง (hyphenate) นามที่ตามมาต้องเป็นเอกพจน์เสมอ แม้ตัวเลขจะมากกว่า 1</p>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrong">two-days event</span></li>
+          <li><span class="ex-tag">ถูก</span>two-<mark>day</mark> event <span class="thai-note">, a five-year plan, a 10-minute break</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="chapter" id="pronouns">
+      <div class="chapter-head"><span class="chapter-num">02</span><h2>สรรพนาม & Relative Pronoun</h2></div>
+      <p class="chapter-intro">สองเรื่องหลักที่ TEGS เทสต์: (1) สรรพนามต้องสอดคล้องเอกพจน์-พหูพจน์กับนามที่มันแทน (2) เลือก relative pronoun ให้ตรงชนิดคำนามข้างหน้า</p>
+
+      <div class="card">
+        <h3>สรรพนามต้องสอดคล้องกับนามที่แทน (Pronoun-Antecedent Agreement)</h3>
+        <p class="thai-note">สรรพนาม (it, they, its, their, this, those ฯลฯ) มีหน้าที่แทนคำนามที่พูดถึงไปแล้ว เพื่อไม่ต้องพูดคำเดิมซ้ำ ๆ ปัญหาคือคนมักมองข้ามและใช้ they/their ไปเรื่อย ๆ ทั้งที่นามที่แทนเป็นเอกพจน์ ก่อนตอบทุกข้อจึงต้อง<b>ย้อนไปหาก่อนว่าสรรพนามนี้ "แทนคำไหน"</b> แล้วเช็คว่าคำนั้นเอกพจน์หรือพหูพจน์ ไม่ใช่ดูจากสรรพนามที่ให้มาในตัวเลือก</p>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>Living in a country helps you know the culture with <span class="wrong">their</span> traditions.</li>
+          <li><span class="ex-tag">ถูก</span>...the culture with <mark>its</mark> traditions <span class="thai-note">(the culture = เอกพจน์ → its ไม่ใช่ their)</span></li>
+          <li><span class="ex-tag">ถูก</span>The company announced <mark>its</mark> new policy. <span class="thai-note">(the company = เอกพจน์)</span></li>
+          <li><span class="ex-tag">ถูก</span>Employees must submit <mark>their</mark> reports by Friday. <span class="thai-note">(employees = พหูพจน์)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Relative Pronoun — แทนนามข้างหน้าแล้วเชื่อมประโยค</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>นามที่แทน</th><th class="mono">รูป</th><th>โครงสร้างตามหลัง</th></tr></thead>
+            <tbody>
+              <tr><td>คน (เป็นประธาน)</td><td class="mono">who</td><td>+ V</td></tr>
+              <tr><td>คน (เป็นกรรม)</td><td class="mono">whom</td><td>+ S + V</td></tr>
+              <tr><td>ความเป็นเจ้าของ</td><td class="mono">whose</td><td>+ noun</td></tr>
+              <tr><td>สัตว์ / สิ่งของ</td><td class="mono">which / that</td><td>+ V หรือ + S + V</td></tr>
+              <tr><td>สถานที่</td><td class="mono">where</td><td>+ S + V</td></tr>
+              <tr><td>สถานที่ (แบบ which)</td><td class="mono">which</td><td>+ V (+ prep เช่น ...in which)</td></tr>
+              <tr><td>เวลา</td><td class="mono">when</td><td>+ S + V</td></tr>
+              <tr><td>เหตุผล</td><td class="mono">why</td><td>+ S + V</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>any locals <span class="wrong">which</span> you meet <span class="thai-note">(locals = คน → ห้ามใช้ which)</span></li>
+          <li><span class="ex-tag">ถูก</span>any locals <mark>whom / that</mark> you meet</li>
+        </ul>
+        <div class="pitfall"><b>ข้อห้าม</b>&nbsp;ห้ามมี <code class="mono">,</code> หรือ preposition นำหน้า <code class="mono">that</code> เด็ดขาด — <span class="wrong">,that</span> และ <span class="wrong">in that</span> ผิดเสมอ ให้ใช้ which แทน</div>
+        <div class="pitfall"><b>ละได้</b>&nbsp;ถ้า whom/which/that ตามด้วย S+V สามารถละทิ้งได้เลย: “The girl (whom) you talked to is my friend.”</div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="chapter" id="tenses">
+      <div class="chapter-head"><span class="chapter-num">03</span><h2>Tense ที่ต้องจำขึ้นใจ</h2></div>
+      <p class="chapter-intro">TEGS ไม่เน้นถามชื่อ tense ตรงๆ แต่ใช้เป็นกับดักในข้อ Error (คำบอกเวลาไม่ตรงกับ tense) ตารางนี้คือโครงสร้างหลักทั้งหมดไว้เทียบเวลาสงสัย</p>
+      <div class="card">
+        <p class="thai-note">หลักการเลือก tense ให้ถูกมี 2 ขั้นตอนง่าย ๆ คือ (1) มองหา<b>คำสัญญาณเวลา</b>ในประโยค เช่น yesterday, already, since, by next year (2) จับคู่คำสัญญาณนั้นกับโครงสร้าง tense ในตารางนี้ ถ้าในข้อสอบไม่มีคำสัญญาณชัดเจน ให้ดูบริบทรอบข้างว่าเรื่องราวเกิดขึ้น ณ จุดเดียว (Simple) หรือกำลังดำเนินอยู่ (Continuous) หรือเชื่อมสองช่วงเวลาเข้าด้วยกัน (Perfect)</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tense</th><th class="mono">โครงสร้าง</th><th>คำสัญญาณ</th></tr></thead>
+            <tbody>
+              <tr><td>Present Simple</td><td class="mono">S + V1(s/es)</td><td>always, usually, every day</td></tr>
+              <tr><td>Present Continuous</td><td class="mono">S + is/am/are + Ving</td><td>now, right now, currently</td></tr>
+              <tr><td>Present Perfect</td><td class="mono">S + has/have + V3</td><td>already, yet, since, <b>for</b> + ระยะเวลา</td></tr>
+              <tr><td>Present Perfect Continuous</td><td class="mono">S + has/have been + Ving</td><td>for/since (เน้นความต่อเนื่อง)</td></tr>
+              <tr><td>Past Simple</td><td class="mono">S + V2</td><td>yesterday, last year, ago</td></tr>
+              <tr><td>Past Continuous</td><td class="mono">S + was/were + Ving</td><td>while, at that time</td></tr>
+              <tr><td>Past Perfect</td><td class="mono">S + had + V3</td><td>before อีกเหตุการณ์ในอดีต</td></tr>
+              <tr><td>Past Perfect Continuous</td><td class="mono">S + had been + Ving</td><td>ก่อนอดีตอีกจุดหนึ่ง, ต่อเนื่อง</td></tr>
+              <tr><td>Future Simple</td><td class="mono">S + will + V1</td><td>tomorrow, next week</td></tr>
+              <tr><td>Future Continuous</td><td class="mono">S + will be + Ving</td><td>at this time tomorrow</td></tr>
+              <tr><td>Future Perfect</td><td class="mono">S + will have + V3</td><td>by the time, by next year</td></tr>
+              <tr><td>Future Perfect Continuous</td><td class="mono">S + will have been + Ving</td><td>by...for (ระยะเวลาต่อเนื่องถึงอนาคต)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>Puppetry has been practiced <span class="wrong">in</span> many centuries.</li>
+          <li><span class="ex-tag">ถูก</span>...has been practiced <mark>for</mark> many centuries <span class="thai-note">(Present Perfect ต้องใช้ for + ระยะเวลา ไม่ใช่ in)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="chapter" id="verbpatterns">
+      <div class="chapter-head"><span class="chapter-num">04</span><h2>รูปกริยาไม่แท้: Gerund vs Infinitive</h2></div>
+      <p class="chapter-intro">กริยาตัวหน้ากำหนดว่ากริยาตัวหลังต้องเป็น Ving หรือ to+V — เป็นจุดออกสอบทุกชุดข้อสอบไม่มีขาด</p>
+      <p class="chapter-intro">ภาษาอังกฤษไม่มีกฎตายตัวว่ากริยาไหนต้องตามด้วย Ving หรือ to+V ต้อง<b>จำเป็นคู่ ๆ</b> ไปเลย โชคดีที่กริยาที่ออกสอบซ้ำมีอยู่ไม่กี่ตัว ท่องกลุ่มด้านล่างให้ขึ้นใจก็เพียงพอสำหรับ TEGS</p>
+
+      <div class="card">
+        <h3>กริยาที่บังคับตามด้วย Gerund (Ving) เท่านั้น</h3>
+        <div class="formula">enjoy, avoid, finish, mind, suggest, consider, admit, deny,
+practice, risk, quit, keep (on), imagine, postpone
++ Ving เท่านั้น</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>enjoy <span class="wrong">to stay</span></li>
+          <li><span class="ex-tag">ถูก</span>enjoy <mark>staying</mark></li>
+          <li><span class="ex-tag">ถูก</span>The committee decided to postpone <mark>releasing</mark> the results.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>กริยาที่บังคับตามด้วย to + Infinitive เท่านั้น</h3>
+        <div class="formula">want, need, decide, plan, hope, expect, promise,
+agree, refuse, manage, offer, seem, wish
++ to + Vinf เท่านั้น</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>The team decided <span class="wrong">postponing</span> the launch.</li>
+          <li><span class="ex-tag">ถูก</span>The team decided <mark>to postpone</mark> the launch.</li>
+          <li><span class="ex-tag">ถูก</span>She promised <mark>to finish</mark> the report by Friday.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Causative Verbs — จุดที่งงสุดในกลุ่มนี้</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th class="mono">กริยานำ</th><th>โครงสร้าง</th><th>ตัวอย่าง</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">make, let, have, help</td><td>+ ผู้ถูกกระทำ + <b>Vinf ไม่มี to</b></td><td>help significantly <mark>reduce</mark></td></tr>
+              <tr><td class="mono">get, allow, want, need, ask</td><td>+ ผู้ถูกกระทำ + <b>to + Vinf</b></td><td>ask him to leave</td></tr>
+              <tr><td class="mono">have, get</td><td>+ สิ่งของ + <b>V3 (ถูกกระทำ)</b></td><td>have it done, get it fixed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="thai-note">ข้อยกเว้น: help ใช้ได้ทั้ง Vinf และ to+Vinf สองแบบ (help make / help to make) แต่ห้าม help + Ving หรือ help + V ผัน</p>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>AI tools can <span class="wrap"><span class="wrong">help making</span></span> classroom available</li>
+          <li><span class="ex-tag">ถูก</span>can <mark>help make</mark> / <mark>help to make</mark> classroom available</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="chapter" id="sva">
+      <div class="chapter-head"><span class="chapter-num">05</span><h2>Subject-Verb Agreement</h2></div>
+      <p class="chapter-intro">กฎเดียว: กริยาต้องผันตาม “ประธานตัวจริง” ของประโยค — ไม่ใช่คำนามตัวที่อยู่ใกล้กริยาที่สุด</p>
+      <div class="card">
+        <p class="thai-note">ข้อสอบชอบซ่อนกับดักด้วยการแทรกวลีขยาย (of/with/in + นาม) คั่นระหว่างประธานกับกริยา ทำให้คนตอบผันกริยาตามนามตัวที่อยู่ใกล้ที่สุดโดยไม่ทันสังเกต วิธีแก้คือให้<b>ปิดวลีขยายในวงเล็บทิ้งไปก่อน</b> แล้วดูว่าประธานที่เหลืออยู่จริง ๆ เอกพจน์หรือพหูพจน์</p>
+        <div class="formula">ประธานตัวจริง  +  [ of / with / in ... วลีขยาย ]  +  Verb
+        ↑ ผันตามตัวนี้ ไม่ใช่ตามนามในวงเล็บ</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>The <b>goals</b> of digital marketing strategies <span class="wrong">is</span> to increase...</li>
+          <li><span class="ex-tag">ถูก</span>The goals...<mark>are</mark> to increase <span class="thai-note">(ประธานจริงคือ goals พหูพจน์ ไม่ใช่ strategies)</span></li>
+          <li><span class="ex-tag">ผิด</span>People with high emotional intelligence <span class="wrong">is</span> usually...</li>
+          <li><span class="ex-tag">ถูก</span>People...<mark>are</mark> usually <span class="thai-note">(People = พหูพจน์เสมอ)</span></li>
+        </ul>
+        <div class="pitfall"><b>เคสพิเศษ</b>&nbsp;each/every/either/neither + เอกพจน์เสมอ • a number of + นาม พหูพจน์+verb พหูพจน์ • the number of + นามพหูพจน์+verb <b>เอกพจน์</b></div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="chapter" id="conjprep">
+      <div class="chapter-head"><span class="chapter-num">06</span><h2>Conjunction vs Preposition</h2></div>
+      <p class="chapter-intro">ตัวหลอกที่สุดใน Error section: คำแปลไทยเหมือนกันเป๊ะ แต่ไวยากรณ์ตามหลังต่างกัน วิธีแยกที่เร็วที่สุดคือ “ดูคำสุดท้ายของก้อนคำว่ามี of/to ห้อยไหม”</p>
+
+      <div class="card">
+        <h3>conj (+ S+V) vs prep (+ noun/Ving)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ความหมาย</th><th class="mono">Conjunction (+S+V)</th><th class="mono">Preposition (+noun/Ving)</th></tr></thead>
+            <tbody>
+              <tr><td>เพราะว่า</td><td class="mono">because</td><td class="mono">because of, due to, owing to, thanks to</td></tr>
+              <tr><td>ดังนั้น/ผลคือ</td><td class="mono">as a result, so</td><td class="mono">as a result of</td></tr>
+              <tr><td>ในทางตรงกันข้าม</td><td class="mono">in contrast, whereas</td><td class="mono">in contrast to</td></tr>
+              <tr><td>แม้ว่า</td><td class="mono">although, though</td><td class="mono">despite, in spite of</td></tr>
+              <tr><td>นอกจากนี้</td><td class="mono">in addition</td><td class="mono">in addition to</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span><span class="wrong">Because</span> the harmful rays that cell phones send out,...</li>
+          <li><span class="ex-tag">ถูก</span><mark>Because of</mark> the harmful rays... <span class="thai-note">(ตามด้วยนาม "the harmful rays" ไม่ใช่ S+V เต็มประโยค)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>FANBOYS — คำเชื่อมประโยคกับประโยค (comma + conj)</h3>
+        <div class="formula">For · And · Nor · But · Or · Yet · So</div>
+        <p class="thai-note">for=เพราะว่า, nor=ไม่ทั้งคู่, yet=แต่กระนั้น, so=ดังนั้น — วางหลัง comma เชื่อม 2 ประโยคเข้าด้วยกัน</p>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ถูก</span>The store was closed, <mark>so</mark> we ordered food online instead.</li>
+          <li><span class="ex-tag">ถูก</span>She studied hard, <mark>yet</mark> she still felt nervous before the exam.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Correlative Conjunctions (คำเชื่อมคู่)</h3>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><td class="mono">not only ... but (also)</td><td>ไม่เพียงแต่...แต่ก็ยัง...อีกด้วย</td></tr>
+              <tr><td class="mono">both ... and</td><td>ทั้ง...และ</td></tr>
+              <tr><td class="mono">either ... or</td><td>อย่างใดอย่างหนึ่ง</td></tr>
+              <tr><td class="mono">neither ... nor</td><td>ไม่ทั้งคู่ (ห้ามมี not ตาม)</td></tr>
+              <tr><td class="mono">whether ... or (not)</td><td>ว่า...หรือไม่</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>Not only is plastic...<span class="wrong">and</span> it's also contaminating...</li>
+          <li><span class="ex-tag">ถูก</span>Not only is plastic...<mark>but</mark> it's also contaminating...</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>so...that vs such...that (มาก...จนกระทั่ง)</h3>
+        <div class="formula">so    + adjective/adverb + that + S + V
+such  + noun             + that + S + V</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>...<span class="wrong">such</span> severe that...</li>
+          <li><span class="ex-tag">ถูก</span>...<mark>so</mark> severe that... <span class="thai-note">(severe เป็น adjective → ต้องใช้ so)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>as...as (เปรียบเทียบขั้นเท่ากัน)</h3>
+        <div class="formula">as + adjective/adverb + as
+as many + N-s/es + as   |   as much + นามนับไม่ได้ + as</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ถูก</span><mark>as much</mark> about your personal history as... <span class="thai-note">(history นับไม่ได้)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="chapter" id="parallel">
+      <div class="chapter-head"><span class="chapter-num">07</span><h2>Parallel Structure (โครงสร้างขนาน)</h2></div>
+      <p class="chapter-intro">กฎที่ใช้บ่อยที่สุดในทั้งข้อ Error และ Cloze: คำ/วลีที่อยู่คนละฝั่งของคำเชื่อม (and, or, but) หรือใน list ที่คั่นด้วย comma ต้อง<b>รูปไวยากรณ์เดียวกัน</b>ทุกตัว</p>
+      <div class="card">
+        <div class="formula">X, Y, and Z  → รูปเดียวกันทั้ง X, Y, Z
+to V1, V2, and V3  → ถ้าตัวแรกมี to แล้ว ตัวต่อไปมักละ to ได้แต่ยังเป็น Vinf</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>...share their interests, explore identities and <span class="wrong">develops</span> relationships...</li>
+          <li><span class="ex-tag">ถูก</span>...explore identities and <mark>develop</mark> relationships <span class="thai-note">(ขนานกับ have, share, explore ที่เป็น Vinf ทั้งหมด)</span></li>
+          <li><span class="ex-tag">ผิด</span>to connect consumers and <span class="wrong">building</span> brand awareness</li>
+          <li><span class="ex-tag">ถูก</span>to connect consumers and <mark>build</mark> brand awareness</li>
+          <li><span class="ex-tag">ถูก</span>to increase..., <mark>to decrease</mark>..., to shut down... and to improve... <span class="thai-note">(ทุกตัวเป็น to+Vinf เหมือนกันหมด)</span></li>
+        </ul>
+        <div class="pitfall"><b>วิธีเช็ค</b>&nbsp;หาคำเชื่อม (and/or/but) แล้วมองซ้าย-ขวาว่าโครงสร้างเดียวกันไหม ถ้าฝั่งหนึ่งเป็น Ving อีกฝั่งต้องเป็น Ving เหมือนกัน</div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="chapter" id="clauses">
+      <div class="chapter-head"><span class="chapter-num">08</span><h2>Noun Clause: Question Word เป็นตัวเชื่อม</h2></div>
+      <p class="chapter-intro">Noun Clause คือประโยคเล็กที่ทำหน้าที่เหมือนคำนามหนึ่งตัว (เป็นประธาน หรือกรรมของกริยา/บุพบทก็ได้) มักขึ้นต้นด้วย question word (what/how/where/why/when/who) หรือ that — จุดที่ TEGS ชอบเทสต์คือ เมื่อ question word ทำหน้าที่เป็นตัวเชื่อมแบบนี้ (ไม่ใช่ตั้งคำถามตรง ๆ ท้ายประโยคไม่มีเครื่องหมาย ?) ประโยคที่ตามมาต้อง<b>เรียงแบบบอกเล่า</b> (S+V) ไม่ใช่แบบคำถาม (V+S)</p>
+      <div class="card">
+        <div class="formula">question word / that  (conj)  +  S  +  V
+✗ ห้ามเรียงแบบคำถาม:  question word + do/does/is + S + V</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">ผิด</span>don't really understand <span class="wrong">what is influencer marketing</span></li>
+          <li><span class="ex-tag">ถูก</span>don't really understand <mark>what influencer marketing is</mark></li>
+          <li><span class="ex-tag">ผิด</span>depending on <span class="wrap"><span class="wrong">how do people use them</span></span></li>
+          <li><span class="ex-tag">ถูก</span>depending on <mark>how people use them</mark></li>
+          <li><span class="ex-tag">ถูก</span><mark>What she said</mark> surprised everyone in the room. <span class="thai-note">(noun clause ทำหน้าที่เป็นประธานของประโยค)</span></li>
+          <li><span class="ex-tag">ถูก</span>I'm not sure <mark>where he went</mark>. <span class="thai-note">(noun clause ทำหน้าที่เป็นกรรมของ sure)</span></li>
+        </ul>
+        <div class="pitfall"><b>สังเกตไว</b>&nbsp;ถ้า choice มีรูป auxiliary (do/does/is/are) แทรกกลางประโยคหลัง question word → ผิดแทบทุกครั้ง เพราะมันคือ noun clause ไม่ใช่คำถามจริง</div>
+      </div>
+      <div class="card">
+        <h3>Reduced Adverb Clause (ลดรูปประโยคเป็น Ving)</h3>
+        <p class="thai-note">เมื่อประธานของ adverb clause (when/while/after/before + S+V) ตัวเดียวกับประโยคหลัก สามารถลดรูปเหลือแค่ Ving ได้</p>
+        <div class="formula">The words you used when you chat with friends...
+→ The words you used when <mark>chatting</mark> with friends...</div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="chapter" id="passive">
+      <div class="chapter-head"><span class="chapter-num">09</span><h2>Passive Voice & V3 ขยายนาม</h2></div>
+      <p class="chapter-intro">Cloze test ชอบเว้นช่องให้เติม V3/Ved ที่ทำหน้าที่ขยายนามข้างหน้า (นามตัวนั้น “ถูกกระทำ”) เป็นรูปย่อของ relative clause + passive</p>
+      <div class="card">
+        <p class="thai-note">หลักตัดสินใจง่าย ๆ ว่าประโยคควรเป็น active หรือ passive คือถามตัวเองว่า <b>"ประธานของประโยคเป็นผู้กระทำ หรือถูกกระทำ"</b> ถ้าประธานถูกกระทำ (เช่น language ถูกสร้างขึ้นโดยใครสักคน) ต้องใช้ passive (be + V3) เสมอ และเวลาลดรูปมาขยายนามแบบสั้น ๆ (ไม่มี relative pronoun/be นำหน้า) ก็ยังต้องใช้ V3 อยู่ดี เพราะความหมายเชิง passive ไม่เปลี่ยน</p>
+        <div class="formula">be + V3/Ved                         → รูป passive เต็ม
+noun + V3/Ved + (by/prep...)        → V3 ขยายนามแบบลดรูป (นามถูกกระทำ)</div>
+        <ul class="ex-list">
+          <li><span class="ex-tag">โจทย์</span>Esperanto is a constructed language ______ a man named Ludwik.</li>
+          <li><span class="ex-tag">ถูก</span><mark>created by</mark> a man named Ludwik <span class="thai-note">(language ถูกสร้างขึ้น → V3 + by)</span></li>
+          <li><span class="ex-tag">ระวัง</span><span class="wrong">which created by</span> ผิด — มี which (relative pronoun) นำหน้าแล้ว กริยาต้องเป็น was/is created ไม่ใช่ V3 เดี่ยวๆ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="chapter" id="connectors">
+      <div class="chapter-head"><span class="chapter-num">10</span><h2>คำเชื่อมความหมาย (Transition Words)</h2></div>
+      <p class="chapter-intro">Cloze test ส่วนใหญ่วัดว่าเข้าใจ "ความสัมพันธ์ของสองประโยค" ไหม ก่อนเลือกคำเชื่อม ให้อ่านประโยคหน้า-หลังก่อนว่าความหมายไปทางไหน</p>
+      <div class="table-wrap card">
+        <table>
+          <thead><tr><th>ความสัมพันธ์</th><th>คำที่ใช้</th></tr></thead>
+          <tbody>
+            <tr><td>ยกตัวอย่าง</td><td class="mono">for instance, for example, to illustrate, namely</td></tr>
+            <tr><td>กล่าวใหม่/อธิบายซ้ำ</td><td class="mono">in other words, that is to say</td></tr>
+            <tr><td>เพิ่มเติม</td><td class="mono">moreover, additionally, furthermore, besides</td></tr>
+            <tr><td>ขัดแย้ง (conj)</td><td class="mono">however, nevertheless, yet, but</td></tr>
+            <tr><td>ขัดแย้ง (prep)</td><td class="mono">despite, in spite of, instead of</td></tr>
+            <tr><td>ให้เหตุผล</td><td class="mono">for this reason, since, as</td></tr>
+            <tr><td>เห็นด้วย/เหมือนกัน</td><td class="mono">so + aux + S (so are debit cards)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <p><span class="ex-tag">โจทย์</span>Cash is very easily stolen, and ______.</p>
+        <p><span class="ex-tag">ถูก</span><mark>so are debit cards</mark> <span class="thai-note">(so + aux ที่ผันตามประธานใหม่ = เห็นด้วย/เป็นจริงเช่นกัน)</span></p>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="chapter" id="cheatsheet">
+      <div class="chapter-head"><span class="chapter-num">11</span><h2>สรุปสูตรทั้งหมด — ท่องก่อนเข้าห้องสอบ</h2></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>เรื่อง</th><th class="mono">สูตร</th></tr></thead>
+            <tbody>
+              <tr><td>gerund-only</td><td class="mono">enjoy/avoid/finish/mind/suggest + Ving</td></tr>
+              <tr><td>infinitive-only</td><td class="mono">want/need/decide/plan/hope + to Vinf</td></tr>
+              <tr><td>causative</td><td class="mono">make/let/have/help + Vinf | get/allow/want/ask + to Vinf</td></tr>
+              <tr><td>other/others</td><td class="mono">other + Ns | others (สรรพนาม ไม่มีนามตาม)</td></tr>
+              <tr><td>so/such</td><td class="mono">so + adj/adv + that | such + noun + that</td></tr>
+              <tr><td>many/much</td><td class="mono">many + นับได้-s | much + นับไม่ได้</td></tr>
+              <tr><td>conj/prep</td><td class="mono">because + S+V | because of + noun/Ving</td></tr>
+              <tr><td>parallel</td><td class="mono">and/or/but/, → รูปซ้ายขวาต้องเหมือนกัน</td></tr>
+              <tr><td>noun clause</td><td class="mono">question word/that + S + V (ห้ามเรียงคำถาม)</td></tr>
+              <tr><td>relative pronoun</td><td class="mono">who(คน)/which(สิ่งของ)/where(สถานที่)/whose(เจ้าของ)</td></tr>
+              <tr><td>present perfect</td><td class="mono">has/have + V3 ... for + ระยะเวลา (ไม่ใช่ in)</td></tr>
+              <tr><td>a/an</td><td class="mono">a/an + นามเอกพจน์เท่านั้น</td></tr>
+              <tr><td>compound adj</td><td class="mono">ตัวเลข-นามเอกพจน์ เช่น two-day event</td></tr>
+              <tr><td>pronoun agreement</td><td class="mono">its (แทนเอกพจน์) / their (แทนพหูพจน์)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <p class="foot">รวบรวมจากข้อสอบ CMU-TEGS ย้อนหลัง (Sat 15/3/68, Sat 22/3/68 เช้า-บ่าย และชุดอื่น ๆ) — ใช้เป็นฐานก่อนลงมือทำโจทย์จำลอง · <a href="https://claude.ai/code/artifact/69e207a4-f84c-490b-8e35-880bd4575982" target="_blank" rel="noopener">คลังคำศัพท์ 500 คำ</a> · <a href="https://claude.ai/code/artifact/59e6e4b4-6765-445c-b6ab-9844732e7fdb" target="_blank" rel="noopener">ห้องซ้อมสอบ TEGS</a></p>
+  </main>
+</div>
