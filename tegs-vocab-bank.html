@@ -1,4 +1,5 @@
 <title>คลังคำศัพท์ TEGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
@@ -1218,6 +1219,21 @@ function pickVoice(){
   return ok || voices[0];
 }
 var speechGen = 0;
+var activeUtterance = null;
+var keepAliveTimer = null;
+function startKeepAlive(){
+  stopKeepAlive();
+  keepAliveTimer = setInterval(function(){
+    if(!("speechSynthesis" in window)) return;
+    try{
+      if(speechSynthesis.speaking && !speechSynthesis.paused){
+        speechSynthesis.pause();
+        speechSynthesis.resume();
+      }
+    }catch(e){}
+  }, 9000);
+}
+function stopKeepAlive(){ if(keepAliveTimer){ clearInterval(keepAliveTimer); keepAliveTimer = null; } }
 function speakText(text, rate, onDone){
   if(!("speechSynthesis" in window)){ onDone(); return; }
   if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
@@ -1226,16 +1242,28 @@ function speakText(text, rate, onDone){
   var v = pickVoice();
   if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = "en-US"; }
   u.rate = rate || 0.95; u.pitch = 1; u.volume = 1;
+  activeUtterance = u;
+  startKeepAlive();
   var settled = false;
-  var watchdog = setTimeout(function(){
+  function done(){
     if(settled || myGen !== speechGen) return;
-    settled = true; onDone();
-  }, voices.length ? 8000 : 3500);
-  u.onend = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); onDone(); };
-  u.onerror = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); onDone(); };
+    settled = true;
+    clearTimeout(watchdog);
+    stopKeepAlive();
+    activeUtterance = null;
+    onDone();
+  }
+  var watchdog = setTimeout(done, voices.length ? 12000 : 3500);
+  u.onend = done;
+  u.onerror = done;
   speechSynthesis.speak(u);
 }
-function stopSpeech(){ speechGen++; if("speechSynthesis" in window) speechSynthesis.cancel(); }
+function stopSpeech(){
+  speechGen++;
+  stopKeepAlive();
+  activeUtterance = null;
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+}
 
 /* ---------------- HELPERS ---------------- */
 

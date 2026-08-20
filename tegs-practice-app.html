@@ -1,4 +1,5 @@
 <title>ห้องซ้อมสอบ TEGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
     --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eef0ec;
@@ -1082,40 +1083,71 @@ function pickVoice(spk){
 }
 var speaking = false;
 var speechGen = 0;
+var activeUtterances = [];
+var keepAliveTimer = null;
+
+function startKeepAlive(){
+  stopKeepAlive();
+  keepAliveTimer = setInterval(function(){
+    if(!("speechSynthesis" in window)) return;
+    try{
+      if(speechSynthesis.speaking && !speechSynthesis.paused){
+        speechSynthesis.pause();
+        speechSynthesis.resume();
+      }
+    }catch(e){}
+  }, 9000);
+}
+function stopKeepAlive(){ if(keepAliveTimer){ clearInterval(keepAliveTimer); keepAliveTimer = null; } }
 
 function speakLines(lines, onDone){
   if(!("speechSynthesis" in window)){ onDone(); return; }
   if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
   var myGen = ++speechGen;
-  var i = 0;
   speaking = true;
+  activeUtterances = [];
+  startKeepAlive();
+
+  var remaining = lines.length;
+  var finished = false;
   function finish(){
-    if(myGen !== speechGen) return;
+    if(finished || myGen !== speechGen) return;
+    finished = true;
     speaking = false;
+    stopKeepAlive();
+    activeUtterances = [];
     onDone();
   }
-  function next(){
+  function settleOne(){
     if(myGen !== speechGen) return;
-    if(i >= lines.length){ finish(); return; }
-    var line = lines[i++];
+    remaining--;
+    if(remaining <= 0) finish();
+  }
+
+  if(!lines.length){ finish(); return; }
+
+  lines.forEach(function(line){
     var u = new SpeechSynthesisUtterance(line.text);
     u.rate = 0.96; u.pitch = (line.spk === "M" ? 1.35 : 1.02); u.volume = 1;
     var v = pickVoice(line.spk);
     if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = "en-US"; }
     var settled = false;
-    var watchdogMs = voices.length ? 9000 : 4000;
-    var watchdog = setTimeout(function(){
-      if(settled || myGen !== speechGen) return;
-      settled = true;
-      next();
-    }, watchdogMs);
-    u.onend = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); next(); };
-    u.onerror = function(){ if(settled || myGen !== speechGen) return; settled = true; clearTimeout(watchdog); next(); };
+    u.onend = function(){ if(settled) return; settled = true; settleOne(); };
+    u.onerror = function(){ if(settled) return; settled = true; settleOne(); };
+    activeUtterances.push(u);
     speechSynthesis.speak(u);
-  }
-  next();
+  });
+
+  var perLineMs = voices.length ? 9000 : 4000;
+  setTimeout(function(){ finish(); }, lines.length * perLineMs);
 }
-function stopSpeech(){ speechGen++; if("speechSynthesis" in window) speechSynthesis.cancel(); speaking = false; }
+function stopSpeech(){
+  speechGen++;
+  stopKeepAlive();
+  activeUtterances = [];
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  speaking = false;
+}
 
 /* ---------------- HELPERS ---------------- */
 
