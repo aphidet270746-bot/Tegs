@@ -4968,6 +4968,7 @@ document.addEventListener("click", function(e){
   if(action === "write-check"){
     var box2 = document.getElementById("vocabWriteBox");
     var val = box2 ? box2.value.trim().toLowerCase() : "";
+    if(!val) return;
     var target = t.getAttribute("data-word").toLowerCase();
     var ok = val === target;
     var w4 = byId(STATE.queue[STATE.qIndex]);
@@ -4982,7 +4983,7 @@ document.addEventListener("click", function(e){
 document.addEventListener("keydown", function(e){
   if(e.key === "Enter" && STATE.mode === "write" && !STATE.writeChecked){
     var box = document.getElementById("vocabWriteBox");
-    if(document.activeElement === box){
+    if(document.activeElement === box && box.value.trim()){
       var w = byId(STATE.queue[STATE.qIndex]);
       var ok = box.value.trim().toLowerCase() === w.word.toLowerCase();
       markResult(w.id, ok);
